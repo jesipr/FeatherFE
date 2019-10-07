@@ -34,15 +34,22 @@
       </b-row>
       <b-row class="tools mb-5" align-h="center" align-v="center">
         <b-col>
+          <font-awesome-icon icon="user-circle" />
           <h3>Don't have an account? Create one!</h3>
           <b-button pill variant="light">Register Here</b-button>
         </b-col>
         <b-col>
           <div class="mb-5">
-            <b-button pill variant="light">Explore</b-button>
+            <b-button pill variant="light">
+              Explore
+              <font-awesome-icon icon="search" />
+            </b-button>
           </div>
           <div class="mt-5">
-            <b-button pill variant="light">Dashboard</b-button>
+            <b-button pill variant="light">
+              Dashboard
+              <font-awesome-icon icon="tachometer-alt" />
+            </b-button>
           </div>
         </b-col>
       </b-row>
