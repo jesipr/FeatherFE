@@ -41,7 +41,7 @@
       <b-row class="tools" align-h="center" align-v="center">
         <b-col class="white-card shadow" data-aos="fade-right">
           <h3>Don't have an account? Create one!</h3>
-          <b-button pill variant="warning">Register Here <font-awesome-icon icon="user-circle" /></b-button>
+          <b-button pill variant="warning" style="color:white;">Register Here <font-awesome-icon icon="user-circle" /></b-button>
         </b-col>
         <b-col class="links">
           <div class="browse-bg">
