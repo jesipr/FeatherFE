@@ -7,7 +7,6 @@
           <!-- <b-img id="site_logo" rounded='circle' :src="require('../src/assets/logo.png')"/> -->
           Feather
         </b-navbar-brand>
-
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
           <b-navbar-nav>
             <b-nav-item left="true" :active='$route.name =="home"' to="/">Home</b-nav-item>
@@ -15,7 +14,8 @@
             <b-nav-item :active='$route.name =="explore"' to="/explore">Explore</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
-            <b-button pill variant="light">Sign In</b-button>
+            <b-nav-item :active='$route.name =="signup"' to="/signup">Register</b-nav-item>
+            <b-nav-item :active='$route.name =="signin"' to="/signin">Sign In</b-nav-item>
           </b-navbar-nav>
       </b-navbar>
     </div>
@@ -31,6 +31,26 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+li {
+  display: table-cell;
+  position: relative;
+}
+.nav-item a:after {
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  background: #fad54e;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+.nav-item a:hover:after {
+  width: 100%;
+  left: 0;
 }
 #brand{
   font-family: 'Leckerli One', cursive;

@@ -27,7 +27,7 @@
         <b-col class="brand-name" data-aos="fade-up">
           <h1>Feather</h1>
         </b-col>
-        <b-col class="white-card shadow" data-aos="fade-left">
+        <b-col class="white-card shadow" data-aos="fade-up">
           <div class="mb-3 mt-3">
             <font-awesome-icon icon="building" />
             <font-awesome-icon icon="plus" />
@@ -41,17 +41,20 @@
       <b-row class="tools" align-h="center" align-v="center">
         <b-col class="white-card shadow" data-aos="fade-right">
           <h3>Don't have an account? Create one!</h3>
-          <b-button pill variant="warning" style="color:white;">Register Here <font-awesome-icon icon="user-circle" /></b-button>
+          <b-button pill variant="warning" style="color:white;">
+            Register Here
+            <font-awesome-icon icon="user-circle" />
+          </b-button>
         </b-col>
         <b-col class="links">
           <div class="browse-bg">
-            <b-button pill variant="light">
+            <b-button pill to="/explore" variant="light">
               Explore
                <font-awesome-icon icon="search" />
             </b-button>
           </div>
           <div class="dashboard-bg">
-            <b-button pill variant="light">
+            <b-button to="/dashboard" pill variant="light">
               Dashboard
                <font-awesome-icon icon="tachometer-alt" />
             </b-button>
@@ -71,7 +74,7 @@
     height: 100%;
     padding-right: inherit;
   }
-  .links button{
+  .links .btn{
     margin-top: 10%;
   }
   .browse-bg{
