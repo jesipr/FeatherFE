@@ -1,5 +1,5 @@
 <template>
   <div class="signup">
-    <h1>This is an about page</h1>
+    <h1>Here goes the Sign Up Component</h1>
   </div>
 </template>
