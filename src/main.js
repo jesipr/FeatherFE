@@ -2,6 +2,7 @@ import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import AOS from 'aos';
 import VueParticles from 'vue-particles';
+import VueResource from 'vue-resource';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'aos/dist/aos.css';
@@ -21,6 +22,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 
 Vue.use(VueParticles);
+Vue.use(VueResource);
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 
