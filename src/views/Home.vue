@@ -15,7 +15,7 @@
         :lineLinked="true"
         :lineOpacity="0.8"
         :linesDistance="150"
-        :moveSpeed="3"
+        :moveSpeed="2"
         :hoverEffect="true"
         hoverMode="grab"
         :clickEffect="false"
@@ -25,7 +25,7 @@
     <div class="features container-fluid">
       <b-row align-h="center" align-v="center" class="headline">
         <b-col class="brand-name" data-aos="fade-up">
-          <h1>Feather</h1>
+          <h1>ILP</h1>
         </b-col>
         <b-col class="white-card shadow" data-aos="fade-up">
           <div class="mb-3 mt-3">
@@ -39,12 +39,15 @@
         </b-col>
       </b-row>
       <b-row class="tools" align-h="center" align-v="center">
-        <b-col class="white-card shadow" data-aos="fade-right">
-          <h3>Don't have an account? Create one!</h3>
-          <b-button pill variant="warning" style="color:white;">
-            Register Here
-            <font-awesome-icon icon="user-circle" />
-          </b-button>
+        <b-col data-aos="fade-up">
+          <b-container class="white-card shadow">
+            <h3>Create a profile. It's easy!</h3>
+            <p>Search for your name in our database</p>
+            <b-button pill variant="warning" style="color:white;">
+              Register Here
+              <font-awesome-icon icon="user-circle" />
+            </b-button>
+          </b-container>
         </b-col>
         <b-col class="links">
           <div class="browse-bg">
@@ -104,11 +107,11 @@
     background: #026670;
   }
   .tools .white-card{
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-radius: 10px;
   }
-  .tools .col h3{
+  .tools .col p{
     margin-bottom: 30px;
+    font-size: 12px;
   }
   .headline{
     height: 450px;
@@ -187,7 +190,7 @@ export default {
   name: 'home',
   data() {
     return {
-      fdescription: "Feather is a tool for the UPRM's community to discover sponsorship opportunities for activities such as researchs and academic projects. It provides the ability to connect with industry partners and analyze these connections.",
+      fdescription: "The Industry Liason Program (ILP) is a tool for the UPRM's community to discover sponsorship opportunities for activities such as researchs and academic projects. It provides the ability to connect with industry partners and analyze these connections.",
     };
   },
 };

@@ -5,7 +5,7 @@
       <b-navbar type="dark">
         <b-navbar-brand id="brand">
           <!-- <b-img id="site_logo" rounded='circle' :src="require('../src/assets/logo.png')"/> -->
-          Feather
+          ILP
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
           <b-navbar-nav>
