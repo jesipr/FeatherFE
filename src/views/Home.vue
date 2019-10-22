@@ -38,18 +38,18 @@
           </b-container>
         </b-col>
       </b-row>
-      <b-row data-aos="fade-up" id="main-features" align-h="center" align-v="center" class="headline pt-5 pb-5" style="font-family: 'Josefin Sans', sans-serif;">
-        <b-col md="4">
+      <b-row id="main-features" align-h="center" align-v="center" class="headline pt-5 pb-5" style="font-family: 'Josefin Sans', sans-serif;">
+        <b-col md="4" data-aos="fade-up">
           <font-awesome-icon icon="user-plus" class="mb-2"/>
           <h4 style="font-weight: 600;">JOIN</h4>
           <p>Creating your profile as a professor or industry is easy. Just look for your name or company in our database and add any relevant information</p>
         </b-col>
-        <b-col md="4">
+        <b-col md="4" data-aos="fade-up">
           <font-awesome-icon icon="search" class="mb-2"/>
           <h4 style="font-weight: 600;">EXPLORE</h4>
           <p>Browse by searching academic departments, professors or industry</p>
         </b-col>
-        <b-col md="4">
+        <b-col md="4" data-aos="fade-up">
           <font-awesome-icon icon="chart-bar" class="mb-2"/>
           <h4 style="font-weight: 600;">ANALYZE</h4>
           <p>ILP offers the ability to visualize the data by academic departments, area of interest, and many more</p>
@@ -218,11 +218,11 @@ canvas {
 // @ is an alias to /src
 
 export default {
-  name: "home",
+  name: 'home',
   data() {
     return {
       fdescription:
-        "The Industry Liason Program (ILP) is a tool for the UPRM's community to discover sponsorship opportunities for activities such as researchs and academic projects. It provides the ability to connect with industry partners and analyze these connections."
+        "The Industry Liason Program (ILP) is a tool for the UPRM's community to discover sponsorship opportunities for activities such as researchs and academic projects. It provides the ability to connect with industry partners and analyze these connections.",
     };
   },
 };
