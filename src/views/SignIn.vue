@@ -32,15 +32,26 @@ export default {
     };
   },
   methods: {
-    login: function (event) {
+    login(event) {
       if (this.userInput.email === '' || this.userInput.pw === '') {
-        alert('MALO MALO');
+        console.log('No input');
       } else {
-        this.$http.post('http://localhost:5000/Feather/signin/' + this.userInput.email + '/' + this.userInput.pw, {
-
-        }).then(function (data) {
-          console.log(data);
+        const data_json = JSON.stringify({
+          email: this.userInput.email,
+          password: this.userInput.pw,
         });
+        this.$http
+          .post('http://localhost:5000/Feather/signin', data_json, {
+            headers: {
+              'Content-type': 'application/json',
+            },
+          })
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.log(`error: ${error}`);
+          });
       }
     },
   },
