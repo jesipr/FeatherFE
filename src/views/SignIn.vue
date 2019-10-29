@@ -26,35 +26,46 @@ export default {
   data() {
     return {
       userInput: {
-        email: '',
-        pw: '',
-      },
+        email: "",
+        pw: ""
+      }
     };
   },
   methods: {
     login(event) {
-      if (this.userInput.email === '' || this.userInput.pw === '') {
-        console.log('No input');
+      if (this.userInput.email === "" || this.userInput.pw === "") {
       } else {
-        const data_json = JSON.stringify({
+        let signIn_data = {
           email: this.userInput.email,
-          password: this.userInput.pw,
+          password: this.userInput.pw
+        };
+
+        this.$store.dispatch("auth/login", signIn_data).then(() => {
+          console.log("Success");
         });
-        this.$http
-          .post('http://localhost:5000/Feather/signin', data_json, {
-            headers: {
-              'Content-type': 'application/json',
-            },
-          })
-          .then((data) => {
-            console.log(data);
-          })
-          .catch((error) => {
-            console.log(`error: ${error}`);
-          });
       }
-    },
-  },
+      // if (this.userInput.email === "" || this.userInput.pw === "") {
+      //   console.log("No input");
+      // } else {
+      //   const data_json = JSON.stringify({
+      //     email: this.userInput.email,
+      //     password: this.userInput.pw
+      //   });
+      //   this.$http
+      //     .post("http://localhost:5000/Feather/signin", data_json, {
+      //       headers: {
+      //         "Content-type": "application/json"
+      //       }
+      //     })
+      //     .then(data => {
+      //       console.log(data);
+      //     })
+      //     .catch(error => {
+      //       console.log(`error: ${error}`);
+      //     });
+      // }
+    }
+  }
 };
 </script>
 
