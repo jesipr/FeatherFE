@@ -65,9 +65,9 @@ const actions = {
     },
     logout: ({ commit }) => {
         commit('clearAuthData');
-        localStorage.removeItem('username');
+        localStorage.removeItem('email');
         localStorage.removeItem('token');
-        router.replace('login');
+        router.replace('');
     },
 };
 
