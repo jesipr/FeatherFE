@@ -2,17 +2,17 @@ import router from '@/router';
 import Vue from 'vue';
 
 const state = {
-    username: null,
+    email: null,
     token: null,
 };
 
 const mutations = {
     authUser(state, userData) {
-        state.username = userData.username;
+        state.email = userData.email;
         state.token = userData.token;
     },
     clearAuthData(state) {
-        state.username = null;
+        state.email = null;
         state.token = null;
     },
 };
@@ -35,12 +35,14 @@ const actions = {
                     "Content-type": "application/json"
                 }
             })
-            .then(data => {
-                if (!data.error) {
-                    commit('authUser', { username: authData.username, token: response.data.token });
-                    localStorage.setItem('token', response.data.token);
-                    localStorage.setItem('username', authData.username);
+            .then(response => {
+                console.log(response.body.token);
+                if (response.body.token) {
+                    commit('authUser', { email: authData.email, token: response.body.token });
+                    localStorage.setItem('token', response.body.token);
+                    localStorage.setItem('email', authData.email);
                     router.replace('dashboard');
+
                 }
                 else {
                     console.log('Login error');

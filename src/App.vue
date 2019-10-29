@@ -28,9 +28,13 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     computed : {
-      isAuth : function(){ return this.$store.getters.isAuthenticated}
+      ...mapGetters('auth', {
+        isAuth: 'isAuthenticated',
+      })
     },
     methods: {
       logout: function () { 
