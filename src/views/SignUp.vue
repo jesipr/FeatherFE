@@ -4,7 +4,7 @@
       <div class="mx-auto white-card rounded shadow mt-5">
         <h4>Welcome to ILP</h4>
         <b-container>
-          <b-form>
+          <b-form @submit.stop.prevent="login">
             <b-form-group>
               <b-input-group prepend="Email" class="mts-3">
                 <b-form-input v-model="userInput.email" placeholder="Email" type="email"></b-form-input>
@@ -19,38 +19,29 @@
                 <b-form-input v-model="userInput.lastName" placeholder="Last Name" type="text"></b-form-input>
               </b-input-group>
               <b-input-group prepend="Position" class="mt-3">
-                <b-form-input v-model="userInput.postion" placeholder="Position" type="text"></b-form-input>
+                <b-form-input v-model="userInput.position" placeholder="Position" type="text"></b-form-input>
               </b-input-group>
+              <!--Modal button to search company-->
               <template>
-                <b-button @click="$bvModal.show('modal-scoped')">Open Modal</b-button>
-
+                <b-button @click="$bvModal.show('modal-scoped')">Search for Company</b-button>
                 <b-modal id="modal-scoped">
                   <template v-slot:modal-header="{ close }">
-                    <!-- Emulate built in modal header close button action -->
-                    <b-button size="sm" variant="outline-danger" @click="close()">
-                      Close Modal
-                    </b-button>
-                    <h5>Modal Header</h5>
+                    <h5>Search for your company.</h5>
                   </template>
                   <template v-slot:default="{ hide }">
-                    <p>Modal Body with button</p>
-                    <b-button @click="hide()">Search</b-button>
                    <!-- search bar -->
                     <template>
                       <!-- object value -->
                       <model-select :options="options"
-                                    v-model="item"
+                                    v-model="userInput.compName"
                                     placeholder="select item">
-                      </model-select>
-
-                      <!-- string value -->
-                      <model-select :options="options2"
-                                    v-model="item2"
-                                    placeholder="select item2">
                       </model-select>
                     </template>
                   </template>
-                  <template v-slot:modal-footer="{ cancel }">
+                  <template v-slot:modal-footer="{ cancel, ok }">
+                    <b-button size="sm" variant="success" @click="ok()">
+                      Submit
+                    </b-button>
                     <b-button size="sm" variant="danger" @click="cancel()">
                       Cancel
                     </b-button>
@@ -70,36 +61,55 @@
 </template>
 
 <script>
+  /* eslint-disable */
     import { ModelSelect } from 'vue-search-select'
+    import { validationMixin } from 'vuelidate'
+    import { required } from 'vuelidate/lib/validators'
     export default {
+        mixins: [validationMixin],
         data() {
             return {
+                //value sets the value of the option chosen, text is the displayed text of the option
                 options: [
-                    { value: '1', text: 'aa' + ' - ' + '1' },
-                    { value: '2', text: 'ab' + ' - ' + '2' },
-                    { value: '3', text: 'bc' + ' - ' + '3' },
-                    { value: '4', text: 'cd' + ' - ' + '4' },
-                    { value: '5', text: 'de' + ' - ' + '5' }
+                    { value: 'Orion', text: 'Orion' },
+                    { value: 'Santander', text: 'Santander' },
+                    { value: 'Asus', text: 'Asus' },
+                    { value: 'Square Enix', text: 'Square Enix' },
+                    { value: 'Dell', text: 'Dell' }
                 ],
                 item: {
                     value: '',
                     text: ''
                 },
-                options2: [
-                    { value: '1', text: 'aa' + ' - ' + '1' },
-                    { value: '2', text: 'ab' + ' - ' + '2' },
-                    { value: '3', text: 'bc' + ' - ' + '3' },
-                    { value: '4', text: 'cd' + ' - ' + '4' },
-                    { value: '5', text: 'de' + ' - ' + '5' }
-                ],
-                item2: '',
                 userInput: {
                     email: '',
                     pw: '',
                     firstName: '',
                     lastName: '',
-                    postion: '',
+                    position: '',
                     compName: '',
+                },
+                validations: {
+                    userInput: {
+                        email: {
+                            required
+                        },
+                        pw: {
+                            required
+                        },
+                        firstName: {
+                            required
+                        },
+                        lastName: {
+                            required
+                        },
+                        position: {
+                            required
+                        },
+                        compName: {
+                            required
+                        }
+                    },
                 },
             };
         },
