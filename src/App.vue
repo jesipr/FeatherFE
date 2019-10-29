@@ -19,7 +19,8 @@
             <b-nav-item :active='$route.name =="signin"' to="/signin">Sign In</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav v-else class="ml-auto">
-            <h1>LOG OUT</h1>
+            <b-nav-item class="mr-2" :active='$route.name =="signin"' to="/signin">My Profile</b-nav-item>
+            <b-button v-on:click="logout" pill variant="outline-warning">Log Out</b-button>
           </b-navbar-nav>
       </b-navbar>
     </div>
@@ -39,10 +40,10 @@
     methods: {
       logout: function () { 
 
-        // this.$store.dispatch('logout')
-        // .then(() => {
-        //   this.$router.push('/login')
-        // })
+        this.$store.dispatch('auth/logout')
+        .then(() => {
+          this.$router.push('/signin')
+        })
       }
     },
   }

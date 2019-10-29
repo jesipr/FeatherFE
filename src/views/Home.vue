@@ -40,17 +40,17 @@
       </b-row>
       <b-row id="main-features" align-h="center" align-v="center" class="headline pt-5 pb-5" style="font-family: 'Josefin Sans', sans-serif;">
         <b-col md="4" data-aos="fade-up">
-          <font-awesome-icon icon="user-plus" class="mb-2"/>
+          <font-awesome-icon icon="user-plus" />
           <h4 style="font-weight: 600;">JOIN</h4>
           <p>Creating your profile as a professor or industry is easy. Just look for your name or company in our database and add any relevant information</p>
         </b-col>
         <b-col md="4" data-aos="fade-up">
-          <font-awesome-icon icon="search" class="mb-2"/>
+          <font-awesome-icon icon="search" />
           <h4 style="font-weight: 600;">EXPLORE</h4>
           <p>Browse by searching academic departments, professors or industry</p>
         </b-col>
         <b-col md="4" data-aos="fade-up">
-          <font-awesome-icon icon="chart-bar" class="mb-2"/>
+          <font-awesome-icon icon="chart-bar" />
           <h4 style="font-weight: 600;">ANALYZE</h4>
           <p>ILP offers the ability to visualize the data by academic departments, area of interest, and many more</p>
         </b-col>
@@ -112,6 +112,10 @@ canvas {
 .fa-plus {
   margin: 0px 20px;
 }
+#main-features h4{
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
 #main-features p{
   line-height: 1.2;
 }
@@ -124,6 +128,9 @@ canvas {
   border-radius: 10px;
   background: #026670;
   color: white;
+}
+#main-features svg{
+  margin-bottom: 1.5rem;
 }
 .fa-building,
 .fa-plus,
