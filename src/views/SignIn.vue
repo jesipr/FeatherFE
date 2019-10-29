@@ -26,24 +26,46 @@ export default {
   data() {
     return {
       userInput: {
-        email: '',
-        pw: '',
-      },
+        email: "",
+        pw: ""
+      }
     };
   },
   methods: {
-    login: function (event) {
-      if (this.userInput.email === '' || this.userInput.pw === '') {
-        alert('MALO MALO');
+    login(event) {
+      if (this.userInput.email === "" || this.userInput.pw === "") {
       } else {
-        this.$http.post('http://localhost:5000/Feather/signin/' + this.userInput.email + '/' + this.userInput.pw, {
+        let signIn_data = {
+          email: this.userInput.email,
+          password: this.userInput.pw
+        };
 
-        }).then(function (data) {
-          console.log(data);
+        this.$store.dispatch("auth/login", signIn_data).then(() => {
+          console.log("Success");
         });
       }
-    },
-  },
+      // if (this.userInput.email === "" || this.userInput.pw === "") {
+      //   console.log("No input");
+      // } else {
+      //   const data_json = JSON.stringify({
+      //     email: this.userInput.email,
+      //     password: this.userInput.pw
+      //   });
+      //   this.$http
+      //     .post("http://localhost:5000/Feather/signin", data_json, {
+      //       headers: {
+      //         "Content-type": "application/json"
+      //       }
+      //     })
+      //     .then(data => {
+      //       console.log(data);
+      //     })
+      //     .catch(error => {
+      //       console.log(`error: ${error}`);
+      //     });
+      // }
+    }
+  }
 };
 </script>
 
