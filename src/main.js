@@ -14,6 +14,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import router from './router';
+import store from '../store/index';
 
 library.add(faUserPlus);
 library.add(faChartBar);

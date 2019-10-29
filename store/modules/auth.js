@@ -1,4 +1,5 @@
-import router from '@/router'
+import router from '@/router';
+import Vue from 'vue';
 
 const state = {
     username: null,
@@ -29,8 +30,7 @@ const actions = {
             email: authData.email,
             password: authData.password
         });
-        this.$http
-            .post("http://localhost:5000/Feather/signin", data_json, {
+        Vue.http.post("http://localhost:5000/Feather/signin", data_json, {
                 headers: {
                     "Content-type": "application/json"
                 }
