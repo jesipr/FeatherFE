@@ -34,10 +34,10 @@
 export default {
   name: 'HelloWorld',
   data() {
-    return{
+    return {
       fdescription: "Feather is a tool for the UPRM's community to discover sponsorship opportunities by providing the ability to connect with industry partners.",
-    }
-  }
+    };
+  },
 };
 </script>
 
