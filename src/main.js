@@ -11,6 +11,7 @@ import { faPlus, faUserGraduate, faSearch, faUserCircle, faTachometerAlt, faBuil
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import router from './router';
+import 'vue-search-select/dist/VueSearchSelect.css'
 
 library.add(faSearch);
 library.add(faUserCircle);
