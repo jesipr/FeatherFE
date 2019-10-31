@@ -13,15 +13,41 @@
             <b-nav-item :active='$route.name =="dashboard"' to="/dashboard">Dashboard</b-nav-item>
             <b-nav-item :active='$route.name =="explore"' to="/explore">Explore</b-nav-item>
           </b-navbar-nav>
-          <b-navbar-nav class="ml-auto">
+          <!-- ONLY when logged out -->
+          <b-navbar-nav v-if="!isAuth" class="ml-auto">
             <b-nav-item :active='$route.name =="signup"' to="/signup">Register</b-nav-item>
-            <b-nav-item :active='$route.name =="signin"' to="/signin">Sign In</b-nav-item>
+            <b-nav-item :active='$route.name =="signin"' to="/signin">Log In</b-nav-item>
+          </b-navbar-nav>
+          <b-navbar-nav v-else class="ml-auto">
+            <b-nav-item class="mr-2" :active='$route.name =="signin"' to="/signin">My Profile</b-nav-item>
+            <b-button v-on:click="logout" pill variant="outline-warning">Log Out</b-button>
           </b-navbar-nav>
       </b-navbar>
     </div>
     <router-view />
   </div>
 </template>
+
+<script>
+  import { mapGetters } from 'vuex'
+
+  export default {
+    computed : {
+      ...mapGetters('auth', {
+        isAuth: 'isAuthenticated',
+      })
+    },
+    methods: {
+      logout: function () { 
+
+        this.$store.dispatch('auth/logout')
+        .then(() => {
+          this.$router.push('/signin')
+        })
+      }
+    },
+  }
+</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Leckerli+One|Open+Sans:400,400i,600,600i,700,700i&display=swap');
