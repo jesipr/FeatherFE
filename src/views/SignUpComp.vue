@@ -7,19 +7,20 @@
           <b-form @submit.stop.prevent="signupComp">
             <b-form-group>
               <b-input-group prepend="Email" class="mts-3">
-                <b-form-input v-model="userInput.email" placeholder="Email" type="email"></b-form-input>
+                <b-form-input v-model="form.email" placeholder="Email" type="email"></b-form-input>
+                <b-form-invalid-feedback id="email-input-feedback">Please enter a valid email</b-form-invalid-feedback>
               </b-input-group>
               <b-input-group prepend="Password" class="mt-3">
-                <b-form-input v-model="userInput.pw" placeholder="Password" type="password"></b-form-input>
+                <b-form-input v-model="form.pw" placeholder="Password" type="password"></b-form-input>
               </b-input-group>
               <b-input-group prepend="First Name" class="mt-3">
-                <b-form-input v-model="userInput.firstName" placeholder="First Name" type="text"></b-form-input>
+                <b-form-input v-model="form.firstName" placeholder="First Name" type="text"></b-form-input>
               </b-input-group>
               <b-input-group prepend="Last Name" class="mt-3">
-                <b-form-input v-model="userInput.lastName" placeholder="Last Name" type="text"></b-form-input>
+                <b-form-input v-model="form.lastName" placeholder="Last Name" type="text"></b-form-input>
               </b-input-group>
               <b-input-group prepend="Position" class="mt-3">
-                <b-form-input v-model="userInput.position" placeholder="Position" type="text"></b-form-input>
+                <b-form-input v-model="form.position" placeholder="Position" type="text"></b-form-input>
               </b-input-group>
               <!--Modal button to search company-->
               <template>
@@ -33,7 +34,7 @@
                     <template>
                       <!-- object value -->
                       <model-select :options="options"
-                                    v-model="userInput.compName"
+                                    v-model="form.compName"
                                     placeholder="select item">
                       </model-select>
                     </template>
@@ -49,7 +50,7 @@
                 </b-modal>
               </template>
               <b-input-group prepend="Company" class="mt-3">
-                <b-form-input v-model="userInput.compName" placeholder="Company Name" type="text"></b-form-input>
+                <b-form-input v-model="form.compName" placeholder="Company Name" type="text"></b-form-input>
               </b-input-group>
               <b-button v-on:click="signupComp" variant="warning" class="mt-4">Sign Up</b-button>
             </b-form-group>
@@ -61,11 +62,11 @@
 </template>
 
 <script>
-  /* eslint-disable */
-    import { ModelSelect } from 'vue-search-select'
-    import { validationMixin } from 'vuelidate'
-    import { required } from 'vuelidate/lib/validators'
-    export default {
+    import { validationMixin } from "vuelidate"
+    import { required, minLength, email } from "vuelidate/lib/validators"
+  //import { ModelSelect } from 'vue-search-select'
+
+  export default {
         mixins: [validationMixin],
         data() {
             return {
@@ -77,11 +78,7 @@
                     { value: 'Square Enix', text: 'Square Enix' },
                     { value: 'Dell', text: 'Dell' }
                 ],
-                item: {
-                    value: '',
-                    text: ''
-                },
-                userInput: {
+                form: {
                     email: '',
                     pw: '',
                     firstName: '',
@@ -90,9 +87,10 @@
                     compName: '',
                 },
                 validations: {
-                    userInput: {
+                    form: {
                         email: {
-                            required
+                            required,
+                            email
                         },
                         pw: {
                             required
@@ -115,9 +113,9 @@
         },
         methods: {
             signupComp: function (event) {
-                if (this.userInput.email === '' || this.userInput.pw === '' || this.userInput.compName === '' || this.userInput.lastName === ''
-                || this.userInput.firstName === '' || this.userInput.position === '') {
-                    alert('MALO MALO');
+                this.$v.form.$touch();
+                if (this.$v.form.$anyError) {
+                    return;
                 } else {
                 this.$http.post('http://localhost:5000/Feather/company/signup/', {
 
@@ -142,7 +140,7 @@
             },
         },
         components: {
-            ModelSelect
+            //ModelSelect
         },
     };
 </script>

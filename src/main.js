@@ -16,8 +16,6 @@ import App from './App.vue';
 import router from './router';
 import 'vue-search-select/dist/VueSearchSelect.css'
 import store from '../store/index';
-import Vuelidate from 'vuelidate';
-
 
 library.add(faUserPlus);
 library.add(faChartBar);

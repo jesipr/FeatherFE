@@ -15,8 +15,8 @@
           </b-navbar-nav>
           <!-- ONLY when logged out -->
         <b-navbar-nav v-if="!isAuth" class="ml-auto">
-          <b-nav-item :active='$route.name == "#"' to="#" @click="$bvModal.show('modal-scoped')">Register</b-nav-item>
-          <b-modal id="modal-scoped">
+          <b-nav-item @click="$bvModal.show('modal-nav')">Register</b-nav-item>
+          <b-modal id="modal-nav">
             <template v-slot:modal-header="{ hide }">
               <h5>Choose the type of account</h5>
             </template>
@@ -49,7 +49,8 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+    import {BModal as $bvModal} from "bootstrap-vue/src/components/modal/modal"
+    import { mapGetters } from 'vuex'
 
   export default {
     computed : {
