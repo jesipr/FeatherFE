@@ -14,30 +14,30 @@
             <b-nav-item :active='$route.name =="explore"' to="/explore">Explore</b-nav-item>
           </b-navbar-nav>
           <!-- ONLY when logged out -->
-          <b-navbar-nav v-if="!isAuth" class="ml-auto">
-            <b-nav-item :active='$route.name == "#"' to="#" @click="$bvModal.show('modal-scoped')">Register</b-nav-item>
-            <b-modal id="modal-scoped">
-              <template v-slot:modal-header="{ hide }">
-                <h5>Choose the type of account</h5>
-              </template>
+        <b-navbar-nav v-if="!isAuth" class="ml-auto">
+          <b-nav-item :active='$route.name == "#"' to="#" @click="$bvModal.show('modal-scoped')">Register</b-nav-item>
+          <b-modal id="modal-scoped">
+            <template v-slot:modal-header="{ hide }">
+              <h5>Choose the type of account</h5>
+            </template>
 
-              <template v-slot:default="{ hide }">
-                <b-button @click="hide()" :active='$route.name =="compsignup"' to="/comp-signup">Comapanies</b-button>
-                <b-button @click="hide()" :active='$route.name =="profsignup"' to="/prof-signup">Professors</b-button>
-              </template>
+            <template v-slot:default="{ hide }">
+              <b-button @click="hide()" :active='$route.name =="compsignup"' to="/comp-signup">Comapanies</b-button>
+              <b-button @click="hide()" :active='$route.name =="profsignup"' to="/prof-signup">Professors</b-button>
+            </template>
 
-              <template v-slot:modal-footer="{ ok, cancel, hide }">
-                <b-button size="sm" variant="danger" @click="cancel()">
-                  Cancel
-                </b-button>
-                <!-- Button with custom close trigger value -->
-                <b-button size="sm" variant="success" @click="hide()">
-                  Submit
-                </b-button>
-              </template>
-            </b-modal>
-            <b-nav-item :active='$route.name =="signin"' to="/signin">Sign In</b-nav-item>
-          </b-navbar-nav>
+            <template v-slot:modal-footer="{ ok, cancel, hide }">
+              <b-button size="sm" variant="danger" @click="cancel()">
+                Cancel
+              </b-button>
+              <!-- Button with custom close trigger value -->
+              <b-button size="sm" variant="success" @click="hide()">
+                Submit
+              </b-button>
+            </template>
+          </b-modal>
+          <b-nav-item :active='$route.name =="signin"' to="/signin">Sign In</b-nav-item>
+        </b-navbar-nav>
           <b-navbar-nav v-else class="ml-auto">
             <b-nav-item class="mr-2" :active='$route.name =="signin"' to="/signin">My Profile</b-nav-item>
             <b-button v-on:click="logout" pill variant="outline-warning">Log Out</b-button>

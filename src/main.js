@@ -3,6 +3,7 @@ import BootstrapVue from 'bootstrap-vue';
 import AOS from 'aos';
 import VueParticles from 'vue-particles';
 import VueResource from 'vue-resource';
+import Vuelidate from 'vuelidate';
 import Vuex from 'vuex';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';

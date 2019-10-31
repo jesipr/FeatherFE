@@ -41,7 +41,7 @@ const actions = {
                     commit('authUser', { email: authData.email, token: response.body.token });
                     localStorage.setItem('token', response.body.token);
                     localStorage.setItem('email', authData.email);
-                    router.replace('dashboard');
+                    router.replace('dashboard'); 
 
                 }
                 else {
