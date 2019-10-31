@@ -1,5 +1,5 @@
 <template>
-  <div class="signup">
+  <div class="signupcomp">
     <b-container fluid class="text-center">
       <div class="mx-auto white-card rounded shadow mt-5">
         <h4>Welcome to ILP</h4>
@@ -18,9 +18,6 @@
               <b-input-group prepend="Last Name" class="mt-3">
                 <b-form-input v-model="userInput.lastName" placeholder="Last Name" type="text"></b-form-input>
               </b-input-group>
-              <b-input-group prepend="Position" class="mt-3">
-                <b-form-input v-model="userInput.position" placeholder="Position" type="text"></b-form-input>
-              </b-input-group>
               <!--Modal button to search company-->
               <template>
                 <b-button @click="$bvModal.show('modal-scoped')">Search for Company</b-button>
@@ -29,11 +26,11 @@
                     <h5>Search for your company.</h5>
                   </template>
                   <template v-slot:default="{ hide }">
-                   <!-- search bar -->
+                    <!-- search bar -->
                     <template>
                       <!-- object value -->
                       <model-select :options="options"
-                                    v-model="userInput.compName"
+                                    v-model="userInput.department"
                                     placeholder="select item">
                       </model-select>
                     </template>
@@ -49,9 +46,9 @@
                 </b-modal>
               </template>
               <b-input-group prepend="Company" class="mt-3">
-                <b-form-input v-model="userInput.compName" placeholder="Company Name" type="text"></b-form-input>
+                <b-form-input v-model="userInput.department" placeholder="Company Name" type="text"></b-form-input>
               </b-input-group>
-              <b-button v-on:click="login" variant="warning" class="mt-4">Sign Up</b-button>
+              <b-button v-on:click="signupComp" variant="warning" class="mt-4">Sign Up</b-button>
             </b-form-group>
           </b-form>
         </b-container>
@@ -61,7 +58,7 @@
 </template>
 
 <script>
-  /* eslint-disable */
+    /* eslint-disable */
     import { ModelSelect } from 'vue-search-select'
     import { validationMixin } from 'vuelidate'
     import { required } from 'vuelidate/lib/validators'
@@ -86,8 +83,8 @@
                     pw: '',
                     firstName: '',
                     lastName: '',
-                    position: '',
-                    compName: '',
+                    department: '',
+
                 },
                 validations: {
                     userInput: {
@@ -114,12 +111,12 @@
             };
         },
         methods: {
-            login: function (event) {
-                if (this.userInput.email === '' || this.userInput.pw === '' || this.userInput.compName === '' || this.userInput.lastName === ''
-                || this.userInput.firstName === '' || this.userInput.postion === '') {
+            signupComp: function (event) {
+                if (this.userInput.email === '' || this.userInput.pw === '' || this.userInput.department === '' || this.userInput.lastName === ''
+                    || this.userInput.firstName === '' ) {
                     alert('MALO MALO');
                 } else {
-                this.$http.post('http://localhost:5000/Feather/signin/' + this.userInput.email + '/' + this.userInput.pw, {
+                    this.$http.post('http://localhost:5000/Feather/company/signup/', {
 
                     }).then(function (data) {
                         console.log(data);
