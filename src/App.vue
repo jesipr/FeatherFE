@@ -16,7 +16,7 @@
           <!-- ONLY when logged out -->
           <b-navbar-nav v-if="!isAuth" class="ml-auto">
             <b-nav-item :active='$route.name =="signup"' to="/signup">Register</b-nav-item>
-            <b-nav-item :active='$route.name =="signin"' to="/signin">Sign In</b-nav-item>
+            <b-nav-item :active='$route.name =="signin"' to="/signin">Log In</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav v-else class="ml-auto">
             <b-nav-item class="mr-2" :active='$route.name =="signin"' to="/signin">My Profile</b-nav-item>
