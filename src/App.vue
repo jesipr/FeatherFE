@@ -15,9 +15,7 @@
           </b-navbar-nav>
           <!-- ONLY when logged out -->
           <b-navbar-nav v-if="!isAuth" class="ml-auto">
-            <b-nav-item :active='$route.name =="compsignup"' to="/comp-signup">Register</b-nav-item>
-            <b-button @click="$bvModal.show('modal-scoped')">Open Modal</b-button>
-
+            <b-nav-item :active='$route.name == "#"' to="#" @click="$bvModal.show('modal-scoped')">Register</b-nav-item>
             <b-modal id="modal-scoped">
               <template v-slot:modal-header="{ hide }">
                 <h5>Choose the type of account</h5>
@@ -29,17 +27,12 @@
               </template>
 
               <template v-slot:modal-footer="{ ok, cancel, hide }">
-                <b>Custom Footer</b>
-                <!-- Emulate built in modal footer ok and cancel button actions -->
-                <b-button size="sm" variant="success" @click="ok()">
-                  OK
-                </b-button>
                 <b-button size="sm" variant="danger" @click="cancel()">
                   Cancel
                 </b-button>
                 <!-- Button with custom close trigger value -->
-                <b-button size="sm" variant="outline-secondary" @click="hide('forget')">
-                  Forget it
+                <b-button size="sm" variant="success" @click="hide()">
+                  Submit
                 </b-button>
               </template>
             </b-modal>
