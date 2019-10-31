@@ -1,7 +1,7 @@
 <template>
   <div class="signin">
     <b-container fluid class="text-center">
-      <div class="mx-auto white-card rounded shadow mt-5">
+      <div class="mx-auto white-card shadow mt-5">
         <h4>Welcome to ILP</h4>
         <b-container>
           <b-form @submit.stop.prevent="login">
@@ -86,8 +86,11 @@ export default {
   padding: 0 2rem;
 }
 .btn {
-  background: #fad54e;
+  background:white;
   color: inherit;
+}
+.btn:hover {
+  background:#e9e6e6;
 }
 h4 {
   font-family: "Josefin Sans", sans-serif;
@@ -95,6 +98,6 @@ h4 {
 }
 .white-card {
   width: 450px;
-  background: #026670;
+  background: #337137;
 }
 </style>

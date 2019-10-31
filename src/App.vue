@@ -56,7 +56,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #313e50;
 }
 li {
   display: table-cell;
@@ -70,7 +70,7 @@ li {
   height: 2px;
   left: 50%;
   position: absolute;
-  background: #fad54e;
+  background: #efeef0;
   transition: width 0.3s ease 0s, left 0.3s ease 0s;
   width: 0;
 }
@@ -83,7 +83,7 @@ li {
   font-size: 28px;
 }
 nav{
-  background: #026670;
+  background: #337137;
 }
 #site_logo{
   width: 40px;
