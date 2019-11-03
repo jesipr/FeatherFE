@@ -7,20 +7,44 @@
           <b-form @submit.stop.prevent="signupComp">
             <b-form-group>
               <b-input-group prepend="Email" class="mts-3">
-                <b-form-input v-model="form.email" placeholder="Email" type="email"></b-form-input>
+                <b-form-input placeholder="Email"
+                              v-model="$v.form.femail.$model"
+                              :state="$v.form.femail.$dirty ? !$v.form.femail.$error : null"
+                              aria-describedby="email-input-feedback"
+                ></b-form-input>
                 <b-form-invalid-feedback id="email-input-feedback">Please enter a valid email</b-form-invalid-feedback>
               </b-input-group>
               <b-input-group prepend="Password" class="mt-3">
-                <b-form-input v-model="form.pw" placeholder="Password" type="password"></b-form-input>
+                <b-form-input placeholder="Password"
+                              v-model="$v.form.password.$model"
+                              :state="$v.form.password.$dirty ? !$v.form.password.$error : null"
+                              aria-describedby="password-input-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="password-input-feedback">Please enter a valid password</b-form-invalid-feedback>
               </b-input-group>
               <b-input-group prepend="First Name" class="mt-3">
-                <b-form-input v-model="form.firstName" placeholder="First Name" type="text"></b-form-input>
+                <b-form-input placeholder="First Name"
+                              v-model="$v.form.firstName.$model"
+                              :state="$v.form.firstName.$dirty ? !$v.form.firstName.$error : null"
+                              aria-describedby="firstName-input-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="firstName-input-feedback">Please enter your first name</b-form-invalid-feedback>
               </b-input-group>
               <b-input-group prepend="Last Name" class="mt-3">
-                <b-form-input v-model="form.lastName" placeholder="Last Name" type="text"></b-form-input>
+                <b-form-input placeholder="Last Name"
+                              v-model="$v.form.lastName.$model"
+                              :state="$v.form.lastName.$dirty ? !$v.form.lastName.$error : null"
+                              aria-describedby="lastName-input-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="lastName-input-feedback">Please enter your last name</b-form-invalid-feedback>
               </b-input-group>
               <b-input-group prepend="Position" class="mt-3">
-                <b-form-input v-model="form.position" placeholder="Position" type="text"></b-form-input>
+                <b-form-input placeholder="Position"
+                              v-model="$v.form.position.$model"
+                              :state="$v.form.position.$dirty ? !$v.form.position.$error : null"
+                              aria-describedby="position-input-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="position-input-feedback">Please enter your position</b-form-invalid-feedback>
               </b-input-group>
               <!--Modal button to search company-->
               <template>
@@ -50,7 +74,12 @@
                 </b-modal>
               </template>
               <b-input-group prepend="Company" class="mt-3">
-                <b-form-input v-model="form.compName" placeholder="Company Name" type="text"></b-form-input>
+                <b-form-input placeholder="Company Name" type="text"
+                              v-model="$v.form.compName.$model"
+                              :state="$v.form.compName.$dirty ? !$v.form.compName.$error : null"
+                              aria-describedby="company-input-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="company-input-feedback">Please enter your company's official name</b-form-invalid-feedback>
               </b-input-group>
               <b-button v-on:click="signupComp" variant="warning" class="mt-4">Sign Up</b-button>
             </b-form-group>
@@ -67,49 +96,49 @@
   //import { ModelSelect } from 'vue-search-select'
 
   export default {
-        mixins: [validationMixin],
-        data() {
-            return {
-                //value sets the value of the option chosen, text is the displayed text of the option
-                options: [
-                    { value: 'Orion', text: 'Orion' },
-                    { value: 'Santander', text: 'Santander' },
-                    { value: 'Asus', text: 'Asus' },
-                    { value: 'Square Enix', text: 'Square Enix' },
-                    { value: 'Dell', text: 'Dell' }
-                ],
-                form: {
-                    email: '',
-                    pw: '',
-                    firstName: '',
-                    lastName: '',
-                    position: '',
-                    compName: '',
-                },
-                validations: {
-                    form: {
-                        email: {
-                            required,
-                            email
-                        },
-                        pw: {
-                            required
-                        },
-                        firstName: {
-                            required
-                        },
-                        lastName: {
-                            required
-                        },
-                        position: {
-                            required
-                        },
-                        compName: {
-                            required
-                        }
-                    },
-                },
-            };
+      mixins: [validationMixin],
+      data() {
+          return {
+              //value sets the value of the option chosen, text is the displayed text of the option
+              options: [
+                  { value: 'Orion', text: 'Orion' },
+                  { value: 'Santander', text: 'Santander' },
+                  { value: 'Asus', text: 'Asus' },
+                  { value: 'Square Enix', text: 'Square Enix' },
+                  { value: 'Dell', text: 'Dell' }
+              ],
+              form: {
+                  femail: '',
+                  pw: '',
+                  firstName: '',
+                  lastName: '',
+                  position: '',
+                  compName: '',
+              },
+          };
+      },
+      validations: {
+          form: {
+              femail: {
+                  required,
+                  email
+              },
+              pw: {
+                  required
+              },
+              firstName: {
+                  required
+              },
+              lastName: {
+                  required
+              },
+              position: {
+                  required
+              },
+              compName: {
+                  required
+              }
+          },
         },
         methods: {
             signupComp: function (event) {
@@ -123,20 +152,6 @@
                         console.log(data);
                     });
                 }
-            },
-            reset () {
-                this.item = {}
-            },
-            selectFromParentComponent1 () {
-                // select option from parent component
-                this.item = this.options[0]
-            },
-            reset2 () {
-                this.item2 = ''
-            },
-            selectFromParentComponent2 () {
-                // select option from parent component
-                this.item2 = this.options2[0].value
             },
         },
         components: {

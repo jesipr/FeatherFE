@@ -41,5 +41,10 @@ export default new Router({
       name: 'signin',
       component: () => import(/* webpackChunkName: "about" */ './views/SignIn.vue'),
     },
+    {
+      path: '/add-actsandtags',
+      name: 'tagsandacts',
+      component: () => import(/* webpackChunkName: "about" */ './views/tagsAndActsSU.vue'),
+    },
   ],
 });

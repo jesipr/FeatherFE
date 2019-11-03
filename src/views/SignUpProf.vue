@@ -7,27 +7,24 @@
           <b-form @submit.stop.prevent="signupProf">
             <b-form-group>
               <b-input-group prepend="Email" class="mts-3">
-                <b-form-input v-model="userInput.email" placeholder="Email" type="email"></b-form-input>
+                <b-form-input placeholder="Email"
+                              v-model="$v.userInput.email.$model"
+                              :state="$v.userInput.email.$dirty ? !$v.userInput.email.$error : null"
+                              aria-describedby="email-input-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="email-input-feedback">Please enter your email</b-form-invalid-feedback>
               </b-input-group>
               <b-input-group prepend="Password" class="mt-3">
-                <b-form-input v-model="userInput.pw" placeholder="Password" type="password"></b-form-input>
+                <b-form-input placeholder="Password"
+                              v-model="$v.userInput.password.$model"
+                              :state="$v.userInput.password.$dirty ? !$v.userInput.password.$error : null"
+                              aria-describedby="password-input-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="password-input-feedback">Please enter your password</b-form-invalid-feedback>
               </b-input-group>
-
-              <b-input-group>
-                <b-input-group-prepend>
-                  <b-button variant="outline-info">Button</b-button>
-                </b-input-group-prepend>
-
-                <b-form-input type="number" min="0.00"></b-form-input>
-
-                <b-input-group-append>
-                  <b-button variant="outline-secondary">Button</b-button>
-                  <b-button variant="outline-secondary">Button</b-button>
-                </b-input-group-append>
-              </b-input-group>
-
               <template>
                 <b-button @click="$bvModal.show('modal-name')">Search for Department</b-button>
+                <!--NEED TO SHOW RESULT OF SEARCH-->
                 <b-modal id="modal-name">
                   <template v-slot:modal-header="{ close }">
                     <h5>Search for your name.</h5>
@@ -51,12 +48,21 @@
                   </template>
                 </b-modal>
               </template>
-
               <b-input-group prepend="First Name" class="mt-3">
-                <b-form-input v-model="userInput.firstName" placeholder="First Name" type="text"></b-form-input>
+                <b-form-input placeholder="First Name"
+                              v-model="$v.userInput.firstName.$model"
+                              :state="$v.userInput.firstName.$dirty ? !$v.userInput.firstName.$error : null"
+                              aria-describedby="firstName-input-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="firstName-input-feedback">Please enter your First Name</b-form-invalid-feedback>
               </b-input-group>
               <b-input-group prepend="Last Name" class="mt-3">
-                <b-form-input v-model="userInput.lastName" placeholder="Last Name" type="text"></b-form-input>
+                <b-form-input placeholder="Last Name"
+                              v-model="$v.userInput.lastName.$model"
+                              :state="$v.userInput.lastName.$dirty ? !$v.userInput.lastName.$error : null"
+                              aria-describedby="lastName-input-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="lastName-input-feedback">Please enter your last Name</b-form-invalid-feedback>
               </b-input-group>
               <!--Modal button to search for department-->
               <template>
@@ -86,8 +92,14 @@
                 </b-modal>
               </template>
               <b-input-group prepend="Department" class="mt-3">
-                <b-form-input v-model="userInput.department" placeholder="Company Name" type="text"></b-form-input>
+                <b-form-input placeholder="First Name"
+                              v-model="$v.userInput.department.$model"
+                              :state="$v.userInput.department.$dirty ? !$v.userInput.department.$error : null"
+                              aria-describedby="department-input-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="department-input-feedback">Please enter your department</b-form-invalid-feedback>
               </b-input-group>
+              <b-button class="mt-4" :active='$route.name =="tagsandacts"' to="/add-actsandtags">Add Area of Interests and Activities</b-button>
               <b-button v-on:click="signupProf" variant="warning" class="mt-4">Sign Up</b-button>
             </b-form-group>
           </b-form>
@@ -100,8 +112,8 @@
 <script>
     /* eslint-disable */
     import { ModelSelect } from 'vue-search-select'
-    import { validationMixin } from 'vuelidate'
-    import { required } from 'vuelidate/lib/validators'
+    import { validationMixin } from "vuelidate"
+    import { required, minLength, email } from "vuelidate/lib/validators"
     export default {
         mixins: [validationMixin],
         data() {
