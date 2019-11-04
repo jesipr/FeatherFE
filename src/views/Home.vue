@@ -157,7 +157,7 @@ canvas {
 }
 .tools {
   height: 350px;
-  background: #efeef0;
+  background: white;
 }
 .tools .white-card {
   border-top: 5px solid #337137;
