@@ -64,7 +64,6 @@ export default {
   },
   methods: {
     login() {
-      this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
@@ -127,5 +126,8 @@ h4 {
   font-size: 35px;
   color: #337137;
   font-weight: bold;
+}
+.white-card img{
+  width: 30%;
 }
 </style>
