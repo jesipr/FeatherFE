@@ -19,8 +19,8 @@
             <b-nav-item :active='$route.name =="signin"' to="/signin">Log In</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav v-else class="ml-auto">
-            <b-nav-item class="mr-2" :active='$route.name =="signin"' to="/signin">My Profile</b-nav-item>
-            <b-button v-on:click="logout" pill variant="outline-warning">Log Out</b-button>
+            <b-nav-item class="mr-2" :active='$route.name =="profile"' to="/profile">My Profile</b-nav-item>
+            <b-button class="btn-logout" v-on:click="logout">Log Out</b-button>
           </b-navbar-nav>
       </b-navbar>
     </div>
@@ -61,6 +61,10 @@
 li {
   display: table-cell;
   position: relative;
+}
+.btn-logout{
+  background-color: white;
+  color: inherit;
 }
 .nav-item a:after {
   background: none repeat scroll 0 0 transparent;

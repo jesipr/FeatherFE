@@ -13,6 +13,7 @@ import {
   faUserPlus, faChartBar, faPlus, faUserGraduate, faSearch, faUserCircle, faTachometerAlt, faBuilding,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import App from './App.vue';
 import router from './router';
 import store from '../store/index';
@@ -26,6 +27,7 @@ library.add(faBuilding);
 library.add(faUserGraduate);
 library.add(faPlus);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue'));
 
 Vue.use(Vuelidate);
 Vue.use(Vuex);
