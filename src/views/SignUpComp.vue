@@ -8,8 +8,8 @@
             <b-form-group>
               <b-input-group prepend="Email" class="mts-3">
                 <b-form-input placeholder="Email"
-                              v-model="$v.form.femail.$model"
-                              :state="$v.form.femail.$dirty ? !$v.form.femail.$error : null"
+                              v-model="$v.form.email.$model"
+                              :state="$v.form.email.$dirty ? !$v.form.email.$error : null"
                               aria-describedby="email-input-feedback"
                 ></b-form-input>
                 <b-form-invalid-feedback id="email-input-feedback">Please enter a valid email</b-form-invalid-feedback>
@@ -108,8 +108,8 @@
                   { value: 'Dell', text: 'Dell' }
               ],
               form: {
-                  femail: '',
-                  pw: '',
+                  email: '',
+                  password: '',
                   firstName: '',
                   lastName: '',
                   position: '',
@@ -119,11 +119,11 @@
       },
       validations: {
           form: {
-              femail: {
+              email: {
                   required,
                   email
               },
-              pw: {
+              password: {
                   required
               },
               firstName: {
@@ -170,6 +170,6 @@
   }
   .white-card {
     width: 450px;
-    background: #026670;
+    background: #337137;
   }
 </style>

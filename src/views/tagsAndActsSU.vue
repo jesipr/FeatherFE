@@ -73,7 +73,7 @@
                 var mytable = "<div><table cellpadding=\"0\" cellspacing=\"0\"><tbody><tr>";
 
                 mytable += "</tr><tr>";
-                mytable += "<td>[" + this.activity.act_name + "]"+"["+this.activity.start_date+"]"+"["+this.activity.fund_range+"]"+"</td>";
+                mytable += "<td>"+this.count+"."+"[" + this.activity.act_name + "]"+"["+this.activity.start_date+"]"+"["+this.activity.fund_range+"]"+"</td>";
                 mytable += "</tr></tbody></table></div>";
 
                 document.getElementById("example-2").innerHTML += mytable;
@@ -81,6 +81,9 @@
             //function to remove specific tag
             rem_tag: function(index){
                 this.tags.splice(index, 1);
+            },
+            rem_act: function(index) {
+                this.activities.splice(index, 1);
             },
             submit: function() {
                 const data_json = JSON.stringify({
@@ -105,5 +108,11 @@
 </script>
 
 <style scoped>
-
+  h4 {
+    color: white;
+  }
+  .white-card {
+    width: 450px;
+    background: #337137;
+  }
 </style>

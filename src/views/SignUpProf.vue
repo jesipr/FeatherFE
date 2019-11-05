@@ -132,33 +132,11 @@
                 },
                 userInput: {
                     email: '',
-                    pw: '',
+                    password: '',
                     firstName: '',
                     lastName: '',
                     department: '',
 
-                },
-                validations: {
-                    userInput: {
-                        email: {
-                            required
-                        },
-                        pw: {
-                            required
-                        },
-                        firstName: {
-                            required
-                        },
-                        lastName: {
-                            required
-                        },
-                        position: {
-                            required
-                        },
-                        compName: {
-                            required
-                        }
-                    },
                 },
                 //for name search
                 name_data:{
@@ -167,9 +145,28 @@
                 },
             };
         },
+        validations: {
+            userInput: {
+                email: {
+                    required
+                },
+                password: {
+                    required
+                },
+                firstName: {
+                    required
+                },
+                lastName: {
+                    required
+                },
+                department: {
+                    required
+                },
+            },
+        },
         methods: {
             signupProf: function (event) {
-                if (this.userInput.email === '' || this.userInput.pw === '' || this.userInput.department === '' || this.userInput.lastName === ''
+                if (this.userInput.email === '' || this.userInput.password === '' || this.userInput.department === '' || this.userInput.lastName === ''
                     || this.userInput.firstName === '' ) {
                     alert('MALO MALO');
                 } else {
@@ -214,6 +211,6 @@
   }
   .white-card {
     width: 450px;
-    background: #026670;
+    background: #337137;
   }
 </style>
