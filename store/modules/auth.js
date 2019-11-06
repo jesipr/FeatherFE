@@ -31,7 +31,7 @@ const actions = {
             password: authData.password
         });
         console.log(data_json)
-        axios({url: 'http://localhost:5000/Feather/signin', data: data_json, method: 'POST', headers: {"Content-type": "application/json"}}).then(response => {
+        axios({url: 'http://localhost:5000/Feather/signin', data: data_json, method: 'POST'}).then(response => {
                 console.log(response);
                 if (response.data.token) {
                     commit('authUser', { userid: authData.userid, token: response.data.token });

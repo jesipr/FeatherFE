@@ -37,8 +37,9 @@ Vue.config.productionTip = false;
 
 Vue.$http = Axios;
 const token = localStorage.getItem('token')
+Vue.$http.defaults.headers.common['Content-type'] = 'application/json';
 if (token) {
-  Vue.$http.defaults.headers.common['Authorization'] = token
+  Vue.$http.defaults.headers.common['token'] = token;
 }
 
 new Vue({
