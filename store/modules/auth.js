@@ -2,8 +2,8 @@ import router from '@/router';
 import axios from 'axios';
 
 const state = {
-    userid: null,
-    token: null,
+    userid: localStorage.getItem('userid'),
+    token: localStorage.getItem('token'),
 };
 
 const mutations = {
