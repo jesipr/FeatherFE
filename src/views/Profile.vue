@@ -11,8 +11,14 @@
             <b-row>
               <b-col class="profile-info">
                 <h2>{{companyData.firstname}} {{companyData.lastname}}</h2>
-                <p><span>Company: </span>{{companyData.companyname}}</p>
-                <p><span>Employee Position: </span>{{companyData.empposition}}</p>
+                <p>
+                  <span>Company:</span>
+                  {{companyData.companyname}}
+                </p>
+                <p>
+                  <span>Employee Position:</span>
+                  {{companyData.empposition}}
+                </p>
               </b-col>
             </b-row>
           </b-col>
@@ -41,6 +47,8 @@
 </template>
 <script>
 import Vue from "vue";
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -50,7 +58,7 @@ export default {
         empposition: null,
         companyname: null,
         areasinterest: [],
-        activities: [],
+        activities: []
       },
       loading: false
     };
@@ -80,23 +88,19 @@ export default {
       var token = localStorage.getItem("token");
       console.log(userid);
       console.log(token);
-
-      Vue.http
-        .get("http://localhost:5000/Feather/getprofilebyuserid/" + userid, {
-          headers: {
-            "Content-type": "application/json",
-            "token": token,
-          }
-        })
+      axios({
+        url: "http://localhost:5000/Feather/getprofilebyuserid/" + userid,
+        method: "get"
+      })
         .then(response => {
           this.loading = true;
           console.log(response);
-          this.companyData.firstname = response.body.firstname;
-          this.companyData.lastname = response.body.lastname;
-          this.companyData.empposition = response.body.empposition;
-          this.companyData.companyname = response.body.company;
-          this.companyData.areasinterest = response.body.tags;
-          this.companyData.activities = response.body.activities;
+          this.companyData.firstname = response.data.firstname;
+          this.companyData.lastname = response.data.lastname;
+          this.companyData.empposition = response.data.empposition;
+          this.companyData.companyname = response.data.company;
+          this.companyData.areasinterest = response.data.tags;
+          this.companyData.activities = response.data.activities;
         })
         .catch(error => {
           console.log(`error: ${error}`);
@@ -114,15 +118,15 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Hind+Madurai:700|Josefin+Sans:400,700|Leckerli+One|Open+Sans:400,400i,600,600i,700,700i&display=swap");
-h2{
-  font-family: 'Josefin Sans', sans-serif;
+h2 {
+  font-family: "Josefin Sans", sans-serif;
   font-size: 4rem;
   font-weight: bold;
 }
-.badges{
+.badges {
   text-align: left;
 }
-.badge{
+.badge {
   font-size: 14px;
   margin-right: 1rem;
 }
