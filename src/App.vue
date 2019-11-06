@@ -8,6 +8,7 @@
           ilp
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
         <b-navbar-nav>
           <b-nav-item left="true" :active='$route.name =="home"' to="/">Home</b-nav-item>
           <b-nav-item :active= '$route.name =="dashboard"' to="/dashboard">Dashboard</b-nav-item>
@@ -38,6 +39,7 @@
               <b-button size="sm" variant="danger" @click="cancel()">Cancel</b-button>
               <!-- Button with custom close trigger value -->
               <b-button size="sm" variant="success" @click="hide()">Submit</b-button>
+
             </template>
           </b-modal>
           <b-nav-item :active='$route.name =="signin"' to="/signin">Sign In</b-nav-item>
