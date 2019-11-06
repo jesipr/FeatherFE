@@ -1,9 +1,9 @@
 import router from '@/router';
-import Vue from 'vue';
+import axios from 'axios';
 
 const state = {
-    userid: null,
-    token: null,
+    userid: localStorage.getItem('userid'),
+    token: localStorage.getItem('token'),
 };
 
 const mutations = {
@@ -21,6 +21,9 @@ const getters = {
     isAuthenticated(state) {
         return state.token !== null;
     },
+    getProfilePath(state){
+        return '/profile/' + state.userid;
+    }
 };
 
 const actions = {
@@ -30,27 +33,26 @@ const actions = {
             email: authData.email,
             password: authData.password
         });
-        Vue.http.post("http://localhost:5000/Feather/signin", data_json, {
-                headers: {
-                    "Content-type": "application/json"
-                }
-            })
-            .then(response => {
+        console.log(data_json)
+        return new Promise((resolve, reject) => {
+            axios({url: 'http://localhost:5000/Feather/signin', data: data_json, method: 'POST'}).then(response => {
                 console.log(response);
-                if (response.body.token) {
-                    commit('authUser', { userid: authData.userid, token: response.body.token });
-                    localStorage.setItem('token', response.body.token);
-                    localStorage.setItem('userid', response.body.userid);
-                    router.replace('dashboard'); 
-
+                if (response.data.token) {
+                    localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('userid', response.data.userid);
+                    commit('authUser', { userid: response.data.userid, token: response.data.token });
+                    router.replace('/');
+                    resolve(response);
                 }
                 else {
-                    console.log('Login error');
+                    reject(error);
                 }
             })
             .catch(error => {
-                console.log(`error: ${error}`);
+                reject(error);
             });
+          })
+        
 
     },
     autoLogin({ commit }) {

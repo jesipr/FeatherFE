@@ -44,7 +44,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/SignIn.vue'),
     },
     {
-      path: '/profile',
+      path: '/profile/:id',
       name: 'profile',
       component: () => import(/* webpackChunkName: "about" */ './views/Profile.vue'),
       meta: { requiresAuth: true },
@@ -52,39 +52,35 @@ const router = new Router({
   ],
 });
 
-// router.beforeEach((to, from, next) => {
-//   let token = localStorage.getItem('token');
-//   let requireAuth = to.matched.some(record => record.meta.requiresAuth);
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem('token');
+  let requireAuth = to.matched.some(record => record.meta.requiresAuth);
 
-//   if (!requireAuth) {
-//     next();
-//   }
+  if (!requireAuth) {
+    next();
+  }
 
-//   if (requireAuth && !token) {
-//     next('/signin');
-//   }
+  if (requireAuth && !token) {
+    next('/signin');
+  }
 
-//   // if (to.path === '/login') {
-//   //   if (token) {
-//   //     axiosAuth.post('/verify-token').then(() => {
-//   //       next('/dashboard');
-//   //     }).catch(() => {
-//   //       next();
-//   //     });
-//   //   }
-//   //   else {
-//   //     next();
-//   //   }
-//   // }
+  // if (to.path === '/login') {
+  //   if (token) {
+  //     axiosAuth.post('/verify-token').then(() => {
+  //       next('/dashboard');
+  //     }).catch(() => {
+  //       next();
+  //     });
+  //   }
+  //   else {
+  //     next();
+  //   }
+  // }
 
-//   // if (requireAuth && token) {
-//   //   axiosAuth.post('/verify-token').then(() => {
-//   //     next();
-//   //   }).catch(() => {
-//   //     next('/login');
-//   //   })
-//   // }
-//   next();
-// });
+  if (requireAuth && token) {
+    next();
+  }
+  next();
+});
 
 export default router;
