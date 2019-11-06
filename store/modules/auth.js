@@ -30,14 +30,14 @@ const actions = {
             email: authData.email,
             password: authData.password
         });
-        axios({url: 'http://localhost:5000/Feather/signin', data: data_json, method: 'POST'}).then(response => {
+        console.log(data_json)
+        axios({url: 'http://localhost:5000/Feather/signin', data: data_json, method: 'POST', headers: {"Content-type": "application/json"}}).then(response => {
                 console.log(response);
-                if (response.body.token) {
-                    commit('authUser', { userid: authData.userid, token: response.body.token });
-                    localStorage.setItem('token', response.body.token);
-                    localStorage.setItem('userid', response.body.userid);
-                    router.replace('dashboard'); 
-
+                if (response.data.token) {
+                    commit('authUser', { userid: authData.userid, token: response.data.token });
+                    localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('userid', response.data.userid);
+                    router.replace('/');
                 }
                 else {
                     console.log('Login error');
