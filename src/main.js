@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import router from './router';
 import store from '../store/index';
+import Axios from 'axios';
 
 library.add(faUserPlus);
 library.add(faChartBar);
@@ -33,6 +34,12 @@ Vue.use(VueParticles);
 Vue.use(VueResource);
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
+
+Vue.$http = Axios;
+const token = localStorage.getItem('token')
+if (token) {
+  Vue.$http.defaults.headers.common['Authorization'] = token
+}
 
 new Vue({
   created() {
