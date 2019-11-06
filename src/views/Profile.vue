@@ -60,7 +60,6 @@ export default {
         areasinterest: [],
         activities: []
       },
-      loading: false
     };
   },
   methods: {

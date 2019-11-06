@@ -21,6 +21,9 @@ const getters = {
     isAuthenticated(state) {
         return state.token !== null;
     },
+    getProfilePath(state){
+        return '/profile/' + state.userid;
+    }
 };
 
 const actions = {
@@ -31,21 +34,25 @@ const actions = {
             password: authData.password
         });
         console.log(data_json)
-        axios({url: 'http://localhost:5000/Feather/signin', data: data_json, method: 'POST'}).then(response => {
+        return new Promise((resolve, reject) => {
+            axios({url: 'http://localhost:5000/Feather/signin', data: data_json, method: 'POST'}).then(response => {
                 console.log(response);
                 if (response.data.token) {
-                    commit('authUser', { userid: authData.userid, token: response.data.token });
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('userid', response.data.userid);
+                    commit('authUser', { userid: response.data.userid, token: response.data.token });
                     router.replace('/');
+                    resolve(response);
                 }
                 else {
-                    console.log('Login error');
+                    reject(error);
                 }
             })
             .catch(error => {
-                console.log(`error: ${error}`);
+                reject(error);
             });
+          })
+        
 
     },
     autoLogin({ commit }) {
