@@ -1,10 +1,18 @@
  <template>
   <div class="profile">
-    <!-- <div v-if="!loading">
-      <pacman-loader :loading="loading" :color="green" :size="30"></pacman-loader>
-    </div>-->
-
-    <div v-if="loading">
+    <div>
+      <b-jumbotron class="header-info">
+        <h1 class="display-4">{{companyData.firstname}} {{companyData.lastname}}</h1>
+        <p class="lead"><font-awesome-icon icon="suitcase" />
+        <span>
+          {{companyData.empposition}}
+          </span>
+          at 
+          <span>
+          {{companyData.companyname}}
+          </span>
+        </p>
+      </b-jumbotron>
       <b-container>
         <b-row no-gutter class="mt-5">
           <b-col md="6">
@@ -36,7 +44,11 @@
             </div>
             <div class="badges mt-1 mb-4">
               <div>
-                <b-badge v-for="activity in companyData.activities" variant="secondary">{{activity}}</b-badge>
+                <b-badge
+                  v-for="activity in companyData.activities"
+                  :key="activity.actid"
+                  variant="secondary"
+                >{{activity.actname}}</b-badge>
               </div>
             </div>
           </b-col>
@@ -47,7 +59,7 @@
 </template>
 <script>
 import Vue from "vue";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
@@ -59,7 +71,7 @@ export default {
         companyname: null,
         areasinterest: [],
         activities: []
-      },
+      }
     };
   },
   methods: {
@@ -82,24 +94,24 @@ export default {
     },
     init() {
       //Populate Profile Information at start
-      this.loading = false;
       var userid = localStorage.getItem("userid");
       var token = localStorage.getItem("token");
-      console.log(userid);
-      console.log(token);
       axios({
         url: "http://localhost:5000/Feather/getprofilebyuserid/" + userid,
         method: "get"
       })
         .then(response => {
-          this.loading = true;
-          console.log(response);
-          this.companyData.firstname = response.data.firstname;
-          this.companyData.lastname = response.data.lastname;
-          this.companyData.empposition = response.data.empposition;
-          this.companyData.companyname = response.data.company;
-          this.companyData.areasinterest = response.data.tags;
-          this.companyData.activities = response.data.activities;
+          if (response.data.company) {
+            console.log(response);
+            this.companyData.firstname = response.data.firstname;
+            this.companyData.lastname = response.data.lastname;
+            this.companyData.empposition = response.data.empposition;
+            this.companyData.companyname = response.data.company;
+            this.companyData.areasinterest = response.data.tags;
+            this.companyData.activities = response.data.activities;
+          } else {
+            //populate professor variables
+          }
         })
         .catch(error => {
           console.log(`error: ${error}`);
@@ -121,6 +133,9 @@ h2 {
   font-family: "Josefin Sans", sans-serif;
   font-size: 4rem;
   font-weight: bold;
+}
+.header-info {
+  text-align: left;
 }
 .badges {
   text-align: left;

@@ -10,7 +10,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'aos/dist/aos.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
-import { faUserPlus, faChartBar, faPlus, faUserGraduate, faSearch, faUserCircle, faTachometerAlt, faBuilding, } from '@fortawesome/free-solid-svg-icons';
+import { faSuitcase, faUserPlus, faChartBar, faPlus, faUserGraduate, faSearch, faUserCircle, faTachometerAlt, faBuilding, } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import router from './router';
@@ -19,6 +19,7 @@ import store from '../store/index';
 import Axios from 'axios';
 
 library.add(faUserPlus);
+library.add(faSuitcase);
 library.add(faChartBar);
 library.add(faSearch);
 library.add(faUserCircle);
