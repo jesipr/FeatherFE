@@ -20,24 +20,34 @@
           <b-container>
             <b-form @submit.stop.prevent="login">
               <b-form-group>
-                <b-form-input
-                  id="email-input"
-                  placeholder="Email"
-                  name="email-input"
-                  v-model="$v.form.email.$model"
-                  :state="$v.form.email.$dirty ? !$v.form.email.$error : null"
-                  aria-describedby="email-input-feedback"
-                ></b-form-input>
-                <b-form-invalid-feedback id="email-input-feedback">Please enter a valid email</b-form-invalid-feedback>
+                <b-input-group>
+                  <b-input-group-prepend is-text>
+                    <font-awesome-icon class="input-icon" icon="at" />
+                  </b-input-group-prepend>
+                  <b-form-input
+                    id="email-input"
+                    placeholder="Email"
+                    name="email-input"
+                    v-model="$v.form.email.$model"
+                    :state="$v.form.email.$dirty ? !$v.form.email.$error : null"
+                    aria-describedby="email-input-feedback"
+                  ></b-form-input>
+                  <b-form-invalid-feedback id="email-input-feedback">Please enter a valid email</b-form-invalid-feedback>
+                </b-input-group>
               </b-form-group>
               <b-form-group>
-                <b-form-input
+                <b-input-group>
+                  <b-input-group-prepend is-text>
+                    <font-awesome-icon class="input-icon" icon="lock" />
+                  </b-input-group-prepend>
+                  <b-form-input
                   id="password-input"
                   placeholder="Password"
                   name="password-input"
                   v-model="$v.form.password.$model"
                   type="password"
                 ></b-form-input>
+                </b-input-group>
               </b-form-group>
               <b-button id="submit-btn" type="submit">
                 <span v-show="!loading">Log In</span>
@@ -100,10 +110,10 @@ export default {
           );
         },
         error => {
-            this.loading = false;
-            console.log(error.response);
-            this.showLoginError = true;
-            this.loginErrorMessage = error.response.data.Error;
+          this.loading = false;
+          console.log(error.response);
+          this.showLoginError = true;
+          this.loginErrorMessage = error.response.data.Error;
         }
       );
     }
@@ -113,6 +123,10 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Hind+Madurai:700|Josefin+Sans:400,700|Leckerli+One|Open+Sans:400,400i,600,600i,700,700i&display=swap");
+.input-icon{
+ font-size: 18px;
+ color: #5c6672;
+}
 .container {
   padding: 0 2rem;
 }
