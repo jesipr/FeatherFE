@@ -23,7 +23,7 @@
                 <b-form-invalid-feedback id="password-input-feedback">Please enter your password</b-form-invalid-feedback>
               </b-input-group>
               <template>
-                <b-button @click="$bvModal.show('modal-name')">Search for Department</b-button>
+                <b-button @click="$bvModal.show('modal-name')">Search for Name</b-button>
                 <!--NEED TO SHOW RESULT OF SEARCH-->
                 <b-modal id="modal-name">
                   <template v-slot:modal-header="{ close }">
@@ -64,45 +64,30 @@
                 ></b-form-input>
                 <b-form-invalid-feedback id="lastName-input-feedback">Please enter your last Name</b-form-invalid-feedback>
               </b-input-group>
-              <!--Modal button to search for department-->
-              <template>
-                <b-button @click="$bvModal.show('modal-scoped')">Search for Department</b-button>
-                <b-modal id="modal-scoped">
-                  <template v-slot:modal-header="{ close }">
-                    <h5>Search for your Department.</h5>
-                  </template>
-                  <template v-slot:default="{ hide }">
-                    <!-- search bar -->
-                    <template>
-                      <!-- object value -->
-                      <model-select :options="options"
-                                    v-model="userInput.department"
-                                    placeholder="select item">
-                      </model-select>
-                    </template>
-                  </template>
-                  <template v-slot:modal-footer="{ cancel, ok }">
-                    <b-button size="sm" variant="success" @click="ok()">
-                      Submit
-                    </b-button>
-                    <b-button size="sm" variant="danger" @click="cancel()">
-                      Cancel
-                    </b-button>
-                  </template>
-                </b-modal>
-              </template>
-              <b-input-group prepend="Department" class="mt-3">
-                <b-form-input placeholder="First Name"
-                              v-model="$v.userInput.department.$model"
-                              :state="$v.userInput.department.$dirty ? !$v.userInput.department.$error : null"
-                              aria-describedby="department-input-feedback"
-                ></b-form-input>
+              <b-input-group class="mt-3">
+                <template>
+                  <!-- object value -->
+                  <model-select :options="options"
+                                v-model="$v.userInput.department.$model"
+                                :state="$v.userInput.department.$dirty ? !$v.userInput.department.$error : null"
+                                aria-describedby="department-input-feedback"
+                                placeholder="Search Department">
+                  </model-select>
+                </template>
                 <b-form-invalid-feedback id="department-input-feedback">Please enter your department</b-form-invalid-feedback>
               </b-input-group>
-              <b-button class="mt-4" :active='$route.name =="tagsandacts"' to="/add-actsandtags">Add Area of Interests and Activities</b-button>
-              <b-button v-on:click="signupProf" variant="warning" class="mt-4">Sign Up</b-button>
+              <b-button class="mt-4" v-b-toggle.collapse-1 variant="primary">Add Area of Interests and Activities</b-button>
+              <b-collapse id="collapse-1" class="mt-2">
+                <div class='ui three column centered grid'>
+                  <div class='column'>
+                    <activity-list v-bind:activities="activities"></activity-list>
+                    <create-activity v-on:create-activity="createActivity"></create-activity>
+                  </div>
+                </div>
+              </b-collapse>
             </b-form-group>
           </b-form>
+          <b-button v-on:click="signupProf" variant="warning" class="mt-4">Sign Up</b-button>
         </b-container>
       </div>
     </b-container>
@@ -111,13 +96,21 @@
 
 <script>
     /* eslint-disable */
-    import { ModelSelect } from 'vue-search-select'
-    import { validationMixin } from "vuelidate"
-    import { required, minLength, email } from "vuelidate/lib/validators"
+    import { ModelSelect } from 'vue-search-select';
+    import { validationMixin } from "vuelidate";
+    import { required, minLength, email } from "vuelidate/lib/validators";
+    import sweetalert from 'sweetalert';
+    import ActivityList from "../components/ActivityList";
+    import createActivity from "../components/createActivity";
     export default {
         mixins: [validationMixin],
         data() {
             return {
+                activities: [{
+                    title: 'example',
+                    timeStart: '01/1997',
+                    fundRange: '$5k - $10k',
+                }],
                 //value sets the value of the option chosen, text is the displayed text of the option
                 options: [
                     { value: 'ICOM', text: 'ICOM' },
@@ -165,13 +158,22 @@
             },
         },
         methods: {
-            signupProf: function (event) {
-                if (this.userInput.email === '' || this.userInput.password === '' || this.userInput.department === '' || this.userInput.lastName === ''
-                    || this.userInput.firstName === '' ) {
-                    alert('MALO MALO');
+            signupProf: function () {
+                this.$v.userInput.$touch();
+                if (this.$v.userInput.$anyError) {
+                    return;
                 } else {
-                    this.$http.post('http://localhost:5000/Feather/company/signup/', {
-
+                    const data_json = JSON.stringify({
+                        email: this.userInput.email,
+                        password: this.userInput.password,
+                        firstname: this.userInput.firstName,
+                        lastname: this.userInput.lastName,
+                        department: this.userInput.department,
+                    });
+                    this.$http.post('http://localhost:5000/Feather/professor/signup', data_json,{
+                        headers: {
+                            "Content-type": "application/json"
+                        }
                     }).then(function (data) {
                         console.log(data);
                     });
@@ -182,7 +184,8 @@
                     firstname: this.name_data.firstname,
                     lastname: this.name_data.lastname
                 });
-                this.$http.get('http://localhost:5000/Feather/professor/signup/findname', data_json, {
+                this.$http.get('http://localhost:5000/Feather/professor/signup/findname'+'/'+this.name_data.firstname+'/'
+                    +this.name_data.lastname, {
                     headers: {
                         "Content-type": "application/json"
                     }
@@ -193,10 +196,18 @@
                     .catch(error => {
                         console.log(`error: ${error}`);
                     });
-            }
+            },
+            createActivity(newAct) {
+                this.activities.push(newAct);
+                sweetalert('Success!', 'Activity created!', 'success');
+
+                console.log(this.activities);
+            },
         },
         components: {
-            ModelSelect
+            ModelSelect,
+            ActivityList,
+            createActivity,
         },
     };
 </script>

@@ -146,8 +146,18 @@
                 if (this.$v.form.$anyError) {
                     return;
                 } else {
-                this.$http.post('http://localhost:5000/Feather/company/signup/', {
-
+                    const data_json = JSON.stringify({
+                        email: this.form.email,
+                        password: this.form.password,
+                        firstname: this.form.firstName,
+                        lastname: this.form.lastName,
+                        position: this.form.position,
+                        compname: this.form.compName,
+                    });
+                    this.$http.post('http://localhost:5000/Feather/company/signup', data_json, {
+                        headers: {
+                            "Content-type": "application/json"
+                        }
                     }).then(function (data) {
                         console.log(data);
                     });
