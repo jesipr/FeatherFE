@@ -1,21 +1,23 @@
 <template>
   <div class="tags">
     <b-container fluid class="text-center">
-      <div class="white-card rounded shadow mt-5" v-show="!isEditing">
+      <div v-show="!isEditing">
         <div>
           <b-container class="bv-example-row">
             <b-row>
-              <b-col>{{tag.title}}</b-col>
+              <b-card no-body class="colum-1">
+                <span>
+                  {{tag.title}}
+                  <b-button append variant="danger" size="sm" v-on:click="deleteTag(tag)" squared>
+                    <i class="trash icon">X</i>
+                  </b-button>
+                </span>
+              </b-card>
+<!--                <b-button class="right floated trash icon" v-on:click="deleteTag(tag)" pill>-->
+<!--                  <i class="trash icon">X</i>-->
+<!--                </b-button>-->
             </b-row>
           </b-container>
-        </div>
-        <div>
-          <b-button class="right floated edit icon" v-on:click="showForm">
-            <i class="edit icon">Edit</i>
-          </b-button>
-          <b-button class="right floated trash icon" v-on:click="deleteAct(tag)">
-            <i class="trash icon">Trash</i>
-          </b-button>
         </div>
       </div>
     </b-container>
@@ -39,7 +41,7 @@
             };
         },
         methods: {
-            deleteAct(tag) {
+            deleteTag(tag) {
                 this.$emit('delete-tag', tag);
             },
             showForm() {
@@ -53,5 +55,7 @@
 </script>
 
 <style scoped>
-
+  .colum-1 {
+    background-color: white;
+  }
 </style>

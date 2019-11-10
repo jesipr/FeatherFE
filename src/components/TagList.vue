@@ -1,8 +1,10 @@
 <template>
   <div>
-    <tag v-on:delete-tag="deleteTag"
-              v-for="tag in tags"
-              :tag.sync="tag"></tag>
+    <b-card-group>
+      <tag v-on:delete-tag="deleteTag"
+                v-for="tag in tags"
+                :tag.sync="tag"></tag>
+    </b-card-group>
   </div>
 </template>
 

@@ -9,15 +9,22 @@
           <b-input-group prepend="Activity" class="mts-3">
             <b-form-input v-model="title" placeholder="Activity title" type="text"></b-form-input>
             <b-form-input v-model="timeStart" placeholder="mm/yyyy" type="text"></b-form-input>
-            <b-form-input v-model="fundRange" placeholder="$5k - $10k" type="text"></b-form-input>
+            <template>
+              <!-- object value -->
+<!--              <model-select :options="options"-->
+<!--                            v-model="fundRange"-->
+<!--                            placeholder="Choose the range of funds received">-->
+<!--              </model-select>-->
+              <b-form-select v-model="fundRange" :options="options"></b-form-select>
+            </template>
           </b-input-group>
           <div class='ui two button attached buttons'>
-            <button class='ui basic blue button' v-on:click="sendForm()">
+            <b-button variant="secondary" v-on:click="sendForm()">
               Create
-            </button>
-            <button class='ui basic red button' v-on:click="closeForm">
+            </b-button>
+            <b-button variant="primary" v-on:click="closeForm">
               Cancel
-            </button>
+            </b-button>
           </div>
         </div>
       </div>
@@ -26,13 +33,23 @@
 </template>
 
 <script>
+    import { ModelSelect } from 'vue-search-select';
     export default {
+        components: {
+            ModelSelect
+        },
         data() {
             return {
                 title: '',
                 timeStart: '',
                 fundRange: '',
                 isCreating: false,
+                options: [
+                    { value: '-$5k', text: '-$5k' },
+                    { value: '$5k - $10k', text: '$5k - $10k' },
+                    { value: '+$10k', text: '+$10k' },
+                    { value: '', text: 'Select'}
+                ],
             };
         },
         methods: {

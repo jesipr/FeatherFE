@@ -1,7 +1,7 @@
 <template>
   <div class='ui basic content center aligned segment'>
     <b-button class='ui basic button icon' v-on:click="openForm" v-show="!isCreating">
-      <i class='plus icon'>+</i>
+      +
     </b-button>
     <div class="mt-5" v-show="isCreating">
       <div class='content'>
@@ -10,12 +10,12 @@
             <b-form-input v-model="title" placeholder="Area of interest" type="text"></b-form-input>
           </b-input-group>
           <div class='ui two button attached buttons'>
-            <button class='ui basic blue button' v-on:click="sendForm()">
+            <b-button variant="primary" @click.self.stop="sendForm">
               Create
-            </button>
-            <button class='ui basic red button' v-on:click="closeForm">
+            </b-button>
+            <b-button variant="secondary" @click="closeForm">
               Cancel
-            </button>
+            </b-button>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@
             sendForm() {
                 if (this.title.length > 0) {
                     const title = this.title;
-                    this.$emit('create-activity', {
+                    this.$emit('create-tag', {
                         title,
                     });
                     this.title = '';

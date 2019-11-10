@@ -4,7 +4,7 @@
       <div class="mx-auto white-card rounded shadow mt-5">
         <h4>Welcome to ILP</h4>
         <b-container>
-          <b-form @submit.stop.prevent="signupComp">
+          <b-form @submit.stop.prevent="signup">
             <b-form-group>
               <b-input-group prepend="Email" class="mts-3">
                 <b-form-input placeholder="Email"
@@ -16,6 +16,7 @@
               </b-input-group>
               <b-input-group prepend="Password" class="mt-3">
                 <b-form-input placeholder="Password"
+                              type="password"
                               v-model="$v.form.password.$model"
                               :state="$v.form.password.$dirty ? !$v.form.password.$error : null"
                               aria-describedby="password-input-feedback"
@@ -46,6 +47,19 @@
                 ></b-form-input>
                 <b-form-invalid-feedback id="position-input-feedback">Please enter your position</b-form-invalid-feedback>
               </b-input-group>
+              <div>
+                <b-button class="mt-4" v-b-toggle.collapse-2 variant="primary">Add Area of Interests</b-button>
+                <b-collapse id="collapse-2" class="mt-2">
+                  <div class='ui three column centered grid'>
+                    <div class='column'>
+                      <b-row class="tags-area">
+                        <tag-list v-bind:tags="tags"></tag-list>
+                      </b-row>
+                      <create-tag v-on:create-tag="createTag"></create-tag>
+                    </div>
+                  </div>
+                </b-collapse>
+              </div>
               <!--Modal button to search company-->
               <template>
                 <b-button @click="$bvModal.show('modal-scoped')">Search for Company</b-button>
@@ -81,8 +95,8 @@
                 ></b-form-input>
                 <b-form-invalid-feedback id="company-input-feedback">Please enter your company's official name</b-form-invalid-feedback>
               </b-input-group>
-              <b-button v-on:click="signupComp" variant="warning" class="mt-4">Sign Up</b-button>
             </b-form-group>
+            <b-button v-on:click.self="signup" variant="warning" class="mt-4">Sign Up</b-button>
           </b-form>
         </b-container>
       </div>
@@ -91,8 +105,10 @@
 </template>
 
 <script>
-    import { validationMixin } from "vuelidate"
-    import { required, minLength, email } from "vuelidate/lib/validators"
+    import { validationMixin } from "vuelidate";
+    import { required, minLength, email } from "vuelidate/lib/validators";
+    import createTag from "../components/createTag";
+    import TagList from "../components/TagList";
   //import { ModelSelect } from 'vue-search-select'
 
   export default {
@@ -115,7 +131,11 @@
                   position: '',
                   compName: '',
               },
+              tags: [],
           };
+      },
+      watch: {
+        'tagged': function() {return this.$store.state.create_tag;}
       },
       validations: {
           form: {
@@ -141,7 +161,7 @@
           },
         },
         methods: {
-            signupComp: function (event) {
+            signup: function () {
                 this.$v.form.$touch();
                 if (this.$v.form.$anyError) {
                     return;
@@ -153,6 +173,7 @@
                         lastname: this.form.lastName,
                         position: this.form.position,
                         compname: this.form.compName,
+                        tags: this.tags,
                     });
                     this.$http.post('http://localhost:5000/Feather/company/signup', data_json, {
                         headers: {
@@ -163,9 +184,15 @@
                     });
                 }
             },
+            createTag: function(newTag) {
+                this.tags.push(newTag);
+                console.log(this.tags);
+            },
         },
         components: {
-            //ModelSelect
+            //ModelSelect,
+            TagList,
+            createTag,
         },
     };
 </script>
@@ -181,5 +208,10 @@
   .white-card {
     width: 450px;
     background: #337137;
+  }
+  .tags-area{
+    background-color: #9cb99d;
+    margin-right: 0px;
+    margin-left: 0px;
   }
 </style>

@@ -1,23 +1,23 @@
 <template>
   <div class="tagsandacts">
     <b-container fluid class="text-center">
-      <div class="white-card rounded shadow mt-5" v-show="!isEditing">
+      <div v-show="!isEditing">
         <div>
-          <b-container class="bv-example-row">
-            <b-row>
-              <b-col>{{activity.title}}</b-col>
-              <b-col>{{activity.timeStart}}</b-col>
-              <b-col>{{activity.fundRange}}</b-col>
-            </b-row>
-          </b-container>
-        </div>
-        <div>
-          <b-button class="right floated edit icon" v-on:click="showForm">
-            <i class="edit icon">Edit</i>
-          </b-button>
-          <b-button class="right floated trash icon" v-on:click="deleteAct(activity)">
-            <i class="trash icon">Trash</i>
-          </b-button>
+          <b-card no-body class="colum-1">
+            <b-container class="bv-example-row">
+              <b-row>
+                <b-col>{{activity.title}}</b-col>
+                <b-col>{{activity.timeStart}}</b-col>
+                <b-col>{{activity.fundRange}}</b-col>
+                <b-button class="right floated edit icon" size="sm" v-on:click="showForm" pill>
+                  <i class="edit icon">Edit</i>
+                </b-button>
+                <b-button class="right floated trash icon" size="sm" variant="danger" v-on:click="deleteAct(activity)" pill>
+                  <i class="trash icon">X</i>
+                </b-button>
+              </b-row>
+            </b-container>
+          </b-card>
         </div>
       </div>
     </b-container>
