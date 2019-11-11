@@ -410,7 +410,7 @@ h2 {
 }
 .activities-header h3 {
   font-family: "Open Sans", sans-serif;
-  margin-bottom: none;
+  margin-bottom: 0;
   font-weight: bold;
   text-align: left;
   margin-bottom: 0;
