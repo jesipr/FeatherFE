@@ -10,14 +10,12 @@
             <b-form-input v-model="title" placeholder="Activity title" type="text"></b-form-input>
             <b-form-input v-model="timeStart" placeholder="mm/yyyy" type="text"></b-form-input>
             <template>
-              <!-- object value -->
-<!--              <model-select :options="options"-->
-<!--                            v-model="fundRange"-->
-<!--                            placeholder="Choose the range of funds received">-->
-<!--              </model-select>-->
               <b-form-select v-model="fundRange" :options="options"></b-form-select>
             </template>
           </b-input-group>
+          <template>
+            <b-form-textarea size="sm" v-model="description" placeholder="Description"></b-form-textarea>
+          </template>
           <div class='ui two button attached buttons'>
             <b-button variant="secondary" v-on:click="sendForm()">
               Create
@@ -43,6 +41,7 @@
                 title: '',
                 timeStart: '',
                 fundRange: '',
+                description: '',
                 isCreating: false,
                 options: [
                     { value: '-$5k', text: '-$5k' },
