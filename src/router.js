@@ -44,7 +44,7 @@ export default new Router({
     {
       path: '/add-actsandtags',
       name: 'tagsandacts',
-      component: () => import(/* webpackChunkName: "about" */ './views/tagsAndActsSU.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/addActs.vue'),
     },
   ],
 });
