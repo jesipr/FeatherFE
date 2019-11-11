@@ -47,19 +47,6 @@
                 ></b-form-input>
                 <b-form-invalid-feedback id="position-input-feedback">Please enter your position</b-form-invalid-feedback>
               </b-input-group>
-              <div>
-                <b-button class="mt-4" v-b-toggle.collapse-2 variant="primary">Add Area of Interests</b-button>
-                <b-collapse id="collapse-2" class="mt-2">
-                  <div class='ui three column centered grid'>
-                    <div class='column'>
-                      <b-row class="tags-area">
-                        <tag-list v-bind:tags="tags"></tag-list>
-                      </b-row>
-                      <create-tag v-on:create-tag="createTag"></create-tag>
-                    </div>
-                  </div>
-                </b-collapse>
-              </div>
               <!--Modal button to search company-->
               <template>
                 <b-button @click="$bvModal.show('modal-scoped')">Search for Company</b-button>
@@ -95,6 +82,19 @@
                 ></b-form-input>
                 <b-form-invalid-feedback id="company-input-feedback">Please enter your company's official name</b-form-invalid-feedback>
               </b-input-group>
+              <div>
+                <b-button class="mt-4" v-b-toggle.collapse-2 variant="primary">Add Area of Interests</b-button>
+                <b-collapse id="collapse-2" class="mt-2">
+                  <div class='ui three column centered grid'>
+                    <div class='column'>
+                      <b-row class="tags-area">
+                        <tag-list v-bind:tags="tags"></tag-list>
+                      </b-row>
+                      <create-tag v-on:create-tag="createTag"></create-tag>
+                    </div>
+                  </div>
+                </b-collapse>
+              </div>
             </b-form-group>
             <b-button v-on:click.self="signup" variant="warning" class="mt-4">Sign Up</b-button>
           </b-form>
