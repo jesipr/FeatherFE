@@ -140,6 +140,7 @@ export default {
   height: 100vh;
 }
 #bg-signin {
+  /*noinspection CssUnknownTarget*/
   background-image: url("~@/assets/uprm.jpg");
   background-size: cover;
   background-position: center;
