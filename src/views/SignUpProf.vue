@@ -51,16 +51,16 @@
               </template>
               <b-input-group prepend="First Name" class="mt-3">
                 <b-form-input placeholder="First Name"
-                              v-model="$v.form.firstName.$model"
-                              :state="$v.form.firstName.$dirty ? !$v.form.firstName.$error : null"
+                              v-model="$v.form.firstname.$model"
+                              :state="$v.form.firstname.$dirty ? !$v.form.firstname.$error : null"
                               aria-describedby="firstName-input-feedback"
                 ></b-form-input>
                 <b-form-invalid-feedback id="firstName-input-feedback">Please enter your First Name</b-form-invalid-feedback>
               </b-input-group>
               <b-input-group prepend="Last Name" class="mt-3">
                 <b-form-input placeholder="Last Name"
-                              v-model="$v.form.lastName.$model"
-                              :state="$v.form.lastName.$dirty ? !$v.form.lastName.$error : null"
+                              v-model="$v.form.lastname.$model"
+                              :state="$v.form.lastname.$dirty ? !$v.form.lastname.$error : null"
                               aria-describedby="lastName-input-feedback"
                 ></b-form-input>
                 <b-form-invalid-feedback id="lastName-input-feedback">Please enter your last Name</b-form-invalid-feedback>
@@ -76,6 +76,14 @@
                   </model-select>
                 </template>
                 <b-form-invalid-feedback id="department-input-feedback">Please enter your department</b-form-invalid-feedback>
+              </b-input-group>
+              <b-input-group prepend="Position" class="mt-3">
+                <b-form-input placeholder="Your position as faculty"
+                              v-model="$v.form.acadpos.$model"
+                              :state="$v.form.acadpos.$dirty ? !$v.form.acadpos.$error : null"
+                              aria-describedby="acadpos-input-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="acadpos-input-feedback">Please enter your position</b-form-invalid-feedback>
               </b-input-group>
               <div>
                 <b-button class="mt-4" v-b-toggle.collapse-1 variant="primary">Add Activities</b-button>
@@ -143,10 +151,10 @@
                 form: {
                     email: '',
                     password: '',
-                    firstName: '',
-                    lastName: '',
+                    firstname: '',
+                    lastname: '',
                     department: '',
-
+                    acadpos: ''
                 },
                 //for name search
                 name_data:{
@@ -164,15 +172,18 @@
                 password: {
                     required
                 },
-                firstName: {
+                firstname: {
                     required
                 },
-                lastName: {
+                lastname: {
                     required
                 },
                 department: {
                     required
                 },
+                acadpos: {
+                    required
+                }
             },
         },
         methods: {
@@ -184,9 +195,10 @@
                     const data_json = JSON.stringify({
                         email: this.form.email,
                         password: this.form.password,
-                        firstname: this.form.firstName,
-                        lastname: this.form.lastName,
+                        firstname: this.form.firstname,
+                        lastname: this.form.lastname,
                         department: this.form.department,
+                        acadpos: this.form.acadpos,
                         tags: this.tags,
                         activities: this.activities
                     });
@@ -207,7 +219,8 @@
                     }
                 })
                     .then(response => {
-                        console.log(response);
+                        console.log(response.data);
+                        this.activities.push(response.data['Activities']);
                     })
                     .catch(error => {
                         console.log(`error: ${error}`);

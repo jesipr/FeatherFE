@@ -7,10 +7,10 @@
       <div class='content'>
         <div class='ui form'>
           <b-input-group prepend="Activity" class="mts-3">
-            <b-form-input v-model="title" placeholder="Activity title" type="text"></b-form-input>
-            <b-form-input v-model="timeStart" placeholder="mm/yyyy" type="text"></b-form-input>
+            <b-form-input v-model="actname" placeholder="Activity title" type="text"></b-form-input>
+            <b-form-input v-model="actname" placeholder="mm/yyyy" type="text"></b-form-input>
             <template>
-              <b-form-select v-model="fundRange" :options="options"></b-form-select>
+              <b-form-select v-model="fundrange" :options="options"></b-form-select>
             </template>
           </b-input-group>
           <template>
@@ -38,9 +38,9 @@
         },
         data() {
             return {
-                title: '',
-                timeStart: '',
-                fundRange: '',
+                actname: '',
+                actdate: '',
+                fundrange: '',
                 description: '',
                 isCreating: false,
                 options: [
@@ -60,17 +60,20 @@
             },
             sendForm() {
                 if (this.title.length > 0 && this.timeStart.length > 0 && this.fundRange.length > 0) {
-                    const title = this.title;
-                    const timeStart = this.timeStart;
-                    const fundRange = this.fundRange;
+                    const actname = this.actname;
+                    const actdate = this.actdate;
+                    const fundrange = this.fundrange;
+                    const description = this.description;
                     this.$emit('create-activity', {
-                        title,
-                        timeStart,
-                        fundRange,
+                        actname,
+                        actdate,
+                        fundrange,
+                        description,
                     });
-                    this.title = '';
-                    this.timeStart = '';
-                    this.fundRange = '';
+                    this.actname = '';
+                    this.actdate = '';
+                    this.fundrange = '';
+                    this.description = '';
                     this.isCreating = false;
                 }
             },
