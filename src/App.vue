@@ -46,7 +46,7 @@
         </b-navbar-nav>
         <b-navbar-nav v-else class="ml-auto">
           <b-nav-item class="mr-2" :active='$route.name =="profile"' :to="getPath">My Profile</b-nav-item>
-          <b-button class="btn-logout" v-on:click="logout">Log Out</b-button>
+          <b-nav-item class="mr-2" v-on:click="logout">Log Out</b-nav-item>
         </b-navbar-nav>
       </b-navbar>
     </div>
