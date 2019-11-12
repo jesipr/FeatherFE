@@ -9,10 +9,10 @@
     <div v-show="!loading">
       <b-jumbotron class="header-info" data-aos="fade-up">
         <b-row align-v="center" no-gutter>
-          <b-col class md="5">
+          <b-col class sm="5" md="5">
             <h1 class="display-3">{{profileData.firstname}} {{profileData.lastname}}</h1>
           </b-col>
-          <b-col class="profile-info" md="7">
+          <b-col class="profile-info" sm="7" md="7">
             <div class="profile-position">
               <b-row>
                 <b-col>
@@ -20,7 +20,7 @@
                     <font-awesome-icon icon="suitcase" />Position
                   </h4>
                   <p>
-                    <span>{{profileData.position}} </span>
+                    <span>{{profileData.position}}</span>
                     <span v-show="profileData.isCompany">at {{profileData.companyname}}</span>
                   </p>
                 </b-col>
@@ -98,6 +98,18 @@
                 <b-form-invalid-feedback id="editposition-feedback">Do not exceed 50 characters</b-form-invalid-feedback>
               </b-input-group>
             </b-form-group>
+            <b-form-group v-show="profileData.isProfessor">
+              <b-input-group>
+                <b-input-group-prepend is-text>Department</b-input-group-prepend>
+                <b-form-input
+                  id="editposition-input"
+                  v-model="$v.editProfileData.department.$model"
+                  :state="$v.editProfileData.department.$dirty ? !$v.editProfileData.department.$error : null"
+                  aria-describedby="editdepartment-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="editdepartment-feedback">Do not exceed 25 characters</b-form-invalid-feedback>
+              </b-input-group>
+            </b-form-group>
           </b-form>
           <div>
             <label class="typo__label">Areas of Interest:</label>
@@ -110,8 +122,11 @@
               :options="editProfileData.areasinterest"
               :multiple="true"
               :taggable="true"
+              :state="$v.editProfileData.position.$dirty ? !$v.editProfileData.position.$error : null"
+              aria-describedby="editAreasInterest-feedback"
               @tag="addTag"
             ></multiselect>
+            <b-form-invalid-feedback id="editAreasInterest-feedback">Do not exceed 50 characters</b-form-invalid-feedback>
           </div>
 
           <template v-slot:modal-footer="{ ok, cancel }">
@@ -121,7 +136,7 @@
         </b-modal>
 
         <b-container>
-          <b-row align-h="end">
+          <b-row id="edit-btn-section" align-h="end">
             <b-col></b-col>
             <b-col class="text-right">
               <b-button
@@ -138,20 +153,18 @@
         </b-container>
       </b-jumbotron>
       <b-container>
-        <b-row no-gutter class="mt-5">
-          <div class="activities-header">
-            <h3>Activities</h3>
+        <div class="activities-header">
+          <h3>Activities</h3>
+        </div>
+        <div class="badges mt-1 mb-4">
+          <div>
+            <b-badge
+              v-for="activity in profileData.activities"
+              :key="activity.actid"
+              variant="secondary"
+            >{{activity.actname}}</b-badge>
           </div>
-          <div class="badges mt-1 mb-4">
-            <div>
-              <b-badge
-                v-for="activity in profileData.activities"
-                :key="activity.actid"
-                variant="secondary"
-              >{{activity.actname}}</b-badge>
-            </div>
-          </div>
-        </b-row>
+        </div>
       </b-container>
     </div>
   </div>
@@ -198,6 +211,9 @@ export default {
       lastname: {
         maxLength: maxLength(25)
       },
+      department: {
+        maxLength: maxLength(25)
+      },
       position: {
         maxLength: maxLength(50)
       }
@@ -215,6 +231,7 @@ export default {
       this.editProfileData.firstname = this.profileData.firstname;
       this.editProfileData.lastname = this.profileData.lastname;
       this.editProfileData.position = this.profileData.position;
+      this.editProfileData.department = this.profileData.department;
       this.editProfileData.areasinterest = Array.from(
         this.profileData.areasinterest
       );
@@ -224,6 +241,7 @@ export default {
       this.editProfileData.firstname = this.profileData.firstname;
       this.editProfileData.lastname = this.profileData.lastname;
       this.editProfileData.position = this.profileData.position;
+      this.editProfileData.department = this.profileData.department;
       this.$bvModal.hide("modalEditProfile");
     },
     editProfile() {
@@ -245,16 +263,23 @@ export default {
         })
         .then(confirm => {
           if (confirm) {
-            this.loading = true;
-            var userid = localStorage.getItem("userid");
-            const profile_info_edited = JSON.stringify({
-              userid: userid,
-              firstname: this.editProfileData.firstname,
-              lastname: this.editProfileData.lastname,
-              position: this.editProfileData.position,
-              tags: this.editProfileData.areasinterest
-            });
-            console.log(profile_info_edited);
+            this.$bvModal.hide("modalEditProfile");
+            this.profileData.firstname = this.editProfileData.firstname;
+            this.profileData.lastname = this.editProfileData.lastname;
+            this.profileData.position = this.editProfileData.position;
+            this.profileData.department = this.editProfileData.department;
+            this.profileData.areasinterest = this.editProfileData.areasinterest;
+            //this.loading = true;
+            // var userid = localStorage.getItem("userid");
+            // const profile_info_edited = JSON.stringify({
+            //   userid: userid,
+            //   firstname: this.editProfileData.firstname,
+            //   lastname: this.editProfileData.lastname,
+            //   department: this.editProfileData.department,
+            //   position: this.editProfileData.position,
+            //   tags: this.editProfileData.areasinterest
+            // });
+            // console.log(profile_info_edited);
             // axios({
             //   url: "http://localhost:5000/Feather/getprofilebyuserid/",
             //   data: data_json,
@@ -355,9 +380,12 @@ export default {
 p {
   font-family: "Open Sans", sans-serif;
 }
+#edit-btn-section {
+  height: 0;
+}
 #edit-profile-btn {
   position: relative;
-  top: 20px;
+  top: -5px;
 }
 h2 {
   font-family: "Josefin Sans", sans-serif;
@@ -396,7 +424,7 @@ h2 {
   width: 60%;
 }
 .jumbotron {
-  padding: 1rem 1.5rem 0rem 1.5rem;
+  padding: 1rem 1.5rem 1rem 1.5rem;
   background-color: #313e50;
   border-radius: 0;
   color: white;
@@ -415,16 +443,17 @@ h2 {
   text-align: left;
   margin-bottom: 0;
 }
-.multiselect__select{
+.multiselect__select {
   display: none;
 }
-.multiselect__tag-icon:after{
+.multiselect__tag-icon:after {
   color: white;
 }
-.multiselect__tag-icon:focus, .multiselect__tag-icon:hover {
-    background: #242e3b;
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+  background: #242e3b;
 }
-.multiselect__tag{
+.multiselect__tag {
   background: #313e50;
 }
 </style>
