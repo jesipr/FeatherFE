@@ -130,6 +130,7 @@
     import createActivity from "../components/createActivity";
     import createTag from "../components/createTag";
     import TagList from "../components/TagList";
+    
     export default {
         mixins: [validationMixin],
         data() {
