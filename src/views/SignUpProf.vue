@@ -161,6 +161,8 @@
                     firstname: '',
                     lastname: '',
                 },
+                arr: [],
+                Val: 0,
             };
         },
         validations: {
@@ -190,7 +192,7 @@
             signup: function () {
                 this.$v.form.$touch();
                 if (this.$v.form.$anyError) {
-                    return;
+                    sweetalert('Error', 'Please fill in all required fields.', 'error');
                 } else {
                     const data_json = JSON.stringify({
                         email: this.form.email,
@@ -200,14 +202,15 @@
                         department: this.form.department,
                         acadpos: this.form.acadpos,
                         tags: this.tags,
-                        activities: this.activities
+                        activities: this.activities,
+                        Val: this.Val
                     });
                     this.$http.post('http://localhost:5000/Feather/professor/signup', data_json,{
                         headers: {
                             "Content-type": "application/json"
                         }
-                    }).then(function (data) {
-                        console.log(data);
+                    }).then(function (response) {
+                        this.$router.push('/signin')
                     });
                 }
             },
@@ -220,11 +223,27 @@
                 })
                     .then(response => {
                         console.log(response.data);
-                        this.activities.push(response.data['Activities']);
+                        this.arr.push(response.data['Professor']);
+                        this.Val = response.data['Val'];
+                        console.log(this.arr);
+                        this.form.acadpos = this.arr[0]['acadpos'];
+                        this.form.firstname = this.arr[0]['firstname'];
+                        this.form.lastname = this.arr[0]['lastname'];
+                        this.form.department = this.arr[0]['depid'];
                     })
                     .catch(error => {
                         console.log(`error: ${error}`);
                     });
+            },
+            convertDepId(depid){
+                if (depid === '1'){
+                    return 'ICOM';
+                }
+            },
+            convertDepartment(department){
+                if (department === 'ICOM'){
+                    return '1';
+                }
             },
             createActivity(newAct) {
                 this.activities.push(newAct);

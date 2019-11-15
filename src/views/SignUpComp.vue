@@ -56,13 +56,10 @@
                   </template>
                   <template v-slot:default="{ hide }">
                    <!-- search bar -->
-                    <template>
-                      <!-- object value -->
-                      <model-select :options="options"
-                                    v-model="form.compName"
-                                    placeholder="select item">
-                      </model-select>
-                    </template>
+                    <model-select :options="options"
+                                  v-model="form.compName"
+                                  placeholder="select item">
+                    </model-select>
                   </template>
                   <template v-slot:modal-footer="{ cancel, ok }">
                     <b-button size="sm" variant="success" @click="ok()">
@@ -109,9 +106,10 @@
     import { required, minLength, email } from "vuelidate/lib/validators";
     import createTag from "../components/createTag";
     import TagList from "../components/TagList";
-  //import { ModelSelect } from 'vue-search-select'
+    import { ModelSelect } from 'vue-search-select';
+    import sweetalert from 'sweetalert';
 
-  export default {
+    export default {
       mixins: [validationMixin],
       data() {
           return {
@@ -164,7 +162,7 @@
             signup: function () {
                 this.$v.form.$touch();
                 if (this.$v.form.$anyError) {
-                    return;
+                    sweetalert('Error', 'Please fill in all required fields.', 'error');
                 } else {
                     const data_json = JSON.stringify({
                         email: this.form.email,
@@ -190,7 +188,7 @@
             },
         },
         components: {
-            //ModelSelect,
+            ModelSelect,
             TagList,
             createTag,
         },
