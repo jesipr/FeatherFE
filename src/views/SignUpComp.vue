@@ -177,9 +177,13 @@
                         headers: {
                             "Content-type": "application/json"
                         }
-                    }).then(function (data) {
+                    }).then(response => {
                         console.log(data);
-                    });
+                        this.$router.push('/signin')
+                    },
+                        error => {
+                            sweetalert('Error', 'Something went wrong.', 'error');
+                        });
                 }
             },
             createTag: function(newTag) {
