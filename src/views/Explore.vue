@@ -74,7 +74,7 @@ export default {
         loading: true,
         search: false,
     	pagination: {
-            fields: [],
+        fields: [],
 	    	items: [],
 	    	perPage: 3,
 	    	currentPage: 1,
