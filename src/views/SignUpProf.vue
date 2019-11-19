@@ -1,10 +1,28 @@
 <template>
   <div class="signupprof">
     <b-container fluid class="text-center">
-      <div class="mx-auto white-card rounded shadow mt-5">
+      <div class="mx-auto white-card rounded shadow mt-5" v-show="isVerifying">
+        <h4>Validation</h4>
+        <b-container>
+          <b-form @submit.stop="signup">
+            <b-form-group>
+              <b-input-group class="mts-3">
+                <b-form-input placeholder="Valid Code"
+                              v-model="valcode"
+                              type="text"
+                ></b-form-input>
+              </b-input-group>
+            </b-form-group>
+          </b-form>
+          <div>
+            <b-button v-on:click="signup" variant="warning" class="mt-4">Validate</b-button>
+          </div>
+        </b-container>
+      </div>
+      <div class="mx-auto white-card rounded shadow mt-5" v-show="!isVerifying">
         <h4>Welcome to ILP</h4>
         <b-container>
-          <b-form @submit.stop.prevent="signup">
+          <b-form @submit.stop="verify">
             <b-form-group>
               <b-input-group prepend="Email" class="mts-3">
                 <b-form-input placeholder="Email"
@@ -112,7 +130,7 @@
             </b-form-group>
           </b-form>
           <div>
-            <b-button v-on:click="signup" variant="warning" class="mt-4">Sign Up</b-button>
+            <b-button v-on:click="verify" variant="warning" class="mt-4">Sign Up</b-button>
           </div>
         </b-container>
       </div>
@@ -124,7 +142,7 @@
     /* eslint-disable */
     import { ModelSelect } from 'vue-search-select';
     import { validationMixin } from "vuelidate";
-    import { required, minLength, email } from "vuelidate/lib/validators";
+    import { required, email, } from "vuelidate/lib/validators";
     import sweetalert from 'sweetalert';
     import ActivityList from "../components/ActivityList";
     import createActivity from "../components/createActivity";
@@ -164,6 +182,9 @@
                 },
                 arr: [],
                 Val: 0,
+                randnum: '',
+                isVerifying: false,
+                valcode: '',
             };
         },
         validations: {
@@ -188,11 +209,38 @@
                     required
                 }
             },
+            valcode: {
+                required,
+            }
         },
         methods: {
-            signup: function () {
+            verify: function () {
                 this.$v.form.$touch();
                 if (this.$v.form.$anyError) {
+                    sweetalert('Error', 'Please fill in all required fields.', 'error');
+                } else {
+                    const ver_data = JSON.stringify({
+                        email: this.form.email,
+                        firstname: this.form.firstname,
+                        lastname: this.form.lastname,
+                    });
+                    this.$http.post('http://localhost:5000/Feather/signup/verification', ver_data, {
+                        headers: {
+                            "Content-type": "application/json"
+                        }
+                    }).then(
+                        response => {
+                            this.randnum = response.data['Code'];
+                            this.isVerifying = true;
+                        },
+                        error => {
+                            sweetalert('Error', 'Something went wrong.', 'error');
+                        },
+                    );
+                }
+            },
+            signup: function () {
+                if (this.valcode.toString() !== this.randnum.toString()) {
                     sweetalert('Error', 'Please fill in all required fields.', 'error');
                 } else {
                     const data_json = JSON.stringify({
@@ -212,7 +260,9 @@
                         }
                     }).then(
                       response => {
-                        this.$router.push('/signin')
+                          this.isVerifying = false;
+                          console.log('Success');
+                          this.$router.push('/signin');
                       },
                         error => {
                           sweetalert('Error', 'Something went wrong.', 'error');
