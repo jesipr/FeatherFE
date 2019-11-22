@@ -113,9 +113,12 @@ export default {
       //Cosntruct URL with parameters chosen in Frontend!
       
 
-      axios({
-        url: "http://localhost:5000/Feather/search?profiletype=" + this.form.filter,
-        method: "get"
+      axios.get("http://localhost:5000/Feather/search", {
+        params: {
+          q: this.form.search,
+          profiletype: this.form.filter,
+          tag: this.form.tag,
+        }
       })
         .then(response => {
             console.log("Entre al then");
