@@ -231,6 +231,7 @@
                     }).then(
                         response => {
                             this.randnum = response.data['Code'];
+                            console.log('code=' + this.randnum);
                             this.isVerifying = true;
                         },
                         error => {
@@ -285,7 +286,7 @@
                         this.form.acadpos = this.arr[0]['acadpos'];
                         this.form.firstname = this.arr[0]['firstname'];
                         this.form.lastname = this.arr[0]['lastname'];
-                        this.form.department = this.arr[0]['depid'];
+                        this.form.department = this.arr[0]['depid'][0];
                     })
                     .catch(error => {
                         console.log(`error: ${error}`);

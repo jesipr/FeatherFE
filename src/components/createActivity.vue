@@ -8,7 +8,7 @@
         <div class='ui form'>
           <b-input-group prepend="Activity" class="mts-3">
             <b-form-input v-model="actname" placeholder="Activity title" type="text"></b-form-input>
-            <b-form-input v-model="actname" placeholder="mm/yyyy" type="text"></b-form-input>
+            <b-form-input v-model="actdate" placeholder="YYYY-MM-DD" type="text"></b-form-input>
             <template>
               <b-form-select v-model="fundrange" :options="options"></b-form-select>
             </template>
@@ -59,7 +59,7 @@
                 this.isCreating = false;
             },
             sendForm() {
-                if (this.title.length > 0 && this.timeStart.length > 0 && this.fundRange.length > 0) {
+                if (this.actname.length > 0 && this.actdate.length > 0 && this.fundrange.length > 0) {
                     const actname = this.actname;
                     const actdate = this.actdate;
                     const fundrange = this.fundrange;
