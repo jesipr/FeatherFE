@@ -20,6 +20,15 @@
     >
     </b-form-select>
 
+    <label class="mr-sm-2" for="inline-form-custom-select-pref">Tags</label>
+    <b-form-select
+      class="mb-2 mr-sm-2 mb-sm-0"
+      v-model="form.tag"
+      :options = "form.tags"
+      id="inline-form-custom-select-pref"
+    >
+    </b-form-select>
+
     
 
 
@@ -82,6 +91,8 @@ export default {
 		form: {
 			search: '',
 			filter: '',
+      tag: null,
+      tags: [],
 		}
 
     };
@@ -156,8 +167,22 @@ export default {
         });
     },
     init() {
-      //Get all avaialbe tags in the database
-      
+      //Get all tags in the database
+      axios({
+        url: "http://localhost:5000/Feather/tags",
+        method: "get"
+      })
+        .then(response => {
+          //console.log("Entre al Init");
+          //console.log(response.data);
+          for (var i = 0; i < response.data.length; i++) {
+            //console.log(response.data[i]);
+            this.form.tags.push({value:response.data[i].id, text: response.data[i].tagname});
+          }
+        })
+        .catch(error => {
+          console.log(`error: ${error}`);
+        });
     }
   },
   beforeRouteEnter(to, from, next) {
