@@ -173,10 +173,7 @@ export default {
         method: "get"
       })
         .then(response => {
-          //console.log("Entre al Init");
-          //console.log(response.data);
           for (var i = 0; i < response.data.length; i++) {
-            //console.log(response.data[i]);
             this.form.tags.push({value:response.data[i].id, text: response.data[i].tagname});
           }
         })
