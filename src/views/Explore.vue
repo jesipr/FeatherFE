@@ -20,6 +20,7 @@
     >
     </b-form-select>
 
+
     <label class="mr-sm-2" for="inline-form-custom-select-pref">Tags</label>
     <b-form-select
       class="mb-2 mr-sm-2 mb-sm-0"
@@ -39,7 +40,15 @@
     <div v-show="loading && search">
           <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
     </div>
-	<div v-show="!loading">
+    <div class="w-50 mx-auto">
+      <b-alert
+            variant="danger"
+            dismissible
+            :show="searchError"
+            @dismissed="searchError=false"
+          >No results</b-alert>
+    </div>
+	<div v-show="!loading && rows>0">
     <b-pagination
       v-model="pagination.currentPage"
       :total-rows="pagination.rows"
@@ -59,7 +68,13 @@
       :fields="pagination.fields"
       small
 
-    ></b-table>
+    >
+        <template v-slot:cell(id)="row">
+        <b-link :to="{ name: 'profile', params: { id:row.item.id } }">Link</b-link>
+      </template>
+
+
+    </b-table>
     </div>
 
 
@@ -82,6 +97,7 @@ export default {
     return {
         loading: true,
         search: false,
+        searchError: false,
     	pagination: {
         fields: [],
 	    	items: [],
@@ -105,6 +121,7 @@ export default {
   methods: {
     onSubmit() {
         this.search = true;
+        this.searchError = false;
         this.loading = true;
         console.log("Aprete el boton de Search!");
         //Populate Profile Information at start
@@ -121,8 +138,10 @@ export default {
         }
       })
         .then(response => {
-            console.log("Entre al then");
+            console.log('Entre al search');
+            console.log(response);
             this.loading = false;
+            this.searchError = false;
             this.pagination.fields = [];
             this.pagination.items = response.data;
 
@@ -143,6 +162,10 @@ export default {
             }
             let initialFields = [
                 {
+                    key: 'id',
+                    label: 'Profile Page',
+                },
+                {
                     key: 'first_name',
                     label: 'First Name',
                     sortable: true
@@ -161,10 +184,13 @@ export default {
             console.log("Initial Fields:");
             this.pagination.fields = initialFields;
             this.pagination.fields.push(field);
-            console.log(this.pagination.fields);
+            //console.log(this.pagination.fields);
         })
         .catch(error => {
+            this.resetVariables();
+            this.searchError = true;
             this.loading = false;
+
           console.log(`error: ${error}`);
 
         });
@@ -183,7 +209,12 @@ export default {
         .catch(error => {
           console.log(`error: ${error}`);
         });
+    },
+    resetVariables() {
+      this.pagination.fields = [];
+      this.pagination.items = [];
     }
+
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
