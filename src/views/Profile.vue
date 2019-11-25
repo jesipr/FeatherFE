@@ -15,7 +15,7 @@
           <b-col class="profile-info" sm="7" md="7">
             <div class="profile-position">
               <b-row>
-                <b-col>
+                <b-col sm="6" md="6">
                   <h4>
                     <font-awesome-icon icon="envelope" />Email
                   </h4>
@@ -23,7 +23,7 @@
                     <span>{{profileData.email}}</span>
                   </p>
                 </b-col>
-                <b-col>
+                <b-col sm="6" md="6">
                   <h4>
                     <font-awesome-icon icon="suitcase" />Position
                   </h4>
@@ -32,7 +32,7 @@
                     <span v-show="profileData.isCompany">at {{profileData.companyname}}</span>
                   </p>
                 </b-col>
-                <b-col v-show="profileData.isProfessor">
+                <b-col class="mt-2" v-show="profileData.isProfessor" sm="12" md="12">
                   <div>
                     <h4>
                       <font-awesome-icon icon="suitcase" />Department
@@ -54,18 +54,6 @@
                 </div>
               </div>
             </div>
-          </b-col>
-        </b-row>
-        <b-row class="aboutme mt-5 text-left mx-auto">
-          <b-col sm="4" md="4">
-            <div class="activities-header">
-              <h3>About me</h3>
-            </div>
-          </b-col>
-          <b-col sm="8" md="8">
-            <p>
-              <span>{{profileData.description}}</span>
-            </p>
           </b-col>
         </b-row>
         <!-- Edit Profile Modal -->
@@ -133,18 +121,11 @@
               </b-input-group>
             </b-form-group>
             <b-form-group v-show="profileData.isProfessor">
-              <b-input-group>
-                <b-input-group-prepend is-text>Department</b-input-group-prepend>
-                <b-form-input
-                  id="editposition-input"
-                  v-model="$v.editProfileData.department.$model"
-                  :state="$v.editProfileData.department.$dirty ? !$v.editProfileData.department.$error : null"
-                  aria-describedby="editdepartment-feedback"
-                ></b-form-input>
-                <b-form-invalid-feedback id="editdepartment-feedback">Do not exceed 25 characters</b-form-invalid-feedback>
-              </b-input-group>
+              <p>Department:</p>
+              <b-form-select v-model="editProfileData.department" :options="departments"></b-form-select>
             </b-form-group>
             <b-form-group v-show="profileData.isProfessor">
+              <p>Edit About Me:</p>
               <b-input-group>
                 <b-form-textarea
                   id="description"
@@ -198,9 +179,21 @@
         </b-container>
       </b-jumbotron>
       <b-container>
+        <b-row align-v="start" class="aboutme mt-5 mb-5 text-left mr-auto">
+          <b-col sm="4" md="4">
+            <div class="activities-header">
+              <p>About me</p>
+            </div>
+          </b-col>
+          <b-col sm="8" md="8">
+            <p>{{profileData.description}}</p>
+          </b-col>
+        </b-row>
         <b-row>
           <b-col sm="4" md="4" class="text-right">
-            <h3>Activities</h3>
+            <div class="activities-header">
+              <p>Activities</p>
+            </div>
           </b-col>
           <b-col sm="8" md="8" class="text-right">
             <div class="badges mt-1 mb-4">
@@ -228,6 +221,7 @@ import Multiselect from "vue-multiselect";
 export default {
   data() {
     return {
+      departments: [],
       profileData: {
         isCompany: false,
         isProfessor: false,
@@ -338,26 +332,35 @@ export default {
               tags: this.editProfileData.areasinterest
             });
             console.log(profile_info_edited);
-            axios({
-              url: "http://localhost:5000/Feather/getprofilebyuserid/",
-              data: data_json,
-              method: "post"
-            })
-              .then(response => {
-                if (response.data.userid == userid) {
-                  this.profileData.firstname = this.editProfileData.firstname;
-                  this.profileData.lastname = this.editProfileData.lastname;
-                  this.profileData.position = this.editProfileData.position;
-                  this.profileData.department = this.editProfileData.department;
-                  this.profileData.email = this.editProfileData.email;
-                  this.profileData.description = this.editProfileData.description;
-                  this.profileData.areasinterest = this.editProfileData.areasinterest;
-                }
-                this.loading = false;
-              })
-              .catch(error => {
-                console.log(`error: ${error}`);
-              });
+            this.profileData.firstname = this.editProfileData.firstname;
+            this.profileData.lastname = this.editProfileData.lastname;
+            this.profileData.position = this.editProfileData.position;
+            this.profileData.department = this.editProfileData.department;
+            this.profileData.email = this.editProfileData.email;
+            this.profileData.description = this.editProfileData.description;
+            this.profileData.areasinterest = this.editProfileData.areasinterest;
+            this.$bvModal.hide("modalEditProfile");
+
+            // axios({
+            //   url: "http://localhost:5000/Feather/getprofilebyuserid/",
+            //   data: data_json,
+            //   method: "post"
+            // })
+            //   .then(response => {
+            //     if (response.data.userid == userid) {
+            //       this.profileData.firstname = this.editProfileData.firstname;
+            //       this.profileData.lastname = this.editProfileData.lastname;
+            //       this.profileData.position = this.editProfileData.position;
+            //       this.profileData.department = this.editProfileData.department;
+            //       this.profileData.email = this.editProfileData.email;
+            //       this.profileData.description = this.editProfileData.description;
+            //       this.profileData.areasinterest = this.editProfileData.areasinterest;
+            //     }
+            //     this.loading = false;
+            //   })
+            //   .catch(error => {
+            //     console.log(`error: ${error}`);
+            //   });
           }
         })
         .catch(err => {
@@ -374,6 +377,16 @@ export default {
     init() {
       //Populate Profile Information at start
       var userid = this.$route.params.id;
+      axios({
+        url: "http://localhost:5000/Feather/departments",
+        method: "get"
+      })
+        .then(response => {
+          this.departments = response.data;
+        })
+        .catch(error => {
+          console.log(`error: ${error}`);
+        });
       axios({
         url: "http://localhost:5000/Feather/getprofilebyuserid/" + userid,
         method: "get"
@@ -455,13 +468,8 @@ h2 {
   font-size: 4rem;
   font-weight: bold;
 }
-.aboutme {
-  background: #415268;
-  padding: 30px;
-  border: 1px solid #5c6672;
-  border-radius: 2px;
-  width: 70%;
-}
+/* .aboutme {
+} */
 .header-info {
   text-align: left;
 }
@@ -506,10 +514,12 @@ h2 {
   font-size: 12px;
   margin-right: 1rem;
 }
-.activities-header h3 {
-  font-family: "Open Sans", sans-serif;
-  font-weight: bold;
+.activities-header p {
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 700;
+  font-size: 2.3rem;
   text-align: right;
+  text-transform: capitalize;
 }
 .multiselect__select {
   display: none;
