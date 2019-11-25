@@ -15,7 +15,15 @@
           <b-col class="profile-info" sm="7" md="7">
             <div class="profile-position">
               <b-row>
-                <b-col>
+                <b-col sm="6" md="6">
+                  <h4>
+                    <font-awesome-icon icon="envelope" />Email
+                  </h4>
+                  <p>
+                    <span>{{profileData.email}}</span>
+                  </p>
+                </b-col>
+                <b-col sm="6" md="6">
                   <h4>
                     <font-awesome-icon icon="suitcase" />Position
                   </h4>
@@ -24,8 +32,8 @@
                     <span v-show="profileData.isCompany">at {{profileData.companyname}}</span>
                   </p>
                 </b-col>
-                <b-col>
-                  <div v-show="profileData.isProfessor">
+                <b-col class="mt-2" v-show="profileData.isProfessor" sm="12" md="12">
+                  <div>
                     <h4>
                       <font-awesome-icon icon="suitcase" />Department
                     </h4>
@@ -88,7 +96,21 @@
             </b-form-group>
             <b-form-group>
               <b-input-group>
-                <b-input-group-prepend is-text>Employee Position</b-input-group-prepend>
+                <b-input-group-prepend is-text>Email</b-input-group-prepend>
+                <b-form-input
+                  id="editemail-input"
+                  v-model="$v.editProfileData.email.$model"
+                  :state="$v.editProfileData.email.$dirty ? !$v.editProfileData.email.$error : null"
+                  aria-describedby="editemail-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback
+                  id="editemail-feedback"
+                >REQUIRED FIELD | Enter a valid email</b-form-invalid-feedback>
+              </b-input-group>
+            </b-form-group>
+            <b-form-group>
+              <b-input-group>
+                <b-input-group-prepend is-text>Position</b-input-group-prepend>
                 <b-form-input
                   id="editposition-input"
                   v-model="$v.editProfileData.position.$model"
@@ -99,15 +121,19 @@
               </b-input-group>
             </b-form-group>
             <b-form-group v-show="profileData.isProfessor">
+              <p>Department:</p>
+              <b-form-select v-model="editProfileData.department" :options="departments"></b-form-select>
+            </b-form-group>
+            <b-form-group v-show="profileData.isProfessor">
+              <p>Edit About Me:</p>
               <b-input-group>
-                <b-input-group-prepend is-text>Department</b-input-group-prepend>
-                <b-form-input
-                  id="editposition-input"
-                  v-model="$v.editProfileData.department.$model"
-                  :state="$v.editProfileData.department.$dirty ? !$v.editProfileData.department.$error : null"
-                  aria-describedby="editdepartment-feedback"
-                ></b-form-input>
-                <b-form-invalid-feedback id="editdepartment-feedback">Do not exceed 25 characters</b-form-invalid-feedback>
+                <b-form-textarea
+                  id="description"
+                  v-model="editProfileData.description"
+                  placeholder="About me"
+                  rows="3"
+                  max-rows="6"
+                ></b-form-textarea>
               </b-input-group>
             </b-form-group>
           </b-form>
@@ -153,18 +179,34 @@
         </b-container>
       </b-jumbotron>
       <b-container>
-        <div class="activities-header">
-          <h3>Activities</h3>
-        </div>
-        <div class="badges mt-1 mb-4">
-          <div>
-            <b-badge
-              v-for="activity in profileData.activities"
-              :key="activity.actid"
-              variant="secondary"
-            >{{activity.actname}}</b-badge>
-          </div>
-        </div>
+        <b-row align-v="start" class="aboutme mt-5 mb-5 text-left mr-auto">
+          <b-col sm="4" md="4">
+            <div class="activities-header">
+              <p>About me</p>
+            </div>
+          </b-col>
+          <b-col sm="8" md="8">
+            <p>{{profileData.description}}</p>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col sm="4" md="4" class="text-right">
+            <div class="activities-header">
+              <p>Activities</p>
+            </div>
+          </b-col>
+          <b-col sm="8" md="8" class="text-right">
+            <div class="badges mt-1 mb-4">
+              <div>
+                <b-badge
+                  v-for="activity in profileData.activities"
+                  :key="activity.actid"
+                  variant="secondary"
+                >{{activity.actname}}</b-badge>
+              </div>
+            </div>
+          </b-col>
+        </b-row>
       </b-container>
     </div>
   </div>
@@ -173,17 +215,20 @@
 import Vue from "vue";
 import axios from "axios";
 import { validationMixin } from "vuelidate";
-import { maxLength, alpha } from "vuelidate/lib/validators";
+import { maxLength, alpha, email, required } from "vuelidate/lib/validators";
 import Multiselect from "vue-multiselect";
 
 export default {
   data() {
     return {
+      departments: [],
       profileData: {
         isCompany: false,
         isProfessor: false,
         firstname: "",
         lastname: "",
+        email: "",
+        description: "",
         position: "",
         companyname: "",
         department: "",
@@ -193,10 +238,12 @@ export default {
       editProfileData: {
         firstname: "",
         lastname: "",
+        email: "",
+        description: "",
         position: "",
         companyname: "",
         department: "",
-        areasinterest: [],
+        areasinterest: null,
         activities: []
       },
       loading: true
@@ -216,6 +263,10 @@ export default {
       },
       position: {
         maxLength: maxLength(50)
+      },
+      email: {
+        email,
+        required
       }
     }
   },
@@ -231,10 +282,14 @@ export default {
       this.editProfileData.firstname = this.profileData.firstname;
       this.editProfileData.lastname = this.profileData.lastname;
       this.editProfileData.position = this.profileData.position;
+      this.editProfileData.email = this.profileData.email;
+      this.editProfileData.description = this.profileData.description;
       this.editProfileData.department = this.profileData.department;
-      this.editProfileData.areasinterest = Array.from(
-        this.profileData.areasinterest
-      );
+      if (this.profileData.areasinterest) {
+        this.editProfileData.areasinterest = Array.from(
+          this.profileData.areasinterest
+        );
+      }
       this.$bvModal.show("modalEditProfile");
     },
     cancelEdit() {
@@ -242,6 +297,8 @@ export default {
       this.editProfileData.lastname = this.profileData.lastname;
       this.editProfileData.position = this.profileData.position;
       this.editProfileData.department = this.profileData.department;
+      this.editProfileData.email = this.profileData.email;
+      this.editProfileData.description = this.profileData.description;
       this.$bvModal.hide("modalEditProfile");
     },
     editProfile() {
@@ -263,23 +320,27 @@ export default {
         })
         .then(confirm => {
           if (confirm) {
-            this.$bvModal.hide("modalEditProfile");
+            var userid = localStorage.getItem("userid");
+            const profile_info_edited = JSON.stringify({
+              userid: userid,
+              firstname: this.editProfileData.firstname,
+              lastname: this.editProfileData.lastname,
+              email: this.editProfileData.email,
+              description: this.editProfileData.description,
+              department: this.editProfileData.department,
+              position: this.editProfileData.position,
+              tags: this.editProfileData.areasinterest
+            });
+            console.log(profile_info_edited);
             this.profileData.firstname = this.editProfileData.firstname;
             this.profileData.lastname = this.editProfileData.lastname;
             this.profileData.position = this.editProfileData.position;
             this.profileData.department = this.editProfileData.department;
+            this.profileData.email = this.editProfileData.email;
+            this.profileData.description = this.editProfileData.description;
             this.profileData.areasinterest = this.editProfileData.areasinterest;
-            //this.loading = true;
-            // var userid = localStorage.getItem("userid");
-            // const profile_info_edited = JSON.stringify({
-            //   userid: userid,
-            //   firstname: this.editProfileData.firstname,
-            //   lastname: this.editProfileData.lastname,
-            //   department: this.editProfileData.department,
-            //   position: this.editProfileData.position,
-            //   tags: this.editProfileData.areasinterest
-            // });
-            // console.log(profile_info_edited);
+            this.$bvModal.hide("modalEditProfile");
+
             // axios({
             //   url: "http://localhost:5000/Feather/getprofilebyuserid/",
             //   data: data_json,
@@ -290,8 +351,10 @@ export default {
             //       this.profileData.firstname = this.editProfileData.firstname;
             //       this.profileData.lastname = this.editProfileData.lastname;
             //       this.profileData.position = this.editProfileData.position;
+            //       this.profileData.department = this.editProfileData.department;
+            //       this.profileData.email = this.editProfileData.email;
+            //       this.profileData.description = this.editProfileData.description;
             //       this.profileData.areasinterest = this.editProfileData.areasinterest;
-
             //     }
             //     this.loading = false;
             //   })
@@ -315,6 +378,16 @@ export default {
       //Populate Profile Information at start
       var userid = this.$route.params.id;
       axios({
+        url: "http://localhost:5000/Feather/departments",
+        method: "get"
+      })
+        .then(response => {
+          this.departments = response.data;
+        })
+        .catch(error => {
+          console.log(`error: ${error}`);
+        });
+      axios({
         url: "http://localhost:5000/Feather/getprofilebyuserid/" + userid,
         method: "get"
       })
@@ -325,6 +398,7 @@ export default {
             this.profileData.firstname = response.data.firstname;
             this.profileData.lastname = response.data.lastname;
             this.profileData.position = response.data.empposition;
+            this.profileData.email = response.data.email;
             this.profileData.companyname = response.data.company;
             this.profileData.areasinterest = response.data.tags;
             this.profileData.activities = response.data.activities;
@@ -333,6 +407,8 @@ export default {
             this.profileData.firstname = response.data.firstname;
             this.profileData.lastname = response.data.lastname;
             this.profileData.position = response.data.acadposition;
+            this.profileData.email = response.data.email;
+            this.profileData.description = response.data.description;
             this.profileData.department = response.data.department;
             this.profileData.areasinterest = response.data.tags;
             this.profileData.activities = response.data.activities;
@@ -392,6 +468,8 @@ h2 {
   font-size: 4rem;
   font-weight: bold;
 }
+/* .aboutme {
+} */
 .header-info {
   text-align: left;
 }
@@ -436,12 +514,12 @@ h2 {
   font-size: 12px;
   margin-right: 1rem;
 }
-.activities-header h3 {
-  font-family: "Open Sans", sans-serif;
-  margin-bottom: 0;
-  font-weight: bold;
-  text-align: left;
-  margin-bottom: 0;
+.activities-header p {
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 700;
+  font-size: 2.3rem;
+  text-align: right;
+  text-transform: capitalize;
 }
 .multiselect__select {
   display: none;

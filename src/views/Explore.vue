@@ -37,8 +37,9 @@
     </div>
     </b-form>
 
+
     <div v-show="loading && search">
-          <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
+      <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
     </div>
     <div class="w-50 mx-auto">
       <b-alert
@@ -75,17 +76,14 @@
 
 
     </b-table>
+
     </div>
-
-
-
   </div>
 </template>
 <style scoped>
-    .search-inputs{
-        display: inline-flex;
-
-    }
+.search-inputs {
+  display: inline-flex;
+}
 </style>
 
 <script>
@@ -111,13 +109,14 @@ export default {
       tags: [],
 		}
 
+
     };
   },
   computed: {
-      rows() {
-        return this.pagination.items.length
-      }
-   },
+    rows() {
+      return this.pagination.items.length;
+    }
+  },
   methods: {
     onSubmit() {
         this.search = true;
@@ -125,10 +124,10 @@ export default {
         this.loading = true;
         console.log("Aprete el boton de Search!");
         //Populate Profile Information at start
+
       var userid = this.$route.params.id;
       var token = localStorage.getItem("token");
       //Cosntruct URL with parameters chosen in Frontend!
-      
 
       axios.get("http://localhost:5000/Feather/search", {
         params: {
@@ -191,8 +190,8 @@ export default {
             this.searchError = true;
             this.loading = false;
 
-          console.log(`error: ${error}`);
 
+          console.log(`error: ${error}`);
         });
     },
     init() {
@@ -213,6 +212,7 @@ export default {
     resetVariables() {
       this.pagination.fields = [];
       this.pagination.items = [];
+
     }
 
   },
@@ -224,4 +224,19 @@ export default {
   }
 };
 </script>
+<style>
+span.page-link {
+  border-radius: 15px;
+  margin: 0px 10px;
+}
+a.page-link {
+  border-radius: 15px;
+}
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #313e50;
+  border-color: #5c6672;
+}
+</style>
 
