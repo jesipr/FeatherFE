@@ -3,17 +3,17 @@
     <b-container fluid class="text-center">
       <div v-show="!isEditing">
         <div>
-          <b-card no-body class="colum-1">
+          <b-card no-body class="colum-1" border-variant="dark">
             <b-container class="bv-example-row">
               <b-row>
-                <b-col>{{activity.actname}}</b-col>
-                <b-col>{{activity.actdate}}</b-col>
-                <b-col>{{activity.fundrange}}</b-col>
+                <b-col><div style="border-color: #242e3b; border-width: 3px;">{{activity.actname}}</div></b-col>
+                <b-col><p>{{activity.actdate}}</p></b-col>
+                <b-col><p>{{activity.fundrange}}</p></b-col>
                 <b-button class="right floated edit icon" size="sm" v-on:click="showForm" pill>
-                  <i class="edit icon">Edit</i>
+                  <font-awesome-icon icon="edit"/>Edit
                 </b-button>
                 <b-button class="right floated trash icon" size="sm" variant="danger" v-on:click="deleteAct(activity)" pill>
-                  <i class="trash icon">X</i>
+                  <font-awesome-icon icon="trash-alt"/>
                 </b-button>
               </b-row>
               <b-row>
@@ -25,7 +25,7 @@
       </div>
     </b-container>
     <div class="content" v-show="isEditing">
-      <b-input-group prepend="Activity" class="mts-3">
+      <b-input-group class="mts-3">
         <b-form-input v-model="activity.actname" placeholder="Activity title" type="text"></b-form-input>
         <b-form-input v-model="activity.actdate" placeholder="mm/yyyy" type="text"></b-form-input>
         <b-form-input v-model="activity.fundrange" placeholder="$5k - $10k" type="text"></b-form-input>

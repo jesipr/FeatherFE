@@ -1,7 +1,7 @@
 <template>
   <div class='ui basic content center aligned segment'>
     <b-button class='ui basic button icon' v-on:click="openForm" v-show="!isCreating">
-      <i class='plus icon'>+</i>
+      <font-awesome-icon icon="plus" />
     </b-button>
     <div class="mx-auto white-card rounded shadow mt-5" v-show="isCreating">
       <div class='content'>
