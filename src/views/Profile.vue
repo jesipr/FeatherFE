@@ -189,42 +189,21 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col sm="4" md="4" class="text-right">
+          <b-col sm="4" md="4" class="text-left">
             <div class="activities-header">
               <p>Activities</p>
             </div>
           </b-col>
-          <b-col sm="8" md="8" class="text-right">
-            <div class="badges mt-1 mb-4">
-              <div>
-                <b-badge
-                  v-for="activity in profileData.activities"
-                  :key="activity.actid"
-                  variant="secondary"
-                >{{activity.actname}}</b-badge>
-              </div>
-            </div>
-          </b-col>
         </b-row>
-        <div class="activities-header">
-          <h3>Activities</h3>
-        </div>
-<!--        <div class="badges mt-1 mb-4">-->
-<!--          <div>-->
-<!--            <b-badge-->
-<!--              v-for="activity in profileData.activities"-->
-<!--              :key="activity.actid"-->
-<!--              variant="secondary"-->
-<!--            >{{activity.actname}}</b-badge>-->
-<!--          </div>-->
-<!--        </div>-->
         <b-container>
           <b-modal id="editActivityModal" size="xl">
             <template v-slot:modal-header="{ close }">
               <h5>Edit your activities.</h5>
             </template>
             <template v-slot:default="{ hide }">
-              <activity-list v-bind:activities="profileData.activities" v-on:deleting-activity="deleteActivity"></activity-list>
+              <activity-list v-bind:activities="profileData.activities"
+                             v-on:editing-activity="editActivity"
+                             v-on:deleting-activity="deleteActivity"></activity-list>
               <create-activity v-on:create-activity="createActivity"></create-activity>
             </template>
             <template v-slot:modal-footer="{ cancel, ok }">
@@ -278,7 +257,7 @@ export default {
     return {
       departments: [],
       disActivities: [],
-      // disActIds: [],
+      disActIds: [],
       profileData: {
         isCompany: false,
         isProfessor: false,
@@ -300,7 +279,6 @@ export default {
         position: "",
         companyname: "",
         department: "",
-        areasinterest: null,
         activities: [],
         areasinterest: [],
       },
@@ -337,17 +315,86 @@ export default {
       this.editProfileData.areasinterest.push(tag);
     },
     createActivity(newAct) {
-        this.profileData.activities.push(newAct);
-      // actname,
-      //   actdate,
-      //   fundrange,
-      //   description,
-      //NOT WORKING YET
-        this.disActivities.push({'Title': newAct[0], 'Range of Funds': newAct[2], 'Description': newAct[3], 'Date': newAct[1]});
+      this.loading = true;
+      console.log(newAct);
+      const userid = this.$route.params.id;
+      const data_json = JSON.stringify({
+          action: 'create',
+          activity: newAct,
+          userid: userid,
+      });
+      axios({
+        url: "https://feather-ilp-back.herokuapp.com/Feather/editActsinProfile",
+        data: data_json,
+        method: "post"
+      })
+        .then(response => {
+          if (response.data.company) {
+            console.log("Se crapio esto")
+          } else {
+            this.profileData.isProfessor = true;
+            this.profileData.firstname = response.data.firstname;
+            this.profileData.lastname = response.data.lastname;
+            this.profileData.position = response.data.acadposition;
+            this.profileData.email = response.data.email;
+            this.profileData.description = response.data.description;
+            this.profileData.department = response.data.department;
+            this.profileData.areasinterest = response.data.tags;
+            this.profileData.activities = response.data.activities;
+            this.disActivities = [];
+            this.disActIds = [];
+            for(let i=0; i<response.data.activities.length; i++){
+              this.disActIds.push({'actid': response.data.activities[i]['actid']});
+              this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
+                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate']});
+            }
+          }
+          this.loading = false;
+        })
+        .catch(error => {
+          console.log(`error: ${error}`);
+        });
         sweetalert('Success!', 'Activity created!', 'success');
     },
     deleteActivity(actIndex) {
-        this.disActivities.splice(actIndex, 1);
+      this.loading = true;
+      const userid = this.$route.params.id;
+      const data_json = JSON.stringify({
+        action: 'delete',
+        actid: this.disActIds[actIndex],
+        userid: userid,
+      });
+      axios({
+        url: "https://feather-ilp-back.herokuapp.com/Feather/editActsinProfile",
+        data: data_json,
+        method: "post"
+      })
+        .then(response => {
+          if (response.data.company) {
+            console.log("Se crapio esto")
+          } else {
+            this.profileData.isProfessor = true;
+            this.profileData.firstname = response.data.firstname;
+            this.profileData.lastname = response.data.lastname;
+            this.profileData.position = response.data.acadposition;
+            this.profileData.email = response.data.email;
+            this.profileData.description = response.data.description;
+            this.profileData.department = response.data.department;
+            this.profileData.areasinterest = response.data.tags;
+            this.profileData.activities = response.data.activities;
+            this.disActivities = [];
+            this.disActIds = [];
+            for(let i=0; i<response.data.activities.length; i++){
+              this.disActIds.push(response.data.activities[i]['actid']);
+              this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
+                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate']});
+            }
+          }
+          this.loading = false;
+        })
+        .catch(error => {
+          console.log(`error: ${error}`);
+        });
     },
     showModalEditProfile() {
       this.editProfileData.firstname = this.profileData.firstname;
@@ -413,7 +460,7 @@ export default {
             this.$bvModal.hide("modalEditProfile");
 
             // axios({
-            //   url: "http://localhost:5000/Feather/getprofilebyuserid/",
+            //   url: "https://feather-ilp-back.herokuapp.com/Feather/getprofilebyuserid/",
             //   data: data_json,
             //   method: "post"
             // })
@@ -449,7 +496,7 @@ export default {
       //Populate Profile Information at start
       var userid = this.$route.params.id;
       axios({
-        url: "http://localhost:5000/Feather/departments",
+        url: "https://feather-ilp-back.herokuapp.com/Feather/departments",
         method: "get"
       })
         .then(response => {
@@ -459,7 +506,7 @@ export default {
           console.log(`error: ${error}`);
         });
       axios({
-        url: "http://localhost:5000/Feather/getprofilebyuserid/" + userid,
+        url: "https://feather-ilp-back.herokuapp.com/Feather/getprofilebyuserid/" + userid,
         method: "get"
       })
         .then(response => {
@@ -484,12 +531,52 @@ export default {
             this.profileData.areasinterest = response.data.tags;
             this.profileData.activities = response.data.activities;
             for(let i=0; i<response.data.activities.length; i++){
-              // result['actid'] = row[0]
-              // result['actname'] = row[1]
-              // result['ongoing'] = row[2]
-              // result['fundrange'] = row[3]
-              // result['description'] = row[4]
-              // result['actdate'] = row[5]
+              this.disActIds.push(response.data.activities[i]['actid']);
+              this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
+                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate']});
+            }
+          }
+          this.loading = false;
+        })
+        .catch(error => {
+          console.log(`error: ${error}`);
+        });
+    },
+    editActivity(actIndex) {
+      //Populate Profile Information at start
+      let argus = actIndex;
+      this.loading = true;
+      const actid = this.disActIds[argus['actIndex']];
+      const activity = this.profileData.activities[argus['actIndex']];
+      const userid = this.$route.params.id;
+      const data_json = JSON.stringify({
+        action: 'edit',
+        actid: actid,
+        activity: activity,
+        userid: userid,
+      });
+      axios({
+        url: "https://feather-ilp-back.herokuapp.com/Feather/editActsinProfile",
+        data: data_json,
+        method: "post"
+      })
+        .then(response => {
+          if (response.data.company) {
+            console.log("Se crapio esto");
+          } else {
+            this.profileData.isProfessor = true;
+            this.profileData.firstname = response.data.firstname;
+            this.profileData.lastname = response.data.lastname;
+            this.profileData.position = response.data.acadposition;
+            this.profileData.email = response.data.email;
+            this.profileData.description = response.data.description;
+            this.profileData.department = response.data.department;
+            this.profileData.areasinterest = response.data.tags;
+            this.profileData.activities = response.data.activities;
+            this.disActivities = [];
+            this.disActIds = [];
+            for(let i=0; i<response.data.activities.length; i++){
+              this.disActIds.push(response.data.activities[i]['actid']);
               this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
                 'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate']});
             }
