@@ -346,7 +346,7 @@ export default {
             for(let i=0; i<response.data.activities.length; i++){
               this.disActIds.push({'actid': response.data.activities[i]['actid']});
               this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
-                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate']});
+                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
             }
           }
           this.loading = false;
@@ -387,7 +387,7 @@ export default {
             for(let i=0; i<response.data.activities.length; i++){
               this.disActIds.push(response.data.activities[i]['actid']);
               this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
-                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate']});
+                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
             }
           }
           this.loading = false;
@@ -533,7 +533,7 @@ export default {
             for(let i=0; i<response.data.activities.length; i++){
               this.disActIds.push(response.data.activities[i]['actid']);
               this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
-                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate']});
+                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
             }
           }
           this.loading = false;
@@ -578,7 +578,7 @@ export default {
             for(let i=0; i<response.data.activities.length; i++){
               this.disActIds.push(response.data.activities[i]['actid']);
               this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
-                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate']});
+                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
             }
           }
           this.loading = false;
