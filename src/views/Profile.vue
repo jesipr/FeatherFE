@@ -160,7 +160,6 @@
             <b-button size="sm" variant="danger" @click="cancelEdit">Cancel</b-button>
           </template>
         </b-modal>
-
         <b-container>
           <b-row id="edit-btn-section" align-h="end">
             <b-col></b-col>
@@ -207,6 +206,59 @@
             </div>
           </b-col>
         </b-row>
+        <div class="activities-header">
+          <h3>Activities</h3>
+        </div>
+<!--        <div class="badges mt-1 mb-4">-->
+<!--          <div>-->
+<!--            <b-badge-->
+<!--              v-for="activity in profileData.activities"-->
+<!--              :key="activity.actid"-->
+<!--              variant="secondary"-->
+<!--            >{{activity.actname}}</b-badge>-->
+<!--          </div>-->
+<!--        </div>-->
+        <b-container>
+          <b-modal id="editActivityModal" size="xl">
+            <template v-slot:modal-header="{ close }">
+              <h5>Edit your activities.</h5>
+            </template>
+            <template v-slot:default="{ hide }">
+              <activity-list v-bind:activities="profileData.activities" v-on:deleting-activity="deleteActivity"></activity-list>
+              <create-activity v-on:create-activity="createActivity"></create-activity>
+            </template>
+            <template v-slot:modal-footer="{ cancel, ok }">
+              <b-button size="sm" variant="success" @click="ok()">
+                Submit
+              </b-button>
+            </template>
+          </b-modal>
+          <b-row id="editAct-btn-section" align-h="end">
+            <b-col></b-col>
+            <b-col class="text-right">
+              <b-button
+                @click="$bvModal.show('editActivityModal')"
+                class="shadow"
+                id="edit-act-btn"
+                pill
+                variant="light"
+              >
+                <font-awesome-icon icon="edit" />Edit
+              </b-button>
+            </b-col>
+          </b-row>
+        </b-container>
+        <template>
+          <div>
+            <b-table hover
+                     :items="disActivities"
+                     striped
+                     bordered
+                     head-variant="dark"
+            >
+            </b-table>
+          </div>
+        </template>
       </b-container>
     </div>
   </div>
@@ -217,11 +269,16 @@ import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { maxLength, alpha, email, required } from "vuelidate/lib/validators";
 import Multiselect from "vue-multiselect";
+import sweetalert from 'sweetalert';
+import ActivityList from "../components/ActivityList";
+import createActivity from "../components/createActivity";
 
 export default {
   data() {
     return {
       departments: [],
+      disActivities: [],
+      // disActIds: [],
       profileData: {
         isCompany: false,
         isProfessor: false,
@@ -244,7 +301,8 @@ export default {
         companyname: "",
         department: "",
         areasinterest: null,
-        activities: []
+        activities: [],
+        areasinterest: [],
       },
       loading: true
     };
@@ -277,6 +335,19 @@ export default {
         tagid: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000)
       };
       this.editProfileData.areasinterest.push(tag);
+    },
+    createActivity(newAct) {
+        this.profileData.activities.push(newAct);
+      // actname,
+      //   actdate,
+      //   fundrange,
+      //   description,
+      //NOT WORKING YET
+        this.disActivities.push({'Title': newAct[0], 'Range of Funds': newAct[2], 'Description': newAct[3], 'Date': newAct[1]});
+        sweetalert('Success!', 'Activity created!', 'success');
+    },
+    deleteActivity(actIndex) {
+        this.disActivities.splice(actIndex, 1);
     },
     showModalEditProfile() {
       this.editProfileData.firstname = this.profileData.firstname;
@@ -412,6 +483,16 @@ export default {
             this.profileData.department = response.data.department;
             this.profileData.areasinterest = response.data.tags;
             this.profileData.activities = response.data.activities;
+            for(let i=0; i<response.data.activities.length; i++){
+              // result['actid'] = row[0]
+              // result['actname'] = row[1]
+              // result['ongoing'] = row[2]
+              // result['fundrange'] = row[3]
+              // result['description'] = row[4]
+              // result['actdate'] = row[5]
+              this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
+                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate']});
+            }
           }
           this.loading = false;
         })
@@ -419,6 +500,10 @@ export default {
           console.log(`error: ${error}`);
         });
     }
+  },
+  components: {
+      ActivityList,
+      createActivity,
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
