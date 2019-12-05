@@ -5,6 +5,11 @@
      <b-form>
        <div class="search-input mx-auto mt-4">
          <b-input-group class="mb-3">
+          <b-input-group-prepend>
+             <b-form-select class="mb-2 mr-sm-2 mb-sm-0" v-model="form.tag" :options="form.tags"
+           id="inline-form-custom-select-pref">
+         </b-form-select>
+           </b-input-group-prepend>
            <b-form-input v-model="form.search" size="lg" placeholder="Search"></b-form-input>
            <b-input-group-append>
              <b-button @click="onSubmit" variant="dark">
@@ -13,6 +18,16 @@
            </b-input-group-append>
          </b-input-group>
        </div>
+    
+       <b-form-group>
+      <b-form-radio-group
+        v-model="form.radioSelected"
+        :options="form.radioOptions"
+        name="radio-inline"
+      ></b-form-radio-group>
+    </b-form-group>
+
+
 
 
        <!-- <label class="mr-sm-2" for="inline-form-custom-select-pref">Preference</label>
@@ -39,10 +54,7 @@
          results</b-alert>
      </div>
      <div v-show="!loading && rows>0">
-       <b-pagination v-model="pagination.currentPage" :total-rows="pagination.rows"
-         :per-page="pagination.perPage" aria-controls="my-table" align="center"></b-pagination>
-
-       <p class="mt-3">Current Page: {{ pagination.currentPage }}</p>
+       
 
        <b-table id="my-table" :items="pagination.items" :per-page="pagination.perPage"
          :current-page="pagination.currentPage" :hover="true" :fields="pagination.fields" small>
@@ -52,6 +64,8 @@
 
 
        </b-table>
+       <b-pagination v-model="pagination.currentPage" :total-rows="pagination.rows"
+         :per-page="pagination.perPage" aria-controls="my-table" align="center"></b-pagination>
 
      </div>
    </div>
@@ -81,6 +95,11 @@
            filter: '',
            tag: null,
            tags: [],
+           radioSelected: "professors",
+           radioOptions: [
+              { text: 'Professors', value: 'professors' },
+              { text: 'Companies', value: 'companies' },
+           ]
          }
 
 
@@ -106,7 +125,7 @@
          axios.get("https://feather-ilp-back.herokuapp.com/Feather/search", {
              params: {
                q: this.form.search,
-               profiletype: this.form.filter,
+               profiletype: this.form.radioSelected,
                tag: this.form.tag,
              }
            })
