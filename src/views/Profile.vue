@@ -255,6 +255,8 @@ import createActivity from "../components/createActivity";
 export default {
   data() {
     return {
+      mainUrl: 'http://localhost:5000',
+      mainHost: 'https://feather-ilp-back.herokuapp.com',
       departments: [],
       disActivities: [],
       disActIds: [],
@@ -496,7 +498,7 @@ export default {
       //Populate Profile Information at start
       var userid = this.$route.params.id;
       axios({
-        url: "https://feather-ilp-back.herokuapp.com/Feather/departments",
+        url: this.mainHost+"/Feather/departments",
         method: "get"
       })
         .then(response => {
@@ -506,7 +508,7 @@ export default {
           console.log(`error: ${error}`);
         });
       axios({
-        url: "https://feather-ilp-back.herokuapp.com/Feather/getprofilebyuserid/" + userid,
+        url: this.mainHost+"/Feather/getprofilebyuserid/" + userid,
         method: "get"
       })
         .then(response => {
@@ -549,6 +551,7 @@ export default {
       const actid = this.disActIds[argus['actIndex']];
       const activity = this.profileData.activities[argus['actIndex']];
       const userid = this.$route.params.id;
+      console.log(activity)
       const data_json = JSON.stringify({
         action: 'edit',
         actid: actid,
@@ -556,7 +559,7 @@ export default {
         userid: userid,
       });
       axios({
-        url: "https://feather-ilp-back.herokuapp.com/Feather/editActsinProfile",
+        url: this.mainUrl+"/Feather/editActsinProfile",
         data: data_json,
         method: "post"
       })
