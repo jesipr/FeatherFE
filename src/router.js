@@ -1,10 +1,12 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
+import Vuex from 'vuex';
 
+Vue.use(Vuex);
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -25,6 +27,8 @@ export default new Router({
       path: '/explore',
       name: 'explore',
       component: () => import(/* webpackChunkName: "about" */ './views/Explore.vue'),
+      meta: { requiresAuth: true },
+
     },
     {
       path: '/comp-signup',
@@ -41,5 +45,50 @@ export default new Router({
       name: 'signin',
       component: () => import(/* webpackChunkName: "about" */ './views/SignIn.vue'),
     },
+    {
+      path: '/profile/:id',
+      name: 'profile',
+      component: () => import(/* webpackChunkName: "about" */ './views/Profile.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/adminpanel',
+      name: 'adminpanel',
+      component: () => import(/* webpackChunkName: "about" */ './views/AdminPanel.vue'),
+      meta: { requiresAuth: true },
+    },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem('token');
+  let requireAuth = to.matched.some(record => record.meta.requiresAuth);
+  console.log(requireAuth);
+  if (!requireAuth) {
+    next();
+  }
+
+  if (requireAuth && !token) {
+    next('/signin');
+  }
+
+  // if (to.path === '/login') {
+  //   if (token) {
+  //     axiosAuth.post('/verify-token').then(() => {
+  //       next('/dashboard');
+  //     }).catch(() => {
+  //       next();
+  //     });
+  //   }
+  //   else {
+  //     next();
+  //   }
+  // }
+
+  if (requireAuth && token) {
+    next();
+  }
+  next();
+});
+
+export default router;
