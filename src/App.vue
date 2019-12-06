@@ -12,7 +12,7 @@
         <b-navbar-nav>
           <b-nav-item left="true" :active='$route.name =="home"' to="/">Home</b-nav-item>
           <b-nav-item :active='$route.name =="explore"' to="/explore">Explore</b-nav-item>
-          <b-nav-item :v-show='this.usertype == 1' :active='$route.name =="adminpanel"' to="/adminpanel">Admin Panel</b-nav-item>
+          <b-nav-item :active='$route.name =="adminpanel"' to="/adminpanel">Admin Panel</b-nav-item>
 
         </b-navbar-nav>
         <!-- ONLY when logged out -->
@@ -70,7 +70,6 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      usertype: localStorage.getitem("usertype"),
 
     };
   },
