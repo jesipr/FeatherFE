@@ -159,7 +159,7 @@
            <b-row id="edit-btn-section" align-h="end">
              <b-col></b-col>
              <b-col class="text-right">
-               <b-button @click="showModalEditProfile" class="shadow" id="edit-profile-btn" pill
+               <b-button v-show="this.profileData.isEditable" @click="showModalEditProfile" class="shadow" id="edit-profile-btn" pill
                  variant="light">
                  <font-awesome-icon icon="edit" />Edit
                </b-button>
@@ -182,7 +182,7 @@
            <b-col sm="2" md="2" class="text-right">
              <div class="activities-header">
                <p>Activities</p>
-               <b-button @click="$bvModal.show('editActivityModal')"
+               <b-button v-show="this.profileData.isEditable" @click="$bvModal.show('editActivityModal')"
                  id="edit-act-btn" pill variant="light"><font-awesome-icon icon="edit" />Edit
                </b-button>
              </div>
@@ -251,6 +251,7 @@
          disActivities: [],
          // disActIds: [],
          profileData: {
+           isEditable: false,
            isCompany: false,
            isProfessor: false,
            dateUpdated: "",
@@ -452,6 +453,12 @@
            })
            .then(response => {
              console.log(response);
+             var localstorage_userid = localStorage.getItem('userid');
+             var usertype = localStorage.getItem('usertype');
+
+             if(userid == $route.params.userid && usertype == 1){
+               this.profileData.isEditable = true;
+             }
              if (response.data.company) {
                //User is a Company Representative
                this.profileData.isCompany = true;
@@ -472,7 +479,7 @@
                this.profileData.position = response.data.acadposition;
                this.profileData.email = response.data.email;
                this.profileData.description = response.data.description;
-               this.profileData.department = response.data.department[0];
+               this.profileData.department = response.data.department;
                this.profileData.dateUpdated = response.data.dateupdated.substring(0,16);
                this.profileData.areasinterest = response.data.tags;
                this.profileData.activities = response.data.activities;
