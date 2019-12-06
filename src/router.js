@@ -27,6 +27,8 @@ const router = new Router({
       path: '/explore',
       name: 'explore',
       component: () => import(/* webpackChunkName: "about" */ './views/Explore.vue'),
+      meta: { requiresAuth: true },
+
     },
     {
       path: '/comp-signup',
@@ -49,13 +51,19 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Profile.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path: '/adminpanel',
+      name: 'adminpanel',
+      component: () => import(/* webpackChunkName: "about" */ './views/AdminPanel.vue'),
+      meta: { requiresAuth: true },
+    },
   ],
 });
 
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem('token');
   let requireAuth = to.matched.some(record => record.meta.requiresAuth);
-
+  console.log(requireAuth);
   if (!requireAuth) {
     next();
   }
