@@ -149,8 +149,6 @@ canvas {
   background: white;
 }
 .tools .white-card {
-  border-top: 5px solid #313e50;
-  border-bottom: 5px solid #313e50;
   border-radius: 2px;
   width: 60%;
 }
@@ -162,8 +160,6 @@ canvas {
   background: #337137;
 }
 .headline .white-card {
-  border-top: 5px solid #313e50;
-  border-bottom: 5px solid #313e50;
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
 }
