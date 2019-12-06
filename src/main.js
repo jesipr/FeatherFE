@@ -10,7 +10,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'aos/dist/aos.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
-import { faUniversity,faTrashAlt, faEdit, faAt, faLock, faSuitcase, faUserPlus, faChartBar, faPlus, faUserGraduate, faSearch, faUserCircle, faTachometerAlt, faBuilding, faEnvelope, } from '@fortawesome/free-solid-svg-icons';
+import { faUniversity, faTrashAlt, faEdit, faAt, faLock, faSuitcase, faUserPlus, faChartBar, faPlus, faUserGraduate, faSearch, faUserCircle, faTachometerAlt, faBuilding, faEnvelope, faExternalLinkSquareAlt, } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import router from './router';
@@ -22,6 +22,7 @@ import VueGoogleCharts from 'vue-google-charts';
 
 
 library.add(faUserPlus);
+library.add(faExternalLinkSquareAlt);
 library.add(faEnvelope);
 library.add(faAt);
 library.add(faLock);

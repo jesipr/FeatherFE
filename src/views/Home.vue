@@ -52,7 +52,7 @@
         <b-col md="4" data-aos="fade-up">
           <font-awesome-icon icon="chart-bar" />
           <h4 style="font-weight: 600;">ANALYZE</h4>
-          <p>ILP offers the ability to visualize the data by academic departments, area of interest, and many more</p>
+          <p>ILP offers to the administrator the ability to visualize the data by academic departments, area of interest, and many more</p>
         </b-col>
       </b-row>
       <b-row class="tools" align-h="center" align-v="center">
@@ -68,7 +68,7 @@
         </b-col>
         <b-col class="links">
           <div class="browse-bg">
-            <b-button pill to="/explore" variant="light">
+            <b-button class="align-middle" pill to="/explore" variant="light">
               Explore
               <font-awesome-icon icon="search" />
             </b-button>
@@ -95,7 +95,7 @@ canvas {
   padding-right: inherit;
 }
 .links .btn {
-  margin-top: 10%;
+  margin-top: 30vh;
   background-color: #337137;
   color: white;
   border: none;
@@ -104,7 +104,7 @@ canvas {
   background-color: #265229;
 }
 .browse-bg {
-  height: 50%;
+  height: 100%;
   background-image: url("~@/assets/browse_bg.jpeg");
   background-position: center;
   background-size: cover;
@@ -160,8 +160,9 @@ canvas {
   background: white;
 }
 .tools .white-card {
-  border-top: 5px solid #337137;
-  border-bottom: 5px solid #337137;
+  border-top: 5px solid #313e50;
+  border-bottom: 5px solid #313e50;
+  border-radius: 2px;
   width: 60%;
 }
 .tools .col p {

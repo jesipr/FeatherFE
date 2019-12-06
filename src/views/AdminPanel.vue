@@ -61,8 +61,8 @@
 </b-container>
 </div>
 
- 
-  
+
+
 </div>
 
  </template>
@@ -77,6 +77,8 @@
    export default {
      data() {
        return {
+         mainUrl: 'http://localhost:5000',
+         mainHost: 'https://feather-ilp-back.herokuapp.com',
         chart1Data: [
           ['Date', 'Quantity'],
         ],
@@ -139,7 +141,7 @@
          var token = localStorage.getItem("token");
          //Cosntruct URL with parameters chosen in Frontend!
 
-         axios.get("http://localhost:5000/Feather/search", {
+         axios.get(this.mainHost+"/Feather/search", {
              params: {
                q: this.form.search,
                profiletype: this.form.radioSelected,
@@ -206,7 +208,7 @@
        init() {
         this.loading = true;
          axios({
-             url: "http://localhost:5000/Feather/chart/1",
+             url: this.mainHost+"/Feather/chart/1",
              method: "get"
            })
            .then(response => {
@@ -222,7 +224,7 @@
              console.log(`error: ${error}`);
            });
            axios({
-             url: "http://localhost:5000/Feather/chart/2",
+             url: this.mainHost+"/Feather/chart/2",
              method: "get"
            })
            .then(response => {
@@ -238,7 +240,7 @@
              console.log(`error: ${error}`);
            });
            axios({
-             url: "http://localhost:5000/Feather/chart/3",
+             url: this.mainHost+"/Feather/chart/3",
              method: "get"
            })
            .then(response => {
@@ -254,7 +256,7 @@
              console.log(`error: ${error}`);
            });
            axios({
-             url: "http://localhost:5000/Feather/chart/4",
+             url: this.mainHost+"/Feather/chart/4",
              method: "get"
            })
            .then(response => {
@@ -270,7 +272,7 @@
              console.log(`error: ${error}`);
            });
            axios({
-             url: "http://localhost:5000/Feather/chart/5",
+             url: this.mainHost+"/Feather/chart/5",
              method: "get"
            })
            .then(response => {
@@ -286,7 +288,7 @@
              console.log(`error: ${error}`);
            });
            axios({
-             url: "http://localhost:5000/Feather/chart/6",
+             url: this.mainHost+"/Feather/chart/6",
              method: "get"
            })
            .then(response => {

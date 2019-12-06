@@ -40,6 +40,7 @@ const actions = {
                 if (response.data.token) {
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('userid', response.data.userid);
+                    localStorage.setItem('usertype', response.data.usertype);
                     commit('authUser', { userid: response.data.userid, token: response.data.token });
                     router.replace('/');
                     resolve(response);

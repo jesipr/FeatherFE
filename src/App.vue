@@ -11,8 +11,8 @@
 
         <b-navbar-nav>
           <b-nav-item left="true" :active='$route.name =="home"' to="/">Home</b-nav-item>
-          <b-nav-item :active='$route.name =="dashboard"' to="/dashboard">Dashboard</b-nav-item>
           <b-nav-item :active='$route.name =="explore"' to="/explore">Explore</b-nav-item>
+          <b-nav-item :v-show='this.usertype == 1' :active='$route.name =="adminpanel"' to="/adminpanel">Admin Panel</b-nav-item>
         </b-navbar-nav>
         <!-- ONLY when logged out -->
         <b-navbar-nav v-if="!isAuth" class="ml-auto">
@@ -29,7 +29,7 @@
                   </div>
                 </b-col>
                 <b-col>
-                  <div class="register-link mx-auto text-center"> 
+                  <div class="register-link mx-auto text-center">
                     <b-button variant="dark" @click="hide()" to="/prof-signup">
                       <h1>Professors</h1>
                       <font-awesome-icon icon="user-graduate" />
@@ -55,8 +55,8 @@
         <span>Privacy Policy</span>
         </a>
         </div>
-        
-        
+
+
       </div>
     </footer> -->
   </div>
@@ -68,7 +68,9 @@ import { mapGetters } from "vuex";
 
 export default {
   data() {
-    return {};
+    return {
+      usertype: localStorage.getitem("usertype"),
+    };
   },
   computed: {
     ...mapGetters("auth", {
