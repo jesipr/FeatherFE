@@ -56,6 +56,7 @@
         </b-col>
       </b-row>
       <b-row class="tools" align-h="center" align-v="center">
+        
         <b-col>
           <b-container class="white-card">
             <h3>Create a profile. It's easy!</h3>
@@ -71,12 +72,6 @@
             <b-button class="align-middle" pill to="/explore" variant="light">
               Explore
               <font-awesome-icon icon="search" />
-            </b-button>
-          </div>
-          <div class="dashboard-bg">
-            <b-button to="/dashboard" pill variant="light">
-              Dashboard
-              <font-awesome-icon icon="tachometer-alt" />
             </b-button>
           </div>
         </b-col>
@@ -106,12 +101,6 @@ canvas {
 .browse-bg {
   height: 100%;
   background-image: url("~@/assets/browse_bg.jpeg");
-  background-position: center;
-  background-size: cover;
-}
-.dashboard-bg {
-  height: 50%;
-  background-image: url("~@/assets/dashboard_bg.jpeg");
   background-position: center;
   background-size: cover;
 }

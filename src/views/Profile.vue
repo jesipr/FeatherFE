@@ -8,9 +8,19 @@
     <!-- Company Component -->
     <div v-show="!loading">
       <b-jumbotron class="header-info" data-aos="fade-up">
-        <b-row align-v="center" no-gutter>
+        <b-row align-v="center">
           <b-col class sm="5" md="5">
             <h1 class="display-3">{{profileData.firstname}} {{profileData.lastname}}</h1>
+            <div class="name-subtext">
+               <a class="float-right" :href="profileData.externalLink"
+                 v-show="profileData.externalLink">
+                 More Info
+                 <font-awesome-icon icon="external-link-square-alt" />
+               </a>
+               <br />
+               <p class="float-right" style="font-size: 0.8rem">Updated:
+                 {{profileData.dateUpdated}}</p>
+             </div>
           </b-col>
           <b-col class="profile-info" sm="7" md="7">
             <div class="profile-position">
@@ -35,7 +45,7 @@
                 <b-col class="mt-2" v-show="profileData.isProfessor" sm="12" md="12">
                   <div>
                     <h4>
-                      <font-awesome-icon icon="suitcase" />Department
+                      <font-awesome-icon icon="university" />Department
                     </h4>
                     <p>
                       <span>{{profileData.department}}</span>
@@ -121,11 +131,11 @@
               </b-input-group>
             </b-form-group>
             <b-form-group v-show="profileData.isProfessor">
-              <p>Department:</p>
+              <p>Department</p>
               <b-form-select v-model="editProfileData.department" :options="departments"></b-form-select>
             </b-form-group>
             <b-form-group v-show="profileData.isProfessor">
-              <p>Edit About Me:</p>
+              <p>About Me</p>
               <b-input-group>
                 <b-form-textarea
                   id="description"
@@ -136,6 +146,17 @@
                 ></b-form-textarea>
               </b-input-group>
             </b-form-group>
+            <b-form-group description="Link to CV, LinkedIn or equivalent">
+               <b-input-group>
+                 <b-input-group-prepend is-text>External Link</b-input-group-prepend>
+                 <b-form-input id="editposition-input"
+                   v-model="$v.editProfileData.externalLink.$model"
+                   :state="$v.editProfileData.externalLink.$dirty ? !$v.editProfileData.externalLink.$error : null"
+                   aria-describedby="editExternalLink-feedback"></b-form-input>
+                 <b-form-invalid-feedback id="editExternalLink-feedback">Insert a valid url
+                   including "http://"</b-form-invalid-feedback>
+               </b-input-group>
+             </b-form-group>
           </b-form>
           <div>
             <label class="typo__label">Areas of Interest:</label>
@@ -177,24 +198,29 @@
           </b-row>
         </b-container>
       </b-jumbotron>
-      <b-container>
+      <b-container fluid>
         <b-row align-v="start" class="aboutme mt-5 mb-5 text-left mr-auto">
-          <b-col sm="4" md="4">
+          <b-col sm="2" md="2">
             <div class="activities-header">
               <p>About me</p>
             </div>
           </b-col>
-          <b-col sm="8" md="8">
+          <b-col sm="10" md="10">
             <p>{{profileData.description}}</p>
           </b-col>
         </b-row>
         <b-row>
-          <b-col sm="4" md="4" class="text-left">
+          <b-col sm="2" md="2" class="text-right">
             <div class="activities-header">
               <p>Activities</p>
+              <b-button v-show="this.profileData.isEditable"
+                 @click="$bvModal.show('editActivityModal')" id="edit-act-btn" pill variant="light">
+                 <font-awesome-icon icon="edit" />Edit
+               </b-button>
             </div>
           </b-col>
-        </b-row>
+        <b-col sm="10" md="10" class="text-right">
+        <div class="badges mt-1 mb-4">
         <b-container>
           <b-modal id="editActivityModal" size="xl">
             <template v-slot:modal-header="{ close }">
@@ -212,20 +238,6 @@
               </b-button>
             </template>
           </b-modal>
-          <b-row id="editAct-btn-section" align-h="end">
-            <b-col></b-col>
-            <b-col class="text-right">
-              <b-button
-                @click="$bvModal.show('editActivityModal')"
-                class="shadow"
-                id="edit-act-btn"
-                pill
-                variant="light"
-              >
-                <font-awesome-icon icon="edit" />Edit
-              </b-button>
-            </b-col>
-          </b-row>
         </b-container>
         <template>
           <div>
@@ -238,6 +250,9 @@
             </b-table>
           </div>
         </template>
+        </div>
+        </b-col>
+        </b-row>
       </b-container>
     </div>
   </div>
@@ -246,7 +261,7 @@
 import Vue from "vue";
 import axios from "axios";
 import { validationMixin } from "vuelidate";
-import { maxLength, alpha, email, required } from "vuelidate/lib/validators";
+import { maxLength, alpha, email, required, url } from "vuelidate/lib/validators";
 import Multiselect from "vue-multiselect";
 import sweetalert from 'sweetalert';
 import ActivityList from "../components/ActivityList";
@@ -254,15 +269,16 @@ import createActivity from "../components/createActivity";
 
 export default {
   data() {
-    return {
-      mainUrl: 'http://localhost:5000',
-      mainHost: 'https://feather-ilp-back.herokuapp.com',
+    return { //https://feather-ilp-back.herokuapp.com
+      request_url: "http://localhost:5000",
       departments: [],
       disActivities: [],
       disActIds: [],
       profileData: {
+        isEditable: false,
         isCompany: false,
         isProfessor: false,
+        dateUpdated: "",
         firstname: "",
         lastname: "",
         email: "",
@@ -270,6 +286,7 @@ export default {
         position: "",
         companyname: "",
         department: "",
+        externalLink: "",
         areasinterest: [],
         activities: []
       },
@@ -281,6 +298,7 @@ export default {
         position: "",
         companyname: "",
         department: "",
+        externalLink: "",
         activities: [],
         areasinterest: [],
       },
@@ -297,7 +315,7 @@ export default {
         maxLength: maxLength(25)
       },
       department: {
-        maxLength: maxLength(25)
+        required
       },
       position: {
         maxLength: maxLength(50)
@@ -305,6 +323,9 @@ export default {
       email: {
         email,
         required
+        },
+      externalLink: {
+        url
       }
     }
   },
@@ -326,7 +347,7 @@ export default {
           userid: userid,
       });
       axios({
-        url: "https://feather-ilp-back.herokuapp.com/Feather/editActsinProfile",
+        url: this.request_url.concat("/Feather/editActsinProfile"),
         data: data_json,
         method: "post"
       })
@@ -367,7 +388,7 @@ export default {
         userid: userid,
       });
       axios({
-        url: "https://feather-ilp-back.herokuapp.com/Feather/editActsinProfile",
+        url: this.request_url.concat("/Feather/editActsinProfile"),
         data: data_json,
         method: "post"
       })
@@ -404,6 +425,7 @@ export default {
       this.editProfileData.position = this.profileData.position;
       this.editProfileData.email = this.profileData.email;
       this.editProfileData.description = this.profileData.description;
+      this.editProfileData.externalLink = this.profileData.externalLink;
       this.editProfileData.department = this.profileData.department;
       if (this.profileData.areasinterest) {
         this.editProfileData.areasinterest = Array.from(
@@ -417,6 +439,7 @@ export default {
       this.editProfileData.lastname = this.profileData.lastname;
       this.editProfileData.position = this.profileData.position;
       this.editProfileData.department = this.profileData.department;
+      this.editProfileData.externalLink = this.profileData.externalLink;
       this.editProfileData.email = this.profileData.email;
       this.editProfileData.description = this.profileData.description;
       this.$bvModal.hide("modalEditProfile");
@@ -449,6 +472,7 @@ export default {
               description: this.editProfileData.description,
               department: this.editProfileData.department,
               position: this.editProfileData.position,
+              externallink: this.editProfileData.externalLink,
               tags: this.editProfileData.areasinterest
             });
             console.log(profile_info_edited);
@@ -456,13 +480,14 @@ export default {
             this.profileData.lastname = this.editProfileData.lastname;
             this.profileData.position = this.editProfileData.position;
             this.profileData.department = this.editProfileData.department;
+            this.profileData.externalLink = this.editProfileData.externalLink;
             this.profileData.email = this.editProfileData.email;
             this.profileData.description = this.editProfileData.description;
             this.profileData.areasinterest = this.editProfileData.areasinterest;
             this.$bvModal.hide("modalEditProfile");
 
             // axios({
-            //   url: "https://feather-ilp-back.herokuapp.com/Feather/getprofilebyuserid/",
+            //   url: this.request_url.concat("/Feather/getprofilebyuserid/",
             //   data: data_json,
             //   method: "post"
             // })
@@ -488,6 +513,10 @@ export default {
           this.editProfileData.lastname = this.profileData.lastname;
           this.editProfileData.position = this.profileData.position;
           this.editProfileData.areasinterest = this.profileData.areasinterest;
+          this.editProfileData.department = this.profileData.department;
+          this.editProfileData.externalLink = this.profileData.externalLink;
+        this.editProfileData.email = this.profileData.email;
+        this.editProfileData.description = this.profileData.description;
           this.$bvModal.hide("modalEditProfile");
         });
     },
@@ -498,7 +527,7 @@ export default {
       //Populate Profile Information at start
       var userid = this.$route.params.id;
       axios({
-        url: this.mainHost+"/Feather/departments",
+        url: this.request_url.concat("/Feather/departments"),
         method: "get"
       })
         .then(response => {
@@ -508,18 +537,26 @@ export default {
           console.log(`error: ${error}`);
         });
       axios({
-        url: this.mainHost+"/Feather/getprofilebyuserid/" + userid,
+        url: this.request_url.concat("/Feather/getprofilebyuserid/" + userid),
         method: "get"
       })
         .then(response => {
           console.log(response);
-          if (response.data.company) {
+          var localstorage_userid = localStorage.getItem('userid');
+        var usertype = localStorage.getItem('usertype');
+
+             if (localstorage_userid == userid && usertype == 1) {
+               this.profileData.isEditable = true;
+             }
+             if (response.data.company) {
+               //User is a Company Representative
             this.profileData.isCompany = true;
             this.profileData.firstname = response.data.firstname;
             this.profileData.lastname = response.data.lastname;
             this.profileData.position = response.data.empposition;
             this.profileData.email = response.data.email;
             this.profileData.companyname = response.data.company;
+            this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
             this.profileData.areasinterest = response.data.tags;
             this.profileData.activities = response.data.activities;
           } else {
@@ -530,6 +567,7 @@ export default {
             this.profileData.email = response.data.email;
             this.profileData.description = response.data.description;
             this.profileData.department = response.data.department;
+            this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
             this.profileData.areasinterest = response.data.tags;
             this.profileData.activities = response.data.activities;
             for(let i=0; i<response.data.activities.length; i++){
@@ -551,7 +589,6 @@ export default {
       const actid = this.disActIds[argus['actIndex']];
       const activity = this.profileData.activities[argus['actIndex']];
       const userid = this.$route.params.id;
-      console.log(activity)
       const data_json = JSON.stringify({
         action: 'edit',
         actid: actid,
@@ -559,7 +596,7 @@ export default {
         userid: userid,
       });
       axios({
-        url: this.mainUrl+"/Feather/editActsinProfile",
+        url: this.request_url.concat("/Feather/editActsinProfile"),
         data: data_json,
         method: "post"
       })
@@ -567,6 +604,7 @@ export default {
           if (response.data.company) {
             console.log("Se crapio esto");
           } else {
+            //User is a Professor
             this.profileData.isProfessor = true;
             this.profileData.firstname = response.data.firstname;
             this.profileData.lastname = response.data.lastname;
@@ -574,6 +612,7 @@ export default {
             this.profileData.email = response.data.email;
             this.profileData.description = response.data.description;
             this.profileData.department = response.data.department;
+            this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
             this.profileData.areasinterest = response.data.tags;
             this.profileData.activities = response.data.activities;
             this.disActivities = [];
@@ -606,6 +645,11 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 @import url("https://fonts.googleapis.com/css?family=Hind+Madurai:700|Josefin+Sans:400,700|Leckerli+One|Open+Sans:400,400i,600,600i,700,700i&display=swap");
+.name-subtext,
+   a {
+     color: #a8b2be;
+   }
+
 .display-3 {
   font-size: 3rem;
 }
@@ -648,7 +692,8 @@ h2 {
 .header-info {
   text-align: left;
 }
-.header-info h1 {
+.header-info h1,
+.header-info a {
   font-family: "Josefin Sans", sans-serif;
   text-align: end;
 }
