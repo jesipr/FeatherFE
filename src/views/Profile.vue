@@ -456,7 +456,7 @@
              var localstorage_userid = localStorage.getItem('userid');
              var usertype = localStorage.getItem('usertype');
 
-             if(userid == $route.params.userid && usertype == 1){
+             if(localstorage_userid == userid && usertype == 1){
                this.profileData.isEditable = true;
              }
              if (response.data.company) {
