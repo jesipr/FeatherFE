@@ -320,34 +320,6 @@
    };
 
  </script>
- <style>
-   .input-icon {
-     font-size: 18px;
-   }
-   .search-input{
-     width: 60%;
-   }
-   .form-control:focus {
-     border-color: #337137;
-     outline: 0;
-     -webkit-box-shadow: 0 0 0 0.2rem rgba(51, 113, 55, 0.452);
-     box-shadow: 0 0 0 0.2rem rgba(51, 113, 55, 0.452);
-   }
-
-   span.page-link {
-     border-radius: 15px;
-     margin: 0px 10px;
-   }
-
-   a.page-link {
-     border-radius: 15px;
-   }
-
-   .page-item.active .page-link {
-     z-index: 1;
-     color: #fff;
-     background-color: #313e50;
-     border-color: #5c6672;
-   }
+ <style scoped>
 
  </style>

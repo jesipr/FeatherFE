@@ -3,49 +3,30 @@
 
 
      <b-form>
-       <div class="search-input mx-auto mt-4">
-         <b-input-group class="mb-3">
+       <div class="search-input mx-auto">
+         <h1 class="display-3">Explore</h1>
+         <b-input-group class="mb-2">
           <b-input-group-prepend>
-             <b-form-select class="mb-2 mr-sm-2 mb-sm-0" v-model="form.tag" :options="form.tags"
+             <b-form-select v-model="form.tag" :options="form.tags"
            id="inline-form-custom-select-pref">
          </b-form-select>
            </b-input-group-prepend>
            <b-form-input v-model="form.search" size="lg" placeholder="Search"></b-form-input>
            <b-input-group-append>
-             <b-button @click="onSubmit" variant="dark">
+             <b-button @click="onSubmit" variant="dark" class="search-btn">
               <font-awesome-icon class="input-icon" icon="search" />
              </b-button>
            </b-input-group-append>
          </b-input-group>
-       </div>
-    
-       <b-form-group>
-      <b-form-radio-group
+         <b-form-radio-group
         v-model="form.radioSelected"
         :options="form.radioOptions"
         name="radio-inline"
       ></b-form-radio-group>
+       </div>
+       <b-form-group>
     </b-form-group>
-
-
-
-
-       <!-- <label class="mr-sm-2" for="inline-form-custom-select-pref">Preference</label>
-         <b-form-select class="mb-2 mr-sm-2 mb-sm-0" v-model="form.filter"
-           :options="[{ value:'professors',text: 'Professors'}, {value:'companies',text: 'Companies' }]"
-           id="inline-form-custom-select-pref">
-         </b-form-select>
-
-         <label class="mr-sm-2" for="inline-form-custom-select-pref">Tags</label>
-         <b-form-select class="mb-2 mr-sm-2 mb-sm-0" v-model="form.tag" :options="form.tags"
-           id="inline-form-custom-select-pref">
-         </b-form-select>
-
-         <b-button @click="onSubmit" variant="primary">Search</b-button> -->
-
      </b-form>
-
-
      <div v-show="loading && search">
        <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
      </div>
@@ -221,21 +202,46 @@
 
  </script>
  <style>
-   .input-icon {
-     font-size: 18px;
-   }
-   .search-input{
-     width: 60%;
-   }
-   .form-control:focus {
+ @import url("https://fonts.googleapis.com/css?family=Hind+Madurai:700|Josefin+Sans:400,700|Leckerli+One|Open+Sans:400,400i,600,600i,700,700i&display=swap");
+ a{
+   color: inherit;
+ }
+ .custom-control-input:checked ~ .custom-control-label::before {
+    color: #337137;
+    border-color: #efeef0;
+    background-color: #efeef0;
+}
+ .search-btn{
+   background-color: #5c6672;
+   border: 1px solid white;
+ }
+ .search-input{
+   padding: 30px 200px;
+    background-color: #313e50;
+ }
+ .custom-select{
+   height: 100%;
+   border-top-right-radius: 0px;
+   border-bottom-right-radius: 0px;
+   font-weight: bold;
+ }
+ .custom-radio{
+   color: white;
+   font-weight: bold;
+ }
+ .search-input h1{
+   font-family: "Josefin Sans", sans-serif;
+   color: white;
+ }
+ .form-control:focus {
      border-color: #337137;
      outline: 0;
      -webkit-box-shadow: 0 0 0 0.2rem rgba(51, 113, 55, 0.452);
      box-shadow: 0 0 0 0.2rem rgba(51, 113, 55, 0.452);
    }
 
-   span.page-link {
-     border-radius: 15px;
+   span.page-link, .page-item:last-child .page-link, .page-item:first-child .page-link {
+     border-radius: 1rem;
      margin: 0px 10px;
    }
 
