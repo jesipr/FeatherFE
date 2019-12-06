@@ -566,7 +566,7 @@ export default {
             this.profileData.position = response.data.acadposition;
             this.profileData.email = response.data.email;
             this.profileData.description = response.data.description;
-            this.profileData.department = response.data.department;
+            this.profileData.department = response.data.department[0];
             this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
             this.profileData.areasinterest = response.data.tags;
             this.profileData.activities = response.data.activities;
@@ -611,7 +611,7 @@ export default {
             this.profileData.position = response.data.acadposition;
             this.profileData.email = response.data.email;
             this.profileData.description = response.data.description;
-            this.profileData.department = response.data.department;
+            this.profileData.department = response.data.department[0];
             this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
             this.profileData.areasinterest = response.data.tags;
             this.profileData.activities = response.data.activities;

@@ -209,7 +209,7 @@
  .custom-control-input:checked ~ .custom-control-label::before {
     color: #337137;
     border-color: #efeef0;
-    background-color: #efeef0;
+    background-color: #313e50;
 }
  .search-btn{
    background-color: #5c6672;
