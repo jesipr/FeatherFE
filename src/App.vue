@@ -11,8 +11,9 @@
 
         <b-navbar-nav>
           <b-nav-item left="true" :active='$route.name =="home"' to="/">Home</b-nav-item>
-          <b-nav-item :active='$route.name =="dashboard"' to="/dashboard">Dashboard</b-nav-item>
           <b-nav-item :active='$route.name =="explore"' to="/explore">Explore</b-nav-item>
+          <b-nav-item :active='$route.name =="adminpanel"' to="/adminpanel">Admin Panel</b-nav-item>
+
         </b-navbar-nav>
         <!-- ONLY when logged out -->
         <b-navbar-nav v-if="!isAuth" class="ml-auto">
@@ -68,7 +69,8 @@ import { mapGetters } from "vuex";
 
 export default {
   data() {
-    return {};
+    return {
+    };
   },
   computed: {
     ...mapGetters("auth", {
