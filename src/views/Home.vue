@@ -56,7 +56,7 @@
         </b-col>
       </b-row>
       <b-row class="tools" align-h="center" align-v="center">
-        
+
         <b-col>
           <b-container class="white-card">
             <h3>Create a profile. It's easy!</h3>
@@ -81,167 +81,162 @@
 </template>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Hind+Madurai:700|Josefin+Sans:400,700|Leckerli+One|Open+Sans:400,400i,600,600i,700,700i&display=swap");
-canvas {
-  display: inline-block;
-}
-.links {
-  height: 100%;
-  padding-right: inherit;
-}
-.links .btn {
-  margin-top: 30vh;
-  background-color: #337137;
-  color: white;
-  border: none;
-}
-.links .btn:hover {
-  background-color: #265229;
-}
-.browse-bg {
-  height: 100%;
-  background-image: url("~@/assets/browse_bg.jpeg");
-  background-position: center;
-  background-size: cover;
-}
-.fa-plus {
-  margin: 0px 20px;
-}
-#main-features h4{
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  color: #efeef0;
-  text-shadow: 3px 2px #313e50;
-}
-#main-features p{
-  line-height: 1.2;
-  color: #efeef0;
-}
-#main-features .fa-user-plus,
-#main-features .fa-chart-bar,
-#main-features .fa-search
-{
-  font-size: 100px;
-  padding: 10px;
-  color: #efeef0;
-}
-#main-features svg{
-  margin-bottom: 1.5rem;
-}
-.fa-building,
-.fa-plus,
-.fa-user-graduate {
-  font-size: 30px;
-}
-.white-card {
-  background: white;
-  padding: 20px 0px;
-}
-#register-btn{
-  background-color: #337137;
-  color: white;
-}
-#register-btn:hover{
-  background-color: #265229;
-}
-.tools {
-  height: 350px;
-  background: white;
-}
-.tools .white-card {
-  border-top: 5px solid #313e50;
-  border-bottom: 5px solid #313e50;
-  border-radius: 2px;
-  width: 60%;
-}
-.tools .col p {
-  margin-bottom: 30px;
-  font-size: 12px;
-}
-.headline {
-  background: #337137;
-}
-.headline .white-card {
-  border-top: 5px solid #313e50;
-  border-bottom: 5px solid #313e50;
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
-}
-.headline .col h3 {
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-.headline .col p {
-  line-height: 1.5;
-}
-.line {
-  border: 3px solid;
-  width: 25%;
-}
-.wrapper-banner {
-  position: relative;
-  -ms-flex-align: center;
-  -webkit-box-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 450px;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-.main-title {
-  z-index: 999;
-}
-.main-title h1 {
-  font-family: "Hind Madurai", sans-serif;
-  font-weight: bold;
-  font-size: 4rem;
-}
-.main-title h2 {
-  font-size: 3.2rem;
-}
-.brand-name h1 {
-  font-family: "Josefin Sans", sans-serif;
-  font-weight: bold;
-  font-size: 5rem;
-  text-shadow: 4px 4px #313e50;
-  color: white;
-}
-#particles-js {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.title {
-  background: rgb(159, 237, 215, 0.8);
-  z-index: 1;
-  height: 713px;
-}
-.header-banner {
-  color: white;
-}
-.header-banner img {
-  min-width: 100%;
-  position: absolute;
-  right: 0;
-  z-index: -9999;
-}
+  @import url("https://fonts.googleapis.com/css?family=Hind+Madurai:700|Josefin+Sans:400,700|Leckerli+One|Open+Sans:400,400i,600,600i,700,700i&display=swap");
+  canvas {
+    display: inline-block;
+  }
+  .links {
+    height: 100%;
+    padding-right: inherit;
+  }
+  .links .btn {
+    margin-top: 30vh;
+    background-color: #337137;
+    color: white;
+    border: none;
+  }
+  .links .btn:hover {
+    background-color: #265229;
+  }
+  .browse-bg {
+    height: 100%;
+    background-image: url("~@/assets/browse_bg.jpeg");
+    background-position: center;
+    background-size: cover;
+  }
+  .fa-plus {
+    margin: 0px 20px;
+  }
+  #main-features h4{
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #efeef0;
+    text-shadow: 3px 2px #313e50;
+  }
+  #main-features p{
+    line-height: 1.2;
+    color: #efeef0;
+  }
+  #main-features .fa-user-plus,
+  #main-features .fa-chart-bar,
+  #main-features .fa-search
+  {
+    font-size: 100px;
+    padding: 10px;
+    color: #efeef0;
+  }
+  #main-features svg{
+    margin-bottom: 1.5rem;
+  }
+  .fa-building,
+  .fa-plus,
+  .fa-user-graduate {
+    font-size: 30px;
+  }
+  .white-card {
+    background: white;
+    padding: 20px 0px;
+  }
+  #register-btn{
+    background-color: #337137;
+    color: white;
+  }
+  #register-btn:hover{
+    background-color: #265229;
+  }
+  .tools {
+    height: 350px;
+    background: white;
+  }
+  .tools .white-card {
+    border-radius: 2px;
+    width: 60%;
+  }
+  .tools .col p {
+    margin-bottom: 30px;
+    font-size: 12px;
+  }
+  .headline {
+    background: #337137;
+  }
+  .headline .white-card {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+  }
+  .headline .col h3 {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .headline .col p {
+    line-height: 1.5;
+  }
+  .line {
+    border: 3px solid;
+    width: 25%;
+  }
+  .wrapper-banner {
+    position: relative;
+    -ms-flex-align: center;
+    -webkit-box-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 450px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+  .main-title {
+    z-index: 999;
+  }
+  .main-title h1 {
+    font-family: "Hind Madurai", sans-serif;
+    font-weight: bold;
+    font-size: 4rem;
+  }
+  .main-title h2 {
+    font-size: 3.2rem;
+  }
+  .brand-name h1 {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: bold;
+    font-size: 5rem;
+    text-shadow: 4px 4px #313e50;
+    color: white;
+  }
+  #particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .title {
+    background: rgb(159, 237, 215, 0.8);
+    z-index: 1;
+    height: 713px;
+  }
+  .header-banner {
+    color: white;
+  }
+  .header-banner img {
+    min-width: 100%;
+    position: absolute;
+    right: 0;
+    z-index: -9999;
+  }
 </style>
 
 <script>
-// @ is an alias to /src
-
-export default {
-  name: 'home',
-  data() {
-    return {
-      fdescription:
-        "The Industry Liason Program (ILP) is a tool for the UPRM's community to discover sponsorship opportunities for activities such as researchs and academic projects. It provides the ability to connect with industry partners and analyze these connections.",
-    };
-  },
-};
+  // @ is an alias to /src
+  export default {
+    name: 'home',
+    data() {
+      return {
+        fdescription:
+          "The Industry Liason Program (ILP) is a tool for the UPRM's community to discover sponsorship opportunities for activities such as researchs and academic projects. It provides the ability to connect with industry partners and analyze these connections.",
+      };
+    },
+  };
 </script>

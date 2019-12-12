@@ -187,7 +187,7 @@
                         firstname: this.form.firstName,
                         lastname: this.form.lastName,
                     });
-                    this.$http.post('https://feather-ilp-back.herokuapp.com/Feather/signup/verification', ver_data, {
+                    this.$http.post(this.mainUrl+'/Feather/signup/verification', ver_data, {
                         headers: {
                             "Content-type": "application/json"
                         }
@@ -215,7 +215,7 @@
                         compname: this.form.compName,
                         tags: this.tags,
                     });
-                    this.$http.post('https://feather-ilp-back.herokuapp.com/Feather/company/signup', data_json, {
+                    this.$http.post(this.mainUrl+'/Feather/company/signup', data_json, {
                         headers: {
                             "Content-type": "application/json"
                         }
@@ -233,7 +233,7 @@
                 console.log(this.tags);
             },
             onInit(){
-              this.$http.get(this.mainHost+'/Feather/company/signup/init', {
+              this.$http.get(this.mainUrl+'/Feather/company/signup/init', {
                 headers: {
                   "Content-type": "application/json"
                 }
