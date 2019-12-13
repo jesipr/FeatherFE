@@ -66,14 +66,16 @@ const actions = {
       return;
     }
 
-    commit('authUser', { userid: userid, token: token });
-  },
-  logout: ({ commit }) => {
-    commit('clearAuthData');
-    localStorage.removeItem('userid');
-    localStorage.removeItem('token');
-    router.replace('');
-  },
+        commit('authUser', { userid: userid, token: token });
+    },
+    logout: ({ commit }) => {
+        commit('clearAuthData');
+        localStorage.removeItem('userid');
+        localStorage.removeItem('token');
+        localStorage.clear();
+        router.replace('');
+    },
+
 };
 
 export default {

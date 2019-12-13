@@ -292,7 +292,8 @@
                 }
             },
             searchEmail: function() {
-                this.$http.get(this.mainUrl+'/Feather/professor/signup/findemail'+'/'+this.email_data.upremail, {
+                this.$http.get(this.mainHost+'/Feather/professor/signup/findemail'+'/'+this.email_data.upremail, {
+
                     headers: {
                         "Content-type": "application/json"
                     }
@@ -325,7 +326,8 @@
                 this.tags.push(newTag);
             },
             onInit(){
-              this.$http.get(this.mainUrl+'/Feather/professor/signup/init', {
+              this.$http.get(this.mainHost+'/Feather/professor/signup/init', {
+
                 headers: {
                   "Content-type": "application/json"
                 }

@@ -199,6 +199,16 @@
   .custom-control-input:checked ~ .custom-control-label::before {
     color: #337137;
     border-color: #efeef0;
+
+    background-color: #313e50;
+}
+ .search-btn{
+   background-color: #5c6672;
+   border: 1px solid white;
+ }
+ .search-input{
+   padding: 30px 200px;
+
     background-color: #313e50;
   }
   .search-btn{
