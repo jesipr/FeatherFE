@@ -7,7 +7,7 @@
     </div>
     <!-- Company Component -->
     <div v-show="!loading">
-      <b-jumbotron class="header-info" data-aos="fade-up">
+      <b-jumbotron class="header-info" data-aos="fade">
         <b-row align-v="center">
           <b-col class sm="5" md="5">
             <h1 class="display-3">{{profileData.firstname}} {{profileData.lastname}}</h1>
@@ -397,10 +397,107 @@
           actid: this.disActIds[actIndex],
           userid: userid,
         });
-        axios({
-          url: this.request_url.concat("/Feather/editActsinProfile"),
-          data: data_json,
-          method: "post"
+    },
+    showModalEditProfile() {
+      this.editProfileData.firstname = this.profileData.firstname;
+      this.editProfileData.lastname = this.profileData.lastname;
+      this.editProfileData.position = this.profileData.position;
+      this.editProfileData.email = this.profileData.email;
+      this.editProfileData.description = this.profileData.description;
+      this.editProfileData.externalLink = this.profileData.externalLink;
+      this.editProfileData.department = this.profileData.department;
+      if (this.profileData.areasinterest) {
+        this.editProfileData.areasinterest = Array.from(
+          this.profileData.areasinterest
+        );
+      }
+      this.$bvModal.show("modalEditProfile");
+    },
+    cancelEdit() {
+      this.editProfileData.firstname = this.profileData.firstname;
+      this.editProfileData.lastname = this.profileData.lastname;
+      this.editProfileData.position = this.profileData.position;
+      this.editProfileData.department = this.profileData.department;
+      this.editProfileData.externalLink = this.profileData.externalLink;
+      this.editProfileData.email = this.profileData.email;
+      this.editProfileData.description = this.profileData.description;
+      this.$bvModal.hide("modalEditProfile");
+    },
+    editProfile() {
+      if (this.$v.editProfileData.$anyError) {
+        return;
+      }
+      this.$bvModal
+        .msgBoxConfirm("Are you sure you want to edit?", {
+          title: "Confirmation",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "dark",
+          cancelVariant: "secondary",
+          okTitle: "YES",
+          cancelTitle: "NO",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(confirm => {
+          if (confirm) {
+            var userid = localStorage.getItem("userid");
+            const profile_info_edited = JSON.stringify({
+              userid: userid,
+              firstname: this.editProfileData.firstname,
+              lastname: this.editProfileData.lastname,
+              email: this.editProfileData.email,
+              description: this.editProfileData.description,
+              department: this.editProfileData.department,
+              position: this.editProfileData.position,
+              externallink: this.editProfileData.externalLink,
+              tags: this.editProfileData.areasinterest
+            });
+            console.log(profile_info_edited);
+            this.profileData.firstname = this.editProfileData.firstname;
+            this.profileData.lastname = this.editProfileData.lastname;
+            this.profileData.position = this.editProfileData.position;
+            this.profileData.department = this.editProfileData.department;
+            this.profileData.externalLink = this.editProfileData.externalLink;
+            this.profileData.email = this.editProfileData.email;
+            this.profileData.description = this.editProfileData.description;
+            this.profileData.areasinterest = this.editProfileData.areasinterest;
+
+            localStorage.setItem('firstname', this.editProfileData.firstname);
+            localStorage.setItem('lastname', this.editProfileData.lastname);
+            localStorage.setItem('position', this.editProfileData.position);
+            localStorage.setItem('email', this.editProfileData.email);
+            var date = new Date();
+            localStorage.setItem('dateupdated', date.substring(0, 16));
+            localStorage.setItem('areasinterest', this.editProfileData.areasinterest);
+            localStorage.setItem('externalLink', this.editProfileData.externalLink);
+            localStorage.setItem('department', this.editProfileData.department);
+            localStorage.setItem('description', this.editProfileData.description);
+            this.$bvModal.hide("modalEditProfile");
+
+            // axios({
+            //   url: this.request_url.concat("/Feather/getprofilebyuserid/",
+            //   data: data_json,
+            //   method: "post"
+            // })
+            //   .then(response => {
+            //     if (response.data.userid == userid) {
+            //       this.profileData.firstname = this.editProfileData.firstname;
+            //       this.profileData.lastname = this.editProfileData.lastname;
+            //       this.profileData.position = this.editProfileData.position;
+            //       this.profileData.department = this.editProfileData.department;
+            //       this.profileData.email = this.editProfileData.email;
+            //       this.profileData.description = this.editProfileData.description;
+            //       this.profileData.areasinterest = this.editProfileData.areasinterest;
+            //     }
+            //     this.loading = false;
+            //   })
+            //   .catch(error => {
+            //     console.log(`error: ${error}`);
+            //   });
+          }
+
         })
           .then(response => {
             if (response.data.company) {
@@ -435,90 +532,90 @@
         this.editProfileData.position = this.profileData.position;
         this.editProfileData.email = this.profileData.email;
         this.editProfileData.description = this.profileData.description;
-        this.editProfileData.externalLink = this.profileData.externalLink;
-        this.editProfileData.department = this.profileData.department;
-        if (this.profileData.areasinterest) {
-          this.editProfileData.areasinterest = Array.from(
-            this.profileData.areasinterest
-          );
-        }
-        this.$bvModal.show("modalEditProfile");
-      },
-      cancelEdit() {
-        this.editProfileData.firstname = this.profileData.firstname;
-        this.editProfileData.lastname = this.profileData.lastname;
-        this.editProfileData.position = this.profileData.position;
-        this.editProfileData.department = this.profileData.department;
-        this.editProfileData.externalLink = this.profileData.externalLink;
-        this.editProfileData.email = this.profileData.email;
-        this.editProfileData.description = this.profileData.description;
-        this.$bvModal.hide("modalEditProfile");
-      },
-      editProfile() {
-        if (this.$v.editProfileData.$anyError) {
-          return;
-        }
-        this.$bvModal
-          .msgBoxConfirm("Are you sure you want to edit?", {
-            title: "Confirmation",
-            size: "sm",
-            buttonSize: "sm",
-            okVariant: "dark",
-            cancelVariant: "secondary",
-            okTitle: "YES",
-            cancelTitle: "NO",
-            footerClass: "p-2",
-            hideHeaderClose: false,
-            centered: true
-          })
-          .then(confirm => {
-            if (confirm) {
-              var userid = localStorage.getItem("userid");
-              const profile_info_edited = JSON.stringify({
-                userid: userid,
-                firstname: this.editProfileData.firstname,
-                lastname: this.editProfileData.lastname,
-                email: this.editProfileData.email,
-                description: this.editProfileData.description,
-                department: this.editProfileData.department,
-                position: this.editProfileData.position,
-                externallink: this.editProfileData.externalLink,
-                tags: this.editProfileData.areasinterest
-              });
-              console.log(profile_info_edited);
-              this.profileData.firstname = this.editProfileData.firstname;
-              this.profileData.lastname = this.editProfileData.lastname;
-              this.profileData.position = this.editProfileData.position;
-              this.profileData.department = this.editProfileData.department;
-              this.profileData.externalLink = this.editProfileData.externalLink;
-              this.profileData.email = this.editProfileData.email;
-              this.profileData.description = this.editProfileData.description;
-              this.profileData.areasinterest = this.editProfileData.areasinterest;
-              this.$bvModal.hide("modalEditProfile");
-              this.loading = true;
-              axios({
-                url: this.request_url.concat("/Feather/editProfile"),
-                data: profile_info_edited,
-                method: "post"
-              })
-                .then(response => {
-                  if (response.data.userid == userid) {
-                    // this.profileData.firstname = this.editProfileData.firstname;
-                    // this.profileData.lastname = this.editProfileData.lastname;
-                    // this.profileData.position = this.editProfileData.position;
-                    // this.profileData.department = this.editProfileData.department;
-                    // this.profileData.email = this.editProfileData.email;
-                    // this.profileData.description = this.editProfileData.description;
-                    // this.profileData.areasinterest = this.editProfileData.areasinterest;
-                    this.disActivities = [];
-                    this.disActIds = [];
-                    this.init();
-                  }
-                  this.loading = false;
-                })
-                .catch(error => {
-                  console.log(`error: ${error}`);
-                });
+          this.$bvModal.hide("modalEditProfile");
+        });
+    },
+    getModalHeader() {
+      return "Edit " + this.profileData.firstname + "s" + " information";
+    },
+    init() {
+      //Populate Profile Information at start
+      if(!localStorage.getItem("firstname")){
+        console.log("Primera vez");
+        var userid = this.$route.params.id;
+      axios({
+        url: this.request_url.concat("/Feather/departments"),
+        method: "get"
+      })
+        .then(response => {
+          this.departments = response.data;
+        })
+        .catch(error => {
+          console.log(`error: ${error}`);
+        });
+
+      axios({
+        url: this.request_url.concat("/Feather/getprofilebyuserid/" + userid),
+        method: "get"
+      })
+        .then(response => {
+          console.log(response);
+          var localstorage_userid = localStorage.getItem('userid');
+          var usertype = localStorage.getItem('usertype');
+
+             if (localstorage_userid == userid && usertype == 1) {
+               this.profileData.isEditable = true;
+             }
+             if (response.data.company) {
+               //User is a Company Representative
+            this.profileData.isCompany = true;
+            this.profileData.firstname = response.data.firstname;
+            this.profileData.lastname = response.data.lastname;
+            this.profileData.position = response.data.empposition;
+            this.profileData.email = response.data.email;
+            this.profileData.companyname = response.data.company;
+            this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
+            this.profileData.areasinterest = response.data.tags;
+            this.profileData.activities = response.data.activities;
+
+            localStorage.setItem('isCompany', true);
+            localStorage.setItem('firstname', response.data.firstname);
+            localStorage.setItem('lastname', response.data.lastname);
+            localStorage.setItem('position', response.data.empposition);
+            localStorage.setItem('email', response.data.email);
+            localStorage.setItem('company', response.data.company);
+            localStorage.setItem('dateupdated', response.data.dateupdated.substring(0, 16));
+            localStorage.setItem('areasinterest', response.data.tags);
+            localStorage.setItem('activities', response.data.activities);
+
+          } else {
+            this.profileData.isProfessor = true;
+            this.profileData.firstname = response.data.firstname;
+            this.profileData.lastname = response.data.lastname;
+            this.profileData.position = response.data.acadposition;
+            this.profileData.email = response.data.email;
+            this.profileData.description = response.data.description;
+            this.profileData.department = response.data.department[0];
+            this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
+            this.profileData.areasinterest = response.data.tags;
+            this.profileData.activities = response.data.activities;
+
+            localStorage.setItem('isProfessor', true);
+            localStorage.setItem('firstname', response.data.firstname);
+            localStorage.setItem('lastname', response.data.lastname);
+            localStorage.setItem('position', response.data.acadposition);
+            localStorage.setItem('email', response.data.email);
+            localStorage.setItem('description', response.data.description);
+            localStorage.setItem('dateupdated', response.data.dateupdated.substring(0, 16));
+            localStorage.setItem('areasinterest', response.data.tags);
+            localStorage.setItem('activities', response.data.activities);
+
+
+            for(let i=0; i<response.data.activities.length; i++){
+              this.disActIds.push(response.data.activities[i]['actid']);
+              this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
+                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
+
             }
           });
           // .catch(err => {
@@ -543,15 +640,93 @@
           url: this.request_url.concat("/Feather/departments"),
           method: "get"
         })
-          .then(response => {
-            this.departments = response.data;
-          })
-          .catch(error => {
-            console.log(`error: ${error}`);
-          });
-        axios({
-          url: this.request_url.concat("/Feather/getprofilebyuserid/" + userid),
-          method: "get"
+        .catch(error => {
+          console.log(`error: ${error}`);
+        });
+      } else{
+        console.log("Segunda vez");
+        var localstorage_userid = localStorage.getItem('userid');
+          var usertype = localStorage.getItem('usertype');
+
+             if (localstorage_userid == userid && usertype == 1) {
+               this.profileData.isEditable = true;
+             }
+             if (localStorage.getItem("isCompany")) {
+               //User is a Company Representative
+            this.profileData.isCompany = true;
+            this.profileData.firstname = localStorage.getItem("firstname");
+            this.profileData.lastname = localStorage.getItem("lastname");
+            this.profileData.position = localStorage.getItem("position");
+            this.profileData.email = localStorage.getItem("email");
+            this.profileData.companyname = localStorage.getItem("companyname");
+            this.profileData.dateUpdated = localStorage.getItem("dateupdated");
+            this.profileData.areasinterest = localStorage.getItem("areasinterest");
+            this.profileData.activities = localStorage.getItem("activites");
+          } else {
+            this.profileData.isProfessor = true;
+            this.profileData.firstname = localStorage.getItem("firstname");
+            this.profileData.lastname = localStorage.getItem("lastname");
+            this.profileData.position = localStorage.getItem("position");
+            this.profileData.email = localStorage.getItem("email");
+            this.profileData.description = localStorage.getItem("description");
+            this.profileData.department = localStorage.getItem("department");
+            this.profileData.dateUpdated = localStorage.getItem("dateupdated");
+            this.profileData.areasinterest = localStorage.getItem("areasinterest");
+            this.profileData.activities = localStorage.getItem("activites");
+            if(this.profileData.activities != null){
+            for(let i=0; i< this.profileData.activities.length; i++){
+              this.disActIds.push(this.profileData.activities[i]['actid']);
+              this.disActivities.push({'Title': this.profileData.activities[i]['actname'], 'Range of Funds':this.profileData.activities[i]['fundrange'],
+                'Description':this.profileData.activities[i]['description'], 'Date':this.profileData.activities[i]['actdate'], 'Ongoing':this.profileData.activities[i]['ongoing']});
+            }
+            }
+          }
+          this.loading = false;
+      }
+    },
+    editActivity(actIndex) {
+      //Populate Profile Information at start
+      let argus = actIndex;
+      this.loading = true;
+      const actid = this.disActIds[argus['actIndex']];
+      const activity = this.profileData.activities[argus['actIndex']];
+      const userid = this.$route.params.id;
+      const data_json = JSON.stringify({
+        action: 'edit',
+        actid: actid,
+        activity: activity,
+        userid: userid,
+      });
+      axios({
+        url: this.request_url.concat("/Feather/editActsinProfile"),
+        data: data_json,
+        method: "post"
+      })
+        .then(response => {
+          if (response.data.company) {
+            console.log("Se crapio esto");
+          } else {
+            //User is a Professor
+            this.profileData.isProfessor = true;
+            this.profileData.firstname = response.data.firstname;
+            this.profileData.lastname = response.data.lastname;
+            this.profileData.position = response.data.acadposition;
+            this.profileData.email = response.data.email;
+            this.profileData.description = response.data.description;
+            this.profileData.department = response.data.department[0];
+            this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
+            this.profileData.areasinterest = response.data.tags;
+            this.profileData.activities = response.data.activities;
+            this.disActivities = [];
+            this.disActIds = [];
+            for(let i=0; i<response.data.activities.length; i++){
+              this.disActIds.push(response.data.activities[i]['actid']);
+              this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
+                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
+            }
+          }
+          this.loading = false;
+
         })
           .then(response => {
             console.log(response);
