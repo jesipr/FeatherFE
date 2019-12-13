@@ -7,7 +7,7 @@
     </div>
     <!-- Company Component -->
     <div v-show="!loading">
-      <b-jumbotron class="header-info" data-aos="fade-up">
+      <b-jumbotron class="header-info" data-aos="fade">
         <b-row align-v="center">
           <b-col class sm="5" md="5">
             <h1 class="display-3">{{profileData.firstname}} {{profileData.lastname}}</h1>
@@ -619,7 +619,7 @@ export default {
           console.log(`error: ${error}`);
         });
       } else{
-        console.log("Primera vez");
+        console.log("Segunda vez");
         var localstorage_userid = localStorage.getItem('userid');
           var usertype = localStorage.getItem('usertype');
 
@@ -648,10 +648,12 @@ export default {
             this.profileData.dateUpdated = localStorage.getItem("dateupdated");
             this.profileData.areasinterest = localStorage.getItem("areasinterest");
             this.profileData.activities = localStorage.getItem("activites");
+            if(this.profileData.activities != null){
             for(let i=0; i< this.profileData.activities.length; i++){
               this.disActIds.push(this.profileData.activities[i]['actid']);
               this.disActivities.push({'Title': this.profileData.activities[i]['actname'], 'Range of Funds':this.profileData.activities[i]['fundrange'],
                 'Description':this.profileData.activities[i]['description'], 'Date':this.profileData.activities[i]['actdate'], 'Ongoing':this.profileData.activities[i]['ongoing']});
+            }
             }
           }
           this.loading = false;
