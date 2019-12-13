@@ -484,6 +484,17 @@ export default {
             this.profileData.email = this.editProfileData.email;
             this.profileData.description = this.editProfileData.description;
             this.profileData.areasinterest = this.editProfileData.areasinterest;
+
+            localStorage.setItem('firstname', this.editProfileData.firstname);
+            localStorage.setItem('lastname', this.editProfileData.lastname);
+            localStorage.setItem('position', this.editProfileData.position);
+            localStorage.setItem('email', this.editProfileData.email);
+            var date = new Date();
+            localStorage.setItem('dateupdated', date.substring(0, 16));
+            localStorage.setItem('areasinterest', this.editProfileData.areasinterest);
+            localStorage.setItem('externalLink', this.editProfileData.externalLink);
+            localStorage.setItem('department', this.editProfileData.department);
+            localStorage.setItem('description', this.editProfileData.description);
             this.$bvModal.hide("modalEditProfile");
 
             // axios({
@@ -525,7 +536,9 @@ export default {
     },
     init() {
       //Populate Profile Information at start
-      var userid = this.$route.params.id;
+      if(!localStorage.getItem("firstname")){
+        console.log("Primera vez");
+        var userid = this.$route.params.id;
       axios({
         url: this.request_url.concat("/Feather/departments"),
         method: "get"
@@ -536,6 +549,7 @@ export default {
         .catch(error => {
           console.log(`error: ${error}`);
         });
+
       axios({
         url: this.request_url.concat("/Feather/getprofilebyuserid/" + userid),
         method: "get"
@@ -543,7 +557,7 @@ export default {
         .then(response => {
           console.log(response);
           var localstorage_userid = localStorage.getItem('userid');
-        var usertype = localStorage.getItem('usertype');
+          var usertype = localStorage.getItem('usertype');
 
              if (localstorage_userid == userid && usertype == 1) {
                this.profileData.isEditable = true;
@@ -559,6 +573,17 @@ export default {
             this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
             this.profileData.areasinterest = response.data.tags;
             this.profileData.activities = response.data.activities;
+
+            localStorage.setItem('isCompany', true);
+            localStorage.setItem('firstname', response.data.firstname);
+            localStorage.setItem('lastname', response.data.lastname);
+            localStorage.setItem('position', response.data.empposition);
+            localStorage.setItem('email', response.data.email);
+            localStorage.setItem('company', response.data.company);
+            localStorage.setItem('dateupdated', response.data.dateupdated.substring(0, 16));
+            localStorage.setItem('areasinterest', response.data.tags);
+            localStorage.setItem('activities', response.data.activities);
+
           } else {
             this.profileData.isProfessor = true;
             this.profileData.firstname = response.data.firstname;
@@ -570,6 +595,18 @@ export default {
             this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
             this.profileData.areasinterest = response.data.tags;
             this.profileData.activities = response.data.activities;
+
+            localStorage.setItem('isProfessor', true);
+            localStorage.setItem('firstname', response.data.firstname);
+            localStorage.setItem('lastname', response.data.lastname);
+            localStorage.setItem('position', response.data.acadposition);
+            localStorage.setItem('email', response.data.email);
+            localStorage.setItem('description', response.data.description);
+            localStorage.setItem('dateupdated', response.data.dateupdated.substring(0, 16));
+            localStorage.setItem('areasinterest', response.data.tags);
+            localStorage.setItem('activities', response.data.activities);
+
+
             for(let i=0; i<response.data.activities.length; i++){
               this.disActIds.push(response.data.activities[i]['actid']);
               this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
@@ -581,6 +618,44 @@ export default {
         .catch(error => {
           console.log(`error: ${error}`);
         });
+      } else{
+        console.log("Primera vez");
+        var localstorage_userid = localStorage.getItem('userid');
+          var usertype = localStorage.getItem('usertype');
+
+             if (localstorage_userid == userid && usertype == 1) {
+               this.profileData.isEditable = true;
+             }
+             if (localStorage.getItem("isCompany")) {
+               //User is a Company Representative
+            this.profileData.isCompany = true;
+            this.profileData.firstname = localStorage.getItem("firstname");
+            this.profileData.lastname = localStorage.getItem("lastname");
+            this.profileData.position = localStorage.getItem("position");
+            this.profileData.email = localStorage.getItem("email");
+            this.profileData.companyname = localStorage.getItem("companyname");
+            this.profileData.dateUpdated = localStorage.getItem("dateupdated");
+            this.profileData.areasinterest = localStorage.getItem("areasinterest");
+            this.profileData.activities = localStorage.getItem("activites");
+          } else {
+            this.profileData.isProfessor = true;
+            this.profileData.firstname = localStorage.getItem("firstname");
+            this.profileData.lastname = localStorage.getItem("lastname");
+            this.profileData.position = localStorage.getItem("position");
+            this.profileData.email = localStorage.getItem("email");
+            this.profileData.description = localStorage.getItem("description");
+            this.profileData.department = localStorage.getItem("department");
+            this.profileData.dateUpdated = localStorage.getItem("dateupdated");
+            this.profileData.areasinterest = localStorage.getItem("areasinterest");
+            this.profileData.activities = localStorage.getItem("activites");
+            for(let i=0; i< this.profileData.activities.length; i++){
+              this.disActIds.push(this.profileData.activities[i]['actid']);
+              this.disActivities.push({'Title': this.profileData.activities[i]['actname'], 'Range of Funds':this.profileData.activities[i]['fundrange'],
+                'Description':this.profileData.activities[i]['description'], 'Date':this.profileData.activities[i]['actdate'], 'Ongoing':this.profileData.activities[i]['ongoing']});
+            }
+          }
+          this.loading = false;
+      }
     },
     editActivity(actIndex) {
       //Populate Profile Information at start

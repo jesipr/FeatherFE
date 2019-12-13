@@ -70,6 +70,7 @@ const actions = {
         commit('clearAuthData');
         localStorage.removeItem('userid');
         localStorage.removeItem('token');
+        localStorage.clear();
         router.replace('');
     },
 };
