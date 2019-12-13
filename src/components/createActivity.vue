@@ -8,10 +8,11 @@
         <div class='ui form'>
           <b-input-group prepend="Activity" class="mts-3">
             <b-form-input v-model="actname" placeholder="Activity title" type="text"></b-form-input>
-            <b-form-input v-model="actdate" placeholder="YYYY-MM-DD" type="text"></b-form-input>
+            <date-picker name="date" v-model="actdate" :config="config"></date-picker>
             <template>
               <b-form-select v-model="fundrange" :options="options"></b-form-select>
             </template>
+            <b-form-checkbox v-model="ongoing">Ongoing</b-form-checkbox>
           </b-input-group>
           <template>
             <b-form-textarea size="sm" v-model="description" placeholder="Description"></b-form-textarea>
@@ -31,10 +32,12 @@
 </template>
 
 <script>
+    import datePicker from 'vue-bootstrap-datetimepicker';
     import { ModelSelect } from 'vue-search-select';
     export default {
         components: {
-            ModelSelect
+            ModelSelect,
+            datePicker,
         },
         data() {
             return {
@@ -42,13 +45,20 @@
                 actdate: '',
                 fundrange: '',
                 description: '',
+                ongoing: false,
                 isCreating: false,
                 options: [
                     { value: '-$5k', text: '-$5k' },
                     { value: '$5k - $10k', text: '$5k - $10k' },
                     { value: '+$10k', text: '+$10k' },
-                    { value: '', text: 'Select'}
+                    { value: 'Fund not monetized', text: 'Fund not monetized' }
                 ],
+                config: {
+                  format: 'YYYY-MM-DD',
+                  useCurrent: false,
+                  showClear: true,
+                  showClose: true,
+                }
             };
         },
         methods: {
@@ -64,16 +74,19 @@
                     const actdate = this.actdate;
                     const fundrange = this.fundrange;
                     const description = this.description;
+                    const ongoing = this.ongoing;
                     this.$emit('create-activity', {
                         actname,
                         actdate,
                         fundrange,
                         description,
+                        ongoing,
                     });
                     this.actname = '';
                     this.actdate = '';
                     this.fundrange = '';
                     this.description = '';
+                    this.ongoing = false;
                     this.isCreating = false;
                 }
             },

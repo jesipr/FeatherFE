@@ -30,7 +30,7 @@
                   </div>
                 </b-col>
                 <b-col>
-                  <div class="register-link mx-auto text-center"> 
+                  <div class="register-link mx-auto text-center">
                     <b-button variant="dark" @click="hide()" to="/prof-signup">
                       <h1>Professors</h1>
                       <font-awesome-icon icon="user-graduate" />
@@ -56,115 +56,112 @@
         <span>Privacy Policy</span>
         </a>
         </div>
-        
-        
+
+
       </div>
     </footer> -->
   </div>
 </template>
 
 <script>
-import { BModal as $bvModal } from "bootstrap-vue/src/components/modal/modal";
-import { mapGetters } from "vuex";
-
-export default {
-  data() {
-    return {
-    };
-  },
-  computed: {
-    ...mapGetters("auth", {
-      isAuth: "isAuthenticated",
-      getPath: "getProfilePath"
-    })
-  },
-  methods: {
-    logout: function() {
-      this.path_to_profile = "";
-      this.$store.dispatch("auth/logout").then(() => {
-        this.$router.push("/signin");
-      });
+  import { BModal as $bvModal } from "bootstrap-vue/src/components/modal/modal";
+  import { mapGetters } from "vuex";
+  export default {
+    data() {
+      return {
+      };
+    },
+    computed: {
+      ...mapGetters("auth", {
+        isAuth: "isAuthenticated",
+        getPath: "getProfilePath"
+      })
+    },
+    methods: {
+      logout: function() {
+        this.path_to_profile = "";
+        this.$store.dispatch("auth/logout").then(() => {
+          this.$router.push("/signin");
+        });
+      }
     }
-  }
-};
+  };
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Hind+Madurai:700|Josefin+Sans:400,700|Leckerli+One|Open+Sans:400,400i,600,600i,700,700i&display=swap");
-#app {
-  font-family: "Open Sans", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #313e50;
-}
-/* .footer{
-  background-color:#173519;
-  color:white;
-}
-.footer a span{
-  color: white;
-  font-size: 0.8rem;
-} */
-a:hover{
-  color: white;
-}
-li {
-  display: table-cell;
-  position: relative;
-}
-.register-css{
-  background-color: #343a40;
-}
-.register-link h1{
-  font-family: "Josefin Sans", sans-serif;
-  font-weight: 400;
-  font-size: 2rem;
-}
-.btn-logout {
-  background-color: white;
-  color: inherit;
-}
-.nav-item a:after {
-  background: none repeat scroll 0 0 transparent;
-  bottom: 0;
-  content: "";
-  display: block;
-  height: 2px;
-  left: 50%;
-  position: absolute;
-  background: #efeef0;
-  transition: width 0.3s ease 0s, left 0.3s ease 0s;
-  width: 0;
-}
-.nav-item a:hover:after {
-  width: 100%;
-  left: 0;
-}
-.active {
-  font-weight: bold;
-}
-#brand {
-  font-family: "Hind Madurai", sans-serif;
-  font-size: 28px;
-}
-nav {
-  background: #337137;
-}
-#site_logo {
-  width: 40px;
-  background: white;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+  @import url("https://fonts.googleapis.com/css?family=Hind+Madurai:700|Josefin+Sans:400,700|Leckerli+One|Open+Sans:400,400i,600,600i,700,700i&display=swap");
+  #app {
+    font-family: "Open Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #313e50;
+  }
+  /* .footer{
+    background-color:#173519;
+    color:white;
+  }
+  .footer a span{
+    color: white;
+    font-size: 0.8rem;
+  } */
+  a:hover{
+    color: white;
+  }
+  li {
+    display: table-cell;
+    position: relative;
+  }
+  .register-css{
+    background-color: #343a40;
+  }
+  .register-link h1{
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 400;
+    font-size: 2rem;
+  }
+  .btn-logout {
+    background-color: white;
+    color: inherit;
+  }
+  .nav-item a:after {
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #efeef0;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+  }
+  .nav-item a:hover:after {
+    width: 100%;
+    left: 0;
+  }
+  .active {
+    font-weight: bold;
+  }
+  #brand {
+    font-family: "Hind Madurai", sans-serif;
+    font-size: 28px;
+  }
+  nav {
+    background: #337137;
+  }
+  #site_logo {
+    width: 40px;
+    background: white;
+  }
+  #nav {
+    padding: 30px;
+  }
+  #nav a {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+  #nav a.router-link-exact-active {
+    color: #42b983;
+  }
 </style>
