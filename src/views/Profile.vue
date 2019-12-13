@@ -1,4 +1,4 @@
- <template>
+<template>
   <div class="profile">
     <div v-show="loading">
       <div class="text-center mt-5">
@@ -12,15 +12,15 @@
           <b-col class sm="5" md="5">
             <h1 class="display-3">{{profileData.firstname}} {{profileData.lastname}}</h1>
             <div class="name-subtext">
-               <a class="float-right" :href="profileData.externalLink"
+              <a class="float-right" :href="profileData.externalLink"
                  v-show="profileData.externalLink">
-                 More Info
-                 <font-awesome-icon icon="external-link-square-alt" />
-               </a>
-               <br />
-               <p class="float-right" style="font-size: 0.8rem">Updated:
-                 {{profileData.dateUpdated}}</p>
-             </div>
+                More Info
+                <font-awesome-icon icon="external-link-square-alt" />
+              </a>
+              <br />
+              <p class="float-right" style="font-size: 0.8rem">Updated:
+                {{profileData.dateUpdated}}</p>
+            </div>
           </b-col>
           <b-col class="profile-info" sm="7" md="7">
             <div class="profile-position">
@@ -147,16 +147,16 @@
               </b-input-group>
             </b-form-group>
             <b-form-group description="Link to CV, LinkedIn or equivalent">
-               <b-input-group>
-                 <b-input-group-prepend is-text>External Link</b-input-group-prepend>
-                 <b-form-input id="editposition-input"
-                   v-model="$v.editProfileData.externalLink.$model"
-                   :state="$v.editProfileData.externalLink.$dirty ? !$v.editProfileData.externalLink.$error : null"
-                   aria-describedby="editExternalLink-feedback"></b-form-input>
-                 <b-form-invalid-feedback id="editExternalLink-feedback">Insert a valid url
-                   including "http://"</b-form-invalid-feedback>
-               </b-input-group>
-             </b-form-group>
+              <b-input-group>
+                <b-input-group-prepend is-text>External Link</b-input-group-prepend>
+                <b-form-input id="editposition-input"
+                              v-model="$v.editProfileData.externalLink.$model"
+                              :state="$v.editProfileData.externalLink.$dirty ? !$v.editProfileData.externalLink.$error : null"
+                              aria-describedby="editExternalLink-feedback"></b-form-input>
+                <b-form-invalid-feedback id="editExternalLink-feedback">Insert a valid url
+                  including "http://"</b-form-invalid-feedback>
+              </b-input-group>
+            </b-form-group>
           </b-form>
           <div>
             <label class="typo__label">Areas of Interest:</label>
@@ -210,213 +210,192 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col sm="2" md="2" class="text-right">
+          <b-col sm="2" md="2" class="text-left">
             <div class="activities-header">
               <p>Activities</p>
-              <b-button v-show="this.profileData.isEditable"
-                 @click="$bvModal.show('editActivityModal')" id="edit-act-btn" pill variant="light">
-                 <font-awesome-icon icon="edit" />Edit
-               </b-button>
             </div>
           </b-col>
-        <b-col sm="10" md="10" class="text-right">
-        <div class="badges mt-1 mb-4">
-        <b-container>
-          <b-modal id="editActivityModal" size="xl">
-            <template v-slot:modal-header="{ close }">
-              <h5>Edit your activities.</h5>
-            </template>
-            <template v-slot:default="{ hide }">
-              <activity-list v-bind:activities="profileData.activities"
-                             v-on:editing-activity="editActivity"
-                             v-on:deleting-activity="deleteActivity"></activity-list>
-              <create-activity v-on:create-activity="createActivity"></create-activity>
-            </template>
-            <template v-slot:modal-footer="{ cancel, ok }">
-              <b-button size="sm" variant="success" @click="ok()">
-                Submit
-              </b-button>
-            </template>
-          </b-modal>
-        </b-container>
-        <template>
-          <div>
-            <b-table hover
-                     :items="disActivities"
-                     striped
-                     bordered
-                     head-variant="dark"
+          <b-col offset-sm="8">
+            <b-button class="shadow" v-show="this.profileData.isEditable"
+                      @click="$bvModal.show('editActivityModal')"
+                      id="edit-act-btn"
+                      pill
+                      variant="dark"
+                      v-b-tooltip.hover
+                      title="Press this button to edit your academic activities."
             >
-            </b-table>
-          </div>
-        </template>
-        </div>
-        </b-col>
+              <font-awesome-icon icon="edit" />Edit
+            </b-button>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col offset-sm="1" sm="10" md="10" class="text-right">
+            <div class="mt-1 mb-4">
+              <b-container>
+                <b-modal id="editActivityModal" size="xl">
+                  <template v-slot:modal-header="{ close }">
+                    <h5>Edit your activities.</h5>
+                  </template>
+                  <template v-slot:default="{ hide }">
+                    <activity-list v-bind:activities="profileData.activities"
+                                   v-on:editing-activity="editActivity"
+                                   v-on:deleting-activity="deleteActivity"></activity-list>
+                    <create-activity v-on:create-activity="createActivity"></create-activity>
+                  </template>
+                  <template v-slot:modal-footer="{ cancel, ok }">
+                    <b-button size="sm" variant="success" @click="ok()">
+                      Submit
+                    </b-button>
+                  </template>
+                </b-modal>
+              </b-container>
+              <template>
+                <div>
+                  <b-table hover
+                           :items="disActivities"
+                           striped
+                           bordered
+                           head-variant="dark"
+                  >
+                  </b-table>
+                </div>
+              </template>
+            </div>
+          </b-col>
         </b-row>
       </b-container>
     </div>
   </div>
 </template>
 <script>
-import Vue from "vue";
-import axios from "axios";
-import { validationMixin } from "vuelidate";
-import { maxLength, alpha, email, required, url } from "vuelidate/lib/validators";
-import Multiselect from "vue-multiselect";
-import sweetalert from 'sweetalert';
-import ActivityList from "../components/ActivityList";
-import createActivity from "../components/createActivity";
-
-export default {
-  data() {
-    return { //https://feather-ilp-back.herokuapp.com
-      request_url: "http://localhost:5000",
-      departments: [],
-      disActivities: [],
-      disActIds: [],
-      profileData: {
-        isEditable: false,
-        isCompany: false,
-        isProfessor: false,
-        dateUpdated: "",
-        firstname: "",
-        lastname: "",
-        email: "",
-        description: "",
-        position: "",
-        companyname: "",
-        department: "",
-        externalLink: "",
-        areasinterest: [],
-        activities: []
-      },
-      editProfileData: {
-        firstname: "",
-        lastname: "",
-        email: "",
-        description: "",
-        position: "",
-        companyname: "",
-        department: "",
-        externalLink: "",
-        activities: [],
-        areasinterest: [],
-      },
-      loading: true
-    };
-  },
-  validations: {
-    //Validations for the inputs when editing profile info
-    editProfileData: {
-      firstname: {
-        maxLength: maxLength(25)
-      },
-      lastname: {
-        maxLength: maxLength(25)
-      },
-      department: {
-        required
-      },
-      position: {
-        maxLength: maxLength(50)
-      },
-      email: {
-        email,
-        required
+  import Vue from "vue";
+  import axios from "axios";
+  import { validationMixin } from "vuelidate";
+  import { maxLength, alpha, email, required, url } from "vuelidate/lib/validators";
+  import Multiselect from "vue-multiselect";
+  import sweetalert from 'sweetalert';
+  import ActivityList from "../components/ActivityList";
+  import createActivity from "../components/createActivity";
+  export default {
+    data() {
+      return {
+        request_host: "https://feather-ilp-back.herokuapp.com",
+        request_url: "http://localhost:5000",
+        departments: [],
+        disActivities: [],
+        disActIds: [],
+        profileData: {
+          isEditable: false,
+          isCompany: false,
+          isProfessor: false,
+          dateUpdated: "",
+          firstname: "",
+          lastname: "",
+          email: "",
+          description: "",
+          position: "",
+          companyname: "",
+          department: "",
+          externalLink: "",
+          areasinterest: [],
+          activities: []
         },
-      externalLink: {
-        url
-      }
-    }
-  },
-  methods: {
-    addTag(newTag) {
-      const tag = {
-        tagname: newTag,
-        tagid: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000)
+        editProfileData: {
+          firstname: "",
+          lastname: "",
+          email: "",
+          description: "",
+          position: "",
+          companyname: "",
+          department: "",
+          externalLink: "",
+          activities: [],
+          areasinterest: [],
+        },
+        loading: true
       };
-      this.editProfileData.areasinterest.push(tag);
     },
-    createActivity(newAct) {
-      this.loading = true;
-      console.log(newAct);
-      const userid = this.$route.params.id;
-      const data_json = JSON.stringify({
+    validations: {
+      //Validations for the inputs when editing profile info
+      editProfileData: {
+        firstname: {
+          maxLength: maxLength(25)
+        },
+        lastname: {
+          maxLength: maxLength(25)
+        },
+        department: {
+          required
+        },
+        position: {
+          maxLength: maxLength(50)
+        },
+        email: {
+          email,
+          required
+        },
+        externalLink: {
+          url
+        }
+      }
+    },
+    methods: {
+      addTag(newTag) {
+        const tag = {
+          tagname: newTag,
+          tagid: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000)
+        };
+        this.editProfileData.areasinterest.push(tag);
+      },
+      createActivity(newAct) {
+        this.loading = true;
+        console.log(newAct);
+        const userid = this.$route.params.id;
+        const data_json = JSON.stringify({
           action: 'create',
           activity: newAct,
           userid: userid,
-      });
-      axios({
-        url: this.request_url.concat("/Feather/editActsinProfile"),
-        data: data_json,
-        method: "post"
-      })
-        .then(response => {
-          if (response.data.company) {
-            console.log("Se crapio esto")
-          } else {
-            this.profileData.isProfessor = true;
-            this.profileData.firstname = response.data.firstname;
-            this.profileData.lastname = response.data.lastname;
-            this.profileData.position = response.data.acadposition;
-            this.profileData.email = response.data.email;
-            this.profileData.description = response.data.description;
-            this.profileData.department = response.data.department;
-            this.profileData.areasinterest = response.data.tags;
-            this.profileData.activities = response.data.activities;
-            this.disActivities = [];
-            this.disActIds = [];
-            for(let i=0; i<response.data.activities.length; i++){
-              this.disActIds.push({'actid': response.data.activities[i]['actid']});
-              this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
-                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
-            }
-          }
-          this.loading = false;
-        })
-        .catch(error => {
-          console.log(`error: ${error}`);
         });
-        sweetalert('Success!', 'Activity created!', 'success');
-    },
-    deleteActivity(actIndex) {
-      this.loading = true;
-      const userid = this.$route.params.id;
-      const data_json = JSON.stringify({
-        action: 'delete',
-        actid: this.disActIds[actIndex],
-        userid: userid,
-      });
-      axios({
-        url: this.request_url.concat("/Feather/editActsinProfile"),
-        data: data_json,
-        method: "post"
-      })
-        .then(response => {
-          if (response.data.company) {
-            console.log("Se crapio esto")
-          } else {
-            this.profileData.isProfessor = true;
-            this.profileData.firstname = response.data.firstname;
-            this.profileData.lastname = response.data.lastname;
-            this.profileData.position = response.data.acadposition;
-            this.profileData.email = response.data.email;
-            this.profileData.description = response.data.description;
-            this.profileData.department = response.data.department;
-            this.profileData.areasinterest = response.data.tags;
-            this.profileData.activities = response.data.activities;
-            this.disActivities = [];
-            this.disActIds = [];
-            for(let i=0; i<response.data.activities.length; i++){
-              this.disActIds.push(response.data.activities[i]['actid']);
-              this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
-                'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
-            }
-          }
-          this.loading = false;
+        axios({
+          url: this.request_url.concat("/Feather/editActsinProfile"),
+          data: data_json,
+          method: "post"
         })
-        .catch(error => {
-          console.log(`error: ${error}`);
+          .then(response => {
+            if (response.data.company) {
+              console.log("Se crapio esto")
+            } else {
+              this.profileData.isProfessor = true;
+              this.profileData.firstname = response.data.firstname;
+              this.profileData.lastname = response.data.lastname;
+              this.profileData.position = response.data.acadposition;
+              this.profileData.email = response.data.email;
+              this.profileData.description = response.data.description;
+              this.profileData.department = response.data.department;
+              this.profileData.areasinterest = response.data.tags;
+              this.profileData.activities = response.data.activities;
+              this.disActivities = [];
+              this.disActIds = [];
+              for(let i=0; i<response.data.activities.length; i++){
+                this.disActIds.push({'actid': response.data.activities[i]['actid']});
+                this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
+                  'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
+              }
+            }
+            this.loading = false;
+          })
+          .catch(error => {
+            console.log(`error: ${error}`);
+          });
+        sweetalert('Success!', 'Activity created!', 'success');
+      },
+      deleteActivity(actIndex) {
+        this.loading = true;
+        const userid = this.$route.params.id;
+        const data_json = JSON.stringify({
+          action: 'delete',
+          actid: this.disActIds[actIndex],
+          userid: userid,
         });
     },
     showModalEditProfile() {
@@ -518,14 +497,39 @@ export default {
             //     console.log(`error: ${error}`);
             //   });
           }
+
         })
-        .catch(err => {
-          this.editProfileData.firstname = this.profileData.firstname;
-          this.editProfileData.lastname = this.profileData.lastname;
-          this.editProfileData.position = this.profileData.position;
-          this.editProfileData.areasinterest = this.profileData.areasinterest;
-          this.editProfileData.department = this.profileData.department;
-          this.editProfileData.externalLink = this.profileData.externalLink;
+          .then(response => {
+            if (response.data.company) {
+              console.log("Se crapio esto")
+            } else {
+              this.profileData.isProfessor = true;
+              this.profileData.firstname = response.data.firstname;
+              this.profileData.lastname = response.data.lastname;
+              this.profileData.position = response.data.acadposition;
+              this.profileData.email = response.data.email;
+              this.profileData.description = response.data.description;
+              this.profileData.department = response.data.department;
+              this.profileData.areasinterest = response.data.tags;
+              this.profileData.activities = response.data.activities;
+              this.disActivities = [];
+              this.disActIds = [];
+              for(let i=0; i<response.data.activities.length; i++){
+                this.disActIds.push(response.data.activities[i]['actid']);
+                this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
+                  'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
+              }
+            }
+            this.loading = false;
+          })
+          .catch(error => {
+            console.log(`error: ${error}`);
+          });
+      },
+      showModalEditProfile() {
+        this.editProfileData.firstname = this.profileData.firstname;
+        this.editProfileData.lastname = this.profileData.lastname;
+        this.editProfileData.position = this.profileData.position;
         this.editProfileData.email = this.profileData.email;
         this.editProfileData.description = this.profileData.description;
           this.$bvModal.hide("modalEditProfile");
@@ -611,9 +615,30 @@ export default {
               this.disActIds.push(response.data.activities[i]['actid']);
               this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
                 'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
+
             }
-          }
-          this.loading = false;
+          });
+          // .catch(err => {
+          //   this.editProfileData.firstname = this.profileData.firstname;
+          //   this.editProfileData.lastname = this.profileData.lastname;
+          //   this.editProfileData.position = this.profileData.position;
+          //   this.editProfileData.areasinterest = this.profileData.areasinterest;
+          //   this.editProfileData.department = this.profileData.department;
+          //   this.editProfileData.externalLink = this.profileData.externalLink;
+          //   this.editProfileData.email = this.profileData.email;
+          //   this.editProfileData.description = this.profileData.description;
+          //   this.$bvModal.hide("modalEditProfile");
+          // });
+      },
+      getModalHeader() {
+        return "Edit " + this.profileData.firstname + "s" + " information";
+      },
+      init() {
+        //Populate Profile Information at start
+        var userid = this.$route.params.id;
+        axios({
+          url: this.request_url.concat("/Feather/departments"),
+          method: "get"
         })
         .catch(error => {
           console.log(`error: ${error}`);
@@ -701,135 +726,219 @@ export default {
             }
           }
           this.loading = false;
+
         })
-        .catch(error => {
-          console.log(`error: ${error}`);
+          .then(response => {
+            console.log(response);
+            var localstorage_userid = localStorage.getItem('userid');
+            var usertype = localStorage.getItem('usertype');
+            if (localstorage_userid == userid && usertype == 1) {
+              this.profileData.isEditable = true;
+            }
+            if (response.data.company) {
+              //User is a Company Representative
+              this.profileData.isCompany = true;
+              this.profileData.firstname = response.data.firstname;
+              this.profileData.lastname = response.data.lastname;
+              this.profileData.position = response.data.empposition;
+              this.profileData.email = response.data.email;
+              this.profileData.companyname = response.data.company;
+              this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
+              this.profileData.areasinterest = response.data.tags;
+              this.profileData.activities = response.data.activities;
+            } else {
+              this.profileData.isProfessor = true;
+              this.profileData.firstname = response.data.firstname;
+              this.profileData.lastname = response.data.lastname;
+              this.profileData.position = response.data.acadposition;
+              this.profileData.email = response.data.email;
+              this.profileData.description = response.data.description;
+              this.profileData.department = response.data.department[0];
+              this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
+              this.profileData.areasinterest = response.data.tags;
+              this.profileData.activities = response.data.activities;
+              this.profileData.externalLink = response.data.externalLink;
+              for(let i=0; i<response.data.activities.length; i++){
+                this.disActIds.push(response.data.activities[i]['actid']);
+                this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
+                  'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
+              }
+            }
+            this.loading = false;
+          })
+          .catch(error => {
+            console.log(`error: ${error}`);
+          });
+      },
+      editActivity(actIndex) {
+        //Populate Profile Information at start
+        let argus = actIndex;
+        this.loading = true;
+        const actid = this.disActIds[argus['actIndex']];
+        const activity = this.profileData.activities[argus['actIndex']];
+        const userid = this.$route.params.id;
+        const data_json = JSON.stringify({
+          action: 'edit',
+          actid: actid,
+          activity: activity,
+          userid: userid,
         });
-    }
-  },
-  components: {
+        axios({
+          url: this.request_url.concat("/Feather/editActsinProfile"),
+          data: data_json,
+          method: "post"
+        })
+          .then(response => {
+            if (response.data.company) {
+              console.log("Se crapio esto");
+            } else {
+              //User is a Professor
+              this.profileData.isProfessor = true;
+              this.profileData.firstname = response.data.firstname;
+              this.profileData.lastname = response.data.lastname;
+              this.profileData.position = response.data.acadposition;
+              this.profileData.email = response.data.email;
+              this.profileData.description = response.data.description;
+              this.profileData.department = response.data.department[0];
+              this.profileData.dateUpdated = response.data.dateupdated.substring(0, 16);
+              this.profileData.areasinterest = response.data.tags;
+              this.profileData.activities = response.data.activities;
+              this.disActivities = [];
+              this.disActIds = [];
+              for(let i=0; i<response.data.activities.length; i++){
+                this.disActIds.push(response.data.activities[i]['actid']);
+                this.disActivities.push({'Title': response.data.activities[i]['actname'], 'Range of Funds':response.data.activities[i]['fundrange'],
+                  'Description':response.data.activities[i]['description'], 'Date':response.data.activities[i]['actdate'], 'Ongoing':response.data.activities[i]['ongoing']});
+              }
+            }
+            this.loading = false;
+          })
+          .catch(error => {
+            console.log(`error: ${error}`);
+          });
+      }
+    },
+    components: {
       ActivityList,
       createActivity,
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.init();
-      next();
-    });
-  }
-};
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.init();
+        next();
+      });
+    }
+  };
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
-@import url("https://fonts.googleapis.com/css?family=Hind+Madurai:700|Josefin+Sans:400,700|Leckerli+One|Open+Sans:400,400i,600,600i,700,700i&display=swap");
-.name-subtext,
-   a {
-     color: #a8b2be;
-   }
-
-.display-3 {
-  font-size: 3rem;
-}
-.modal-content {
-  border: 1px solid #efeef0;
-}
-.modal-body .input-group-text {
-  background: #efeef0;
-  color: #313e50;
-}
-.modal-title {
-  font-family: "Open Sans", sans-serif;
-}
-.form-control:focus {
-  border-color: #337137;
-  outline: 0;
-  -webkit-box-shadow: 0 0 0 0.2rem rgba(51, 113, 55, 0.452);
-  box-shadow: 0 0 0 0.2rem rgba(51, 113, 55, 0.452);
-}
-.svg-inline--fa {
-  margin-right: 0.3rem;
-}
-p {
-  font-family: "Open Sans", sans-serif;
-}
-#edit-btn-section {
-  height: 0;
-}
-#edit-profile-btn {
-  position: relative;
-  top: -5px;
-}
-h2 {
-  font-family: "Josefin Sans", sans-serif;
-  font-size: 4rem;
-  font-weight: bold;
-}
-/* .aboutme {
-} */
-.header-info {
-  text-align: left;
-}
-.header-info h1,
-.header-info a {
-  font-family: "Josefin Sans", sans-serif;
-  text-align: end;
-}
-.profile-position,
-.area-of-interest {
-  padding-left: 10px;
-}
-.profile-info {
-  text-align: left;
-  border-left: 1px solid #a8b2beb2;
-  padding-left: 0;
-}
-.profile-info p {
-  font-weight: 600;
-  margin-bottom: 0;
-}
-.profile-info h4 {
-  font-weight: 400;
-  margin-bottom: 0.2rem;
-  color: #a8b2be;
-  font-size: 14px;
-}
-.profile-position {
-  border-bottom: 1px solid #a8b2beb2;
-  padding-bottom: 10px;
-  width: 60%;
-}
-.jumbotron {
-  padding: 1rem 1.5rem 1rem 1.5rem;
-  background-color: #313e50;
-  border-radius: 0;
-  color: white;
-}
-.badges {
-  text-align: left;
-}
-.badge {
-  font-size: 12px;
-  margin-right: 1rem;
-}
-.activities-header p {
-  font-family: "Josefin Sans", sans-serif;
-  font-weight: 700;
-  font-size: 2.3rem;
-  text-align: right;
-  text-transform: capitalize;
-}
-.multiselect__select {
-  display: none;
-}
-.multiselect__tag-icon:after {
-  color: white;
-}
-.multiselect__tag-icon:focus,
-.multiselect__tag-icon:hover {
-  background: #242e3b;
-}
-.multiselect__tag {
-  background: #313e50;
-}
+  @import url("https://fonts.googleapis.com/css?family=Hind+Madurai:700|Josefin+Sans:400,700|Leckerli+One|Open+Sans:400,400i,600,600i,700,700i&display=swap");
+  .name-subtext,
+  a {
+    color: #a8b2be;
+  }
+  .display-3 {
+    font-size: 3rem;
+  }
+  .modal-content {
+    border: 1px solid #efeef0;
+  }
+  .modal-body .input-group-text {
+    background: #efeef0;
+    color: #313e50;
+  }
+  .modal-title {
+    font-family: "Open Sans", sans-serif;
+  }
+  .form-control:focus {
+    border-color: #337137;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(51, 113, 55, 0.452);
+    box-shadow: 0 0 0 0.2rem rgba(51, 113, 55, 0.452);
+  }
+  .svg-inline--fa {
+    margin-right: 0.3rem;
+  }
+  p {
+    font-family: "Open Sans", sans-serif;
+  }
+  #edit-btn-section {
+    height: 0;
+  }
+  #edit-profile-btn {
+    position: relative;
+    top: -5px;
+  }
+  h2 {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 4rem;
+    font-weight: bold;
+  }
+  /* .aboutme {
+  } */
+  .header-info {
+    text-align: left;
+  }
+  .header-info h1,
+  .header-info a {
+    font-family: "Josefin Sans", sans-serif;
+    text-align: end;
+  }
+  .profile-position,
+  .area-of-interest {
+    padding-left: 10px;
+  }
+  .profile-info {
+    text-align: left;
+    border-left: 1px solid #a8b2beb2;
+    padding-left: 0;
+  }
+  .profile-info p {
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+  .profile-info h4 {
+    font-weight: 400;
+    margin-bottom: 0.2rem;
+    color: #a8b2be;
+    font-size: 14px;
+  }
+  .profile-position {
+    border-bottom: 1px solid #a8b2beb2;
+    padding-bottom: 10px;
+    width: 60%;
+  }
+  .jumbotron {
+    padding: 1rem 1.5rem 1rem 1.5rem;
+    background-color: #313e50;
+    border-radius: 0;
+    color: white;
+  }
+  .badges {
+    text-align: left;
+  }
+  .badge {
+    font-size: 12px;
+    margin-right: 1rem;
+  }
+  .activities-header p {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 700;
+    font-size: 2.3rem;
+    text-align: right;
+    text-transform: capitalize;
+  }
+  .multiselect__select {
+    display: none;
+  }
+  .multiselect__tag-icon:after {
+    color: white;
+  }
+  .multiselect__tag-icon:focus,
+  .multiselect__tag-icon:hover {
+    background: #242e3b;
+  }
+  .multiselect__tag {
+    background: #313e50;
+  }
 </style>
-

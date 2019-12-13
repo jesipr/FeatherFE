@@ -56,7 +56,7 @@
         </b-col>
       </b-row>
       <b-row class="tools" align-h="center" align-v="center">
-        
+
         <b-col>
           <b-container class="white-card">
             <h3>Create a profile. It's easy!</h3>
@@ -229,15 +229,14 @@ canvas {
 </style>
 
 <script>
-// @ is an alias to /src
-
-export default {
-  name: 'home',
-  data() {
-    return {
-      fdescription:
-        "The Industry Liason Program (ILP) is a tool for the UPRM's community to discover sponsorship opportunities for activities such as researchs and academic projects. It provides the ability to connect with industry partners and analyze these connections.",
-    };
-  },
-};
+  // @ is an alias to /src
+  export default {
+    name: 'home',
+    data() {
+      return {
+        fdescription:
+          "The Industry Liason Program (ILP) is a tool for the UPRM's community to discover sponsorship opportunities for activities such as researchs and academic projects. It provides the ability to connect with industry partners and analyze these connections.",
+      };
+    },
+  };
 </script>
