@@ -243,7 +243,7 @@
                         firstname: this.form.firstname,
                         lastname: this.form.lastname,
                     });
-                    this.$http.post('http://localhost:5000/Feather/signup/verification', ver_data, {
+                    this.$http.post(this.mainUrl+'/Feather/signup/verification', ver_data, {
                         headers: {
                             "Content-type": "application/json"
                         }
@@ -275,7 +275,7 @@
                         activities: this.activities,
                         Val: this.Val
                     });
-                    this.$http.post('http://localhost:5000/Feather/professor/signup', data_json,{
+                    this.$http.post(this.mainUrl+'/Feather/professor/signup', data_json,{
                         headers: {
                             "Content-type": "application/json"
                         }
@@ -293,6 +293,7 @@
             },
             searchEmail: function() {
                 this.$http.get(this.mainHost+'/Feather/professor/signup/findemail'+'/'+this.email_data.upremail, {
+
                     headers: {
                         "Content-type": "application/json"
                     }
@@ -326,6 +327,7 @@
             },
             onInit(){
               this.$http.get(this.mainHost+'/Feather/professor/signup/init', {
+
                 headers: {
                   "Content-type": "application/json"
                 }

@@ -187,7 +187,7 @@
                         firstname: this.form.firstName,
                         lastname: this.form.lastName,
                     });
-                    this.$http.post('http://localhost:5000/Feather/signup/verification', ver_data, {
+                    this.$http.post(this.mainUrl+'/Feather/signup/verification', ver_data, {
                         headers: {
                             "Content-type": "application/json"
                         }
@@ -215,7 +215,7 @@
                         compname: this.form.compName,
                         tags: this.tags,
                     });
-                    this.$http.post('http://localhost:5000/Feather/company/signup', data_json, {
+                    this.$http.post(this.mainUrl+'/Feather/company/signup', data_json, {
                         headers: {
                             "Content-type": "application/json"
                         }
